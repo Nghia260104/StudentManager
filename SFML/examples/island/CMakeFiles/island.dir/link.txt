@@ -1,0 +1,3 @@
+C:\Users\phamt\scoop\apps\cmake\3.26.1\bin\cmake.exe -E rm -f CMakeFiles\island.dir/objects.a
+C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\island.dir/objects.a @CMakeFiles\island.dir\objects1.rsp
+C:\msys64\mingw64\bin\c++.exe -O3 -DNDEBUG -mwindows -Wl,--whole-archive CMakeFiles\island.dir/objects.a -Wl,--no-whole-archive -o island.exe -Wl,--out-implib,libisland.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\island.dir\linkLibs.rsp
