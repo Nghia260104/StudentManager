@@ -8,16 +8,18 @@ private:
 
 public:
 	It();
-	It(const It<T>&);
 
 	It<T>& operator=(const It<T>&);
 
-	It<T>& operator++();
+	T& operator*() const;
+	T* operator->() const;
+
+	virtual It<T>& operator++() = 0;
 	It<T> operator++(int);
 	It<T> operator+(int) const;
 	It<T>& operator+=(int);
 
-	It<T>& operator--();
+	virtual It<T>& operator--() = 0;
 	It<T> operator--(int);
 	It<T> operator-(int) const;
 	It<T>& operator-=(int);
