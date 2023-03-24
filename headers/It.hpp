@@ -1,19 +1,20 @@
 #pragma once
 
+#include "Node.hpp"
+
 template <class T>
 class It
 {
 protected:
-	T *pointer_;
 
 public:
+	Node<T> *pointer_;
 	It();
 
 	It<T>& operator=(const It<T>&);
 
 	T& operator*() const;
-	T* operator->() const;
-
+	
 	virtual It<T>& operator++();
 	It<T> operator++(int);
 	It<T> operator+(int) const;

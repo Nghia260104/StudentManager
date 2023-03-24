@@ -1,5 +1,5 @@
 template <class T>
-It<T> It<T>::It()
+It<T>::It()
 	: pointer_(nullptr)
 {}
 
@@ -13,13 +13,7 @@ It<T>& It<T>::operator=(const It<T> &other)
 template <class T>
 T& It<T>::operator*() const
 {
-	return *pointer_;
-}
-
-template <class T>
-T* It<T>::operator->() const
-{
-	return pointer_;
+	return pointer_->value;
 }
 
 template <class T>

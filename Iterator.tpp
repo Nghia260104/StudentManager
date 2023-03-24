@@ -3,19 +3,20 @@ Iterator<T>::Iterator()
 {}
 
 template <class T>
-Iterator<T>::Iterator(T*)
+Iterator<T>::Iterator(Node<T> *other)
 {
-	pointer_ = T;
+	pointer_ = other;
 }
 
 template <class T>
-It<T>& operator++()
+It<T>& Iterator<T>::operator++()
 {
 	pointer_ = pointer_->next;
 	return *this;
 }
 
-It<T>& operator--()
+template <class T>
+It<T>& Iterator<T>::operator--()
 {
 	pointer_ = pointer_->prev;
 	return *this;

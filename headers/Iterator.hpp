@@ -5,11 +5,12 @@
 template <class T>
 class Iterator : public It<T>
 {
-private:
+protected:
+	using It<T>::pointer_;
 
 public:
 	Iterator();
-	Iterator(T*);
+	Iterator(Node<T>*);
 	
 	virtual It<T>& operator++() override;
 	virtual It<T>& operator--() override;
