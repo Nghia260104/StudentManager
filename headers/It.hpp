@@ -3,7 +3,7 @@
 template <class T>
 class It
 {
-private:
+protected:
 	T *pointer_;
 
 public:
@@ -14,12 +14,12 @@ public:
 	T& operator*() const;
 	T* operator->() const;
 
-	virtual It<T>& operator++() = 0;
+	virtual It<T>& operator++();
 	It<T> operator++(int);
 	It<T> operator+(int) const;
 	It<T>& operator+=(int);
 
-	virtual It<T>& operator--() = 0;
+	virtual It<T>& operator--();
 	It<T> operator--(int);
 	It<T> operator-(int) const;
 	It<T>& operator-=(int);
