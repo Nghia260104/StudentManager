@@ -11,13 +11,25 @@ It<T>& It<T>::operator=(const It<T> &other)
 }
 
 template <class T>
+bool It<T>::operator==(const It<T> &other) const
+{
+	return pointer_ == other.pointer_;
+}
+
+template <class T>
+bool It<T>::operator!=(const It<T> &other) const
+{
+	return !(*this == other);
+}
+
+template <class T>
 T& It<T>::operator*() const
 {
 	return pointer_->value;
 }
 
 template <class T>
-Node<T>* getPointer() const
+Node<T>* It<T>::getPointer() const
 {
 	return pointer_;
 }

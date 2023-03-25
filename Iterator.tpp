@@ -1,5 +1,11 @@
 template <class T>
 Iterator<T>::Iterator()
+	: It<T>()
+{}
+
+template <class T>
+Iterator<T>::Iterator(const It<T> &other)
+	: It<T>(other)
 {}
 
 template <class T>

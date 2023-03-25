@@ -7,10 +7,10 @@ class Iterator : public It<T>
 {
 protected:
 	using It<T>::pointer_;
-	using It<T>::It;
 
 public:
 	Iterator();
+	Iterator(const It<T>&);
 	Iterator(Node<T>*);
 
 	virtual It<T>& operator++() override;

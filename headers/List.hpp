@@ -10,12 +10,12 @@ template <class T>
 class List
 {
 private:
-	Node<T> *head, *tail;
+	Node<T> *head_, *tail_;
 	int size_;
 
 public:
-	typedef Iterator<Node<T>> iterator;
-	typedef RIterator<Node<T>> reverse_iterator;
+	typedef Iterator<T> iterator;
+	typedef RIterator<T> reverse_iterator;
 
 	/* Constructors */
 	List();
@@ -28,9 +28,9 @@ public:
 	List<T>& operator=(const List<T>&);
 
 	/* Element access */
-	T& front() const;
+	T& front();
 	const T& front() const;
-	T& back() const;
+	T& back();
 	const T& back() const;
 
 	/* Iterators */

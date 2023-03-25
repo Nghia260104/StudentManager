@@ -3,7 +3,7 @@ List<T>::List()
 	: head_(nullptr), tail_(nullptr), size_(0)
 {
 	head_->next = tail_;
-	tail_->prev = head;
+	tail_->prev = head_;
 }
 
 template <class T>
@@ -37,21 +37,21 @@ List<T>& List<T>::operator=(const List<T> &Other)
 }
 
 template <class T>
-T& List<T>::front() const
+T& List<T>::front()
 {
 	return *begin();
 }
 
 template <class T>
-const T& front() const
+const T& List<T>::front() const
 {
 	return *begin();
 }
 
 template <class T>
-T& List<T>::back() const
+T& List<T>::back()
 {
-	return *end());
+	return *end();
 }
 
 template <class T>
@@ -73,7 +73,7 @@ typename List<T>::iterator List<T>::end() const
 }
 
 template <class T>
-List<T>::reverse_iterator List<T>::rbegin() const
+typename List<T>::reverse_iterator List<T>::rbegin() const
 {
 	return List<T>::reverse_iterator(tail_->prev);
 }
@@ -137,10 +137,12 @@ typename List<T>::iterator List<T>::erase(typename List<T>::iterator pos)
 template <class T>
 typename List<T>::iterator List<T>::erase(typename List<T>::iterator first, typename List<T>::iterator last)
 {
-	for (auto it = first; it != last; it++)
+	auto it = first;
+	for (; it != last; ++it)
 	{
 		it = erase(it);
 	}
+	return it;
 }
 
 template <class T>
