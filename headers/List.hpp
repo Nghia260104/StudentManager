@@ -11,10 +11,11 @@ class List
 {
 private:
 	Node<T> *head, *tail;
+	int size_;
 
 public:
-	typedef typename Iterator<Node<T>> iterator;
-	typedef typename RIterator<Node<T>> reverse_iterator;
+	typedef Iterator<Node<T>> iterator;
+	typedef RIterator<Node<T>> reverse_iterator;
 
 	/* Constructors */
 	List();
@@ -27,20 +28,20 @@ public:
 	List<T>& operator=(const List<T>&);
 
 	/* Element access */
-	T& front();
+	T& front() const;
 	const T& front() const;
-	T& back();
+	T& back() const;
 	const T& back() const;
 
 	/* Iterators */
-	iterator begin();
-	iterator end();
-	reverse_iterator rbegin();
-	reverse_iterator rend();
+	iterator begin() const;
+	iterator end() const;
+	reverse_iterator rbegin() const;
+	reverse_iterator rend() const;
 
 	/* Capacity */
-	bool empty();
-	int size();
+	bool empty() const;
+	int size() const;
 
 	/* Modifiers */
 	void clear();
@@ -70,3 +71,5 @@ public:
 	template <class Compare>
 	void sort(Compare cmp);
 };
+
+#include "List.tpp"
