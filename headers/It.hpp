@@ -6,14 +6,16 @@ template <class T>
 class It
 {
 protected:
+	Node<T> *pointer_;
 
 public:
-	Node<T> *pointer_;
 	It();
+	It(const It<T>&);
 
 	It<T>& operator=(const It<T>&);
 
 	T& operator*() const;
+	Node<T>* getPointer() const;
 	
 	virtual It<T>& operator++();
 	It<T> operator++(int);

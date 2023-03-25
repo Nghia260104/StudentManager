@@ -15,10 +15,7 @@ List<T>::List(const List<T> &Other)
 template <class T>
 List<T>::List(std::initializer_list<T> Ilist)
 {
-	for (auto element: Ilist)
-	{
-		push_back(element);
-	}
+	insert(begin(), Ilist);
 }
 
 template <class T>
@@ -32,7 +29,7 @@ List<T>::~List()
 template <class T>
 List<T>& List<T>::operator=(const List<T> &Other)
 {
-	for (auto it = Other.begin(); it != Other.end(); it++)
+	for (auto it = Other.begin(); it != Other.end(); ++it)
 	{
 		push_back(*it);
 	}
@@ -64,25 +61,25 @@ const T& List<T>::back() const
 }
 
 template <class T>
-typename List<T>::iterator begin() const
+typename List<T>::iterator List<T>::begin() const
 {
 	return List<T>::iterator(head_->next);
 }
 
 template <class T>
-typename List<T>::iterator end() const
+typename List<T>::iterator List<T>::end() const
 {
 	return List<T>::iterator(tail_);
 }
 
 template <class T>
-List<T>::reverse_iterator rbegin() const
+List<T>::reverse_iterator List<T>::rbegin() const
 {
 	return List<T>::reverse_iterator(tail_->prev);
 }
 
 template <class T>
-typename List<T>::reverse_iterator rend() const
+typename List<T>::reverse_iterator List<T>::rend() const
 {
 	return List<T>::reverse_iterator(head_);
 }
@@ -93,3 +90,67 @@ bool List<T>::empty() const
 	return begin() == end();
 }
 
+template <class T>
+int List<T>::size() const
+{
+	return size_;
+}
+
+template <class T>
+void List<T>::clear()
+{
+	erase(begin(), end());
+}
+
+template <class T>
+typename List<T>::iterator insert(typename List<T>::iterator pos, const T &value)
+{
+	Node<T> *curr = pos.getPointer();
+	Node<T> *newNode = new Node<T>(value, curr->prev, curr);
+	curr->prev->next = newNode;
+	curr->prev = newNode;
+	return --pos;
+}
+
+template <class T>
+typename List<T>::iterator insert(typename List<T>::iterator pos, std::initializer_list<T> Ilist)
+{
+	auto returnIt = pos-1;
+	for (auto element: Ilist)
+	{
+		insert(pos, element);
+	}
+	return ++returnIt;
+}
+
+template <class T>
+typename List<T>::iterator List<T>::erase(typename List<T>::iterator pos)
+{
+	Node<T> *curr = pos.getPointer();
+	curr->prev->next = curr->next;
+	curr->next->prev = curr->prev;
+	auto tmp = ++pos;
+	delete curr;
+	return tmp;
+}
+
+template <class T>
+typename List<T>::iterator List<T>::erase(typename List<T>::iterator first, typename List<T>::iterator last)
+{
+	for (auto it = first; it != last; it++)
+	{
+		it = erase(it);
+	}
+}
+
+template <class T>
+void List<T>::push_back(const T &value)
+{
+	insert(end());
+}
+
+template <class T>
+void List<T>::pop_back()
+{
+	erase(end()-1);
+}

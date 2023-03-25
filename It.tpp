@@ -17,6 +17,12 @@ T& It<T>::operator*() const
 }
 
 template <class T>
+Node<T>* getPointer() const
+{
+	return pointer_;
+}
+
+template <class T>
 It<T> It<T>::operator++(int)
 {
 	It<T> res = *this;
