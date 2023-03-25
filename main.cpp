@@ -1,66 +1,54 @@
-// As its name, it's the main
-#include <StudentManagement.hpp>
+// #include <SFML/Graphics.hpp>
+#include <StudentManager.hpp>
 
-void getString(std::string &s, bool &check)
+class Circle : public sf::Drawable
 {
-    if (check)
-        return;
-    char c = ' ';
-    while (!check && (c = (char)GetCharPressed()))
+public:
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
-        if (IsKeyPressed(KEY_ENTER))
-        {
-            check = 1;
-            return;
-        }
-        // if (c == '\r')
-        // {
-        //     check = 1;
-        //     return;
-        // }
-        s += c;
+        target.draw(circle_, states);
     }
-    // std::cin.ignore();
-}
 
-int main(void)
+    Circle()
+        : circle_(50.f)
+    {}
+
+private:
+    sf::CircleShape circle_;
+    sf::Text text;
+};
+
+int main()
 {
     // Initialize Window
 
-    int ScreenWidth = 800;
-    int ScreenHeight = 680;
-    raylib::Window window;
-    InitializeWindow(window, ScreenWidth, ScreenHeight);
+    sf::RenderWindow window(sf::VideoMode(1366, 768), "Student Manager");
+    window.setFramerateLimit(60);
 
-    // Load Font into variables
+    // Load Fonts
 
-    raylib::Font RegularFont, BoldFont, MediumFont, LightFont, SemiBoldFont;
-    LoadFonts(RegularFont, BoldFont, MediumFont, LightFont, SemiBoldFont);
+    sf::Font RegularFont, BoldFont, ItalicFont, LightFont, HeavyFont;
+    LoadFonts(RegularFont, BoldFont, ItalicFont, LightFont, HeavyFont);
 
-    /////////////////////////////////////////////////////////////////////////////////////
+    ///////////////////////////////////////////////////////////////////////////////////////
 
-    std::string S = "Test" + std::to_string(RegularFont.baseSize);
-    textbox q;
-    // q.Text = S;
-    bool GotString = 0;
-    while (!window.ShouldClose())
+    while (window.isOpen())
     {
-        window.BeginDrawing();
+        sf::Event event;
+        while (window.pollEvent(event))
         {
-            window.ClearBackground(RAYWHITE);
-            q.setup(ScreenWidth / 2, ScreenHeight / 2, 100.0f, 75.0f);
-            q.font(RegularFont);
-            q.MouseCursor();
-            q.CheckTyping();
-            q.Edge(BLACK, GREEN);
-            getString(q.Text, GotString);
-            q.WriteText(BLACK);
+            switch (event.type)
+            {
+            case sf::Event::Closed:
+                window.close();
+                break;
+            }
         }
-        window.EndDrawing();
+
+        Circle circle;
+
+        window.clear(sf::Color::Black);
+        window.draw(circle);
+        window.display();
     }
-    q.~textbox();
-    RegularFont.Unload();
-    BoldFont.Unload();
-    window.Close();
-    return 0;
 }
