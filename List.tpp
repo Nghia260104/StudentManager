@@ -105,6 +105,8 @@ void List<T>::clear()
 template <class T>
 typename List<T>::iterator insert(typename List<T>::iterator pos, const T &value)
 {
+	size_++;
+	
 	Node<T> *curr = pos.getPointer();
 	Node<T> *newNode = new Node<T>(value, curr->prev, curr);
 	curr->prev->next = newNode;
