@@ -60,7 +60,9 @@ public:
 	void swap(List<T>&); // Swap the contents of two Lists.
 
 	/* Operations */
-	void merge(List<T>&); // Merge two sorted Lists.
+	void merge(const List<T>&); // Merge two sorted Lists.
+	template <class Compare>
+	void merge(const List<T>&, Compare);
 	void reverse();
 	
 	int remove(const T &value); // Removes all elements equal to value. Returns the number of elements removed.
@@ -69,7 +71,7 @@ public:
 
 	void sort();
 	template <class Compare>
-	void sort(Compare cmp);
+	void sort(Compare);
 };
 
 #include "List.tpp"

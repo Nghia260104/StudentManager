@@ -1,19 +1,26 @@
+#include <iostream>
+#include <algorithm>
+
 template <class T>
 List<T>::List()
-	: head_(nullptr), tail_(nullptr), size_(0)
+	: head_(new Node<T>), tail_(new Node<T>), size_(0)
 {
+	head_->prev = nullptr;
 	head_->next = tail_;
 	tail_->prev = head_;
+	tail_->next = nullptr;
 }
 
 template <class T>
 List<T>::List(const List<T> &Other)
+	: List()
 {
 	*this = Other;
 }
 
 template <class T>
 List<T>::List(std::initializer_list<T> Ilist)
+	: List()
 {
 	insert(begin(), Ilist);
 }
@@ -103,7 +110,7 @@ void List<T>::clear()
 }
 
 template <class T>
-typename List<T>::iterator insert(typename List<T>::iterator pos, const T &value)
+typename List<T>::iterator List<T>::insert(typename List<T>::iterator pos, const T &value)
 {
 	size_++;
 	
@@ -111,27 +118,29 @@ typename List<T>::iterator insert(typename List<T>::iterator pos, const T &value
 	Node<T> *newNode = new Node<T>(value, curr->prev, curr);
 	curr->prev->next = newNode;
 	curr->prev = newNode;
-	return --pos;
+	return pos-1;
 }
 
 template <class T>
-typename List<T>::iterator insert(typename List<T>::iterator pos, std::initializer_list<T> Ilist)
+typename List<T>::iterator List<T>::insert(typename List<T>::iterator pos, std::initializer_list<T> Ilist)
 {
 	auto returnIt = pos-1;
 	for (auto element: Ilist)
 	{
 		insert(pos, element);
 	}
-	return ++returnIt;
+	return returnIt++;
 }
 
 template <class T>
 typename List<T>::iterator List<T>::erase(typename List<T>::iterator pos)
 {
+	size_--;
+	
 	Node<T> *curr = pos.getPointer();
 	curr->prev->next = curr->next;
 	curr->next->prev = curr->prev;
-	auto tmp = ++pos;
+	auto tmp = pos+1;
 	delete curr;
 	return tmp;
 }
@@ -140,17 +149,14 @@ template <class T>
 typename List<T>::iterator List<T>::erase(typename List<T>::iterator first, typename List<T>::iterator last)
 {
 	auto it = first;
-	for (; it != last; ++it)
-	{
-		it = erase(it);
-	}
+	for (; it != last; it = erase(it));
 	return it;
 }
 
 template <class T>
 void List<T>::push_back(const T &value)
 {
-	insert(end());
+	insert(end(), value);
 }
 
 template <class T>
@@ -158,3 +164,109 @@ void List<T>::pop_back()
 {
 	erase(end()-1);
 }
+
+template <class T>
+void List<T>::push_front(const T &value)
+{
+	insert(begin(), value);
+}
+
+template <class T>
+void List<T>::pop_front()
+{
+	erase(begin());
+}
+
+template <class T>
+void List<T>::swap(List<T> &Other)
+{
+	std::swap(head_, Other.head_);
+	std::swap(tail_, Other.tail_);
+}
+
+template <class T>
+void List<T>::merge(const List<T> &Other)
+{
+	auto it = begin();
+	auto otherIt = Other.begin();
+	while (it != end() && otherIt != Other.end())
+	{
+		for (; it != end() && *it <= *otherIt; ++it);
+		insert(it, *otherIt);
+		++otherIt;
+	}
+	while (it == end() && otherIt != Other.end())
+	{
+		insert(it, *otherIt);
+		++otherIt;
+	}
+}
+
+template <class T>
+template <class Compare>
+void List<T>::merge(const List<T> &Other, Compare cmp)
+{
+	auto it = begin();
+	auto otherIt = Other.begin();
+	while (it != end() && otherIt != Other.end())
+	{
+		for (; it != end() && !cmp(*otherIt, *it); ++it);
+		insert(it, *otherIt);
+		++otherIt;
+	}
+	while (it == end() && otherIt != Other.end())
+	{
+		insert(it, *otherIt);
+		++otherIt;
+	}
+}
+
+template <class T>
+void List<T>::reverse()
+{
+	for (Node<T> *curr = head_; curr; curr = curr->prev)
+	{
+		std::swap(curr->prev, curr->next);
+	}
+	std::swap(head_, tail_);
+}
+
+template <class T>
+int List<T>::remove(const T &value)
+{
+	auto it = begin();
+	int res = 0;
+	while (it != end())
+	{
+		if (*it != value)
+		{
+			++it;
+			continue;
+		}
+		
+		++res;
+		it = erase(it);
+	}
+	return res;
+}
+
+template <class T>
+template <class UnaryPredicate>
+int List<T>::remove_if(const T &value, UnaryPredicate p)
+{
+	auto it = begin();
+	int res = 0;
+	while (it != end())
+	{
+		if (p(*it) != value)
+		{
+			++it;
+			continue;
+		}
+		
+		++res;
+		it = erase(it);
+	}
+	return res;
+}
+
