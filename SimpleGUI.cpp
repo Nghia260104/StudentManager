@@ -1,15 +1,16 @@
 #include <SFML/Graphics.hpp>
 
-int main()
+void runStudentManager()
 {
     // Create a window with the size of 800x600 pixels
     sf::RenderWindow window(sf::VideoMode(800, 600), "Student Manager");
 
     // Create a font object to be used for text rendering
     sf::Font font;
-    if (!font.loadFromFile("arial.ttf")) {
+    if (!font.loadFromFile("arial.ttf"))
+    {
         // handle font loading error
-        return 1;
+        return;
     }
 
     // Create a text object for the title
@@ -41,18 +42,23 @@ int main()
         sf::Event event;
         while (window.pollEvent(event))
         {
-            if (event.type == sf::Event::Closed) {
+            if (event.type == sf::Event::Closed)
+            {
                 window.close();
             }
-            else if (event.type == sf::Event::TextEntered) {
+            else if (event.type == sf::Event::TextEntered)
+            {
                 // Handle typing in the name box
-                if (event.text.unicode < 128) {
+                if (event.text.unicode < 128)
+                {
                     nameText.setString(nameText.getString() + static_cast<char>(event.text.unicode));
                 }
             }
-            else if (event.type == sf::Event::MouseButtonPressed) {
+            else if (event.type == sf::Event::MouseButtonPressed)
+            {
                 // Handle button clicks
-                if (addButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y)) {
+                if (addButton.getGlobalBounds().contains(event.mouseButton.x, event.mouseButton.y))
+                {
                     // TODO: Add new student to list
                 }
             }
@@ -73,6 +79,4 @@ int main()
         // Display the window
         window.display();
     }
-
-    return 0;
 }

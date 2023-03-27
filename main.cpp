@@ -6,14 +6,19 @@ class Circle : public sf::Drawable
 public:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
     {
-        target.draw(circle_, states);
+        sf::Sprite sprite(Texture.getTexture());
+        target.draw(sprite, states);
     }
 
     Circle()
-        : circle_(50.f)
-    {}
+    {
+        circle_.setRadius(50.0f);
+        Texture.create(200, 200);
+        Texture.draw(circle_);
+    }
 
 private:
+    sf::RenderTexture Texture;
     sf::CircleShape circle_;
     sf::Text text;
 };
@@ -45,10 +50,23 @@ int main()
             }
         }
 
-        Circle circle;
+        // Circle circle;
 
-        window.clear(sf::Color::Black);
-        window.draw(circle);
+        // window.clear(sf::Color::Black);
+        // window.draw(circle);
+        window.clear(sf::Color::White);
+        TextBox Test(20.0f, 20.0f, 100.0f, 50.0f, 15);
+        Test.setColor(sf::Color::Black, sf::Color::Green);
+        Test.setTyping();
+        Test.setOpacity();
+        Test.setBlinkCursor();
+        Test.setMouseCursor(window);
+        Test.setText("Test");
+        Test.setFont(RegularFont);
+        Test.setTextColor(sf::Color::Black);
+        Test.drawTexture();
+        window.draw(Test);
+        // Test.TestDraw(window);
         window.display();
     }
 }

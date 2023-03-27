@@ -9,49 +9,34 @@ private:
     sf::RectangleShape Rec;
     sf::RenderTexture Texture;
     sf::Color color1, color2;
+    sf::Mouse mouse;
+    sf::Cursor cursor;
+    unsigned int framescounter, fps;
+    bool isTyping;
+    unsigned int EdgeOpacity;
+    bool BlinkCursor;
+
+    void drawOpacity();
+    void drawBlinkCursor();
+    bool mouseOn();
 
 public:
-    TextBox()
-    {
-        setPosition(0, 0);
-        setSize(0, 0);
-        Text.setCharacterSize(30);
-    }
-
+    TextBox();
     TextBox(float a, float b, float w, float h);
-
-    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const
-    {
-        sf::Sprite sprite(Texture.getTexture());
-        sprite.setPosition(sf::Vector2f{x, y});
-        target.draw(sprite, states);
-    }
-    void setPosition(float a, float b)
-    {
-        x = a;
-        y = b;
-    }
-
-    void setSize(float w, float h)
-    {
-        Texture.create((unsigned int) w, (unsigned int) h);
-        Rec.setSize(sf::Vector2f{w, h});
-        Texture.draw(Rec);
-    }
-
-    void setFontSize(unsigned int size)
-    {
-        Text.setCharacterSize(size);
-    }
-    void setTextPos()
-    {
-        Text.setPosition(sf::Vector2f{8, Rec.getSize().y / 2 - 1.0f * Text.getCharacterSize() / 2});
-    }
-    void setup(float a, float b, float w, float h, unsigned int size)
-    {
-        setPosition(a, b);
-        setSize(w, h);
-        setFontSize(size);
-        setTextPos();
-    }
+    TextBox(float a, float b, float w, float h, unsigned int fontsize, float pos = 8.0f);
+    virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
+    void TestDraw(sf::RenderWindow &window);
+    void setPosition(float a, float b);
+    void setSize(float w, float h);
+    void setFontSize(unsigned int fontsize);
+    void setTextPos(float pos = 8.0f);
+    void setColor(sf::Color c1 = sf::Color::Black, sf::Color c2 = sf::Color::Black);
+    void setTyping();
+    void setMouseCursor(sf::Window &window);
+    void setText(sf::String S);
+    void setFont(const sf::Font &font);
+    void setOpacity(unsigned int thick = 4);
+    void setBlinkCursor();
+    void drawTexture();
+    void setTextColor(sf::Color color);
 };
