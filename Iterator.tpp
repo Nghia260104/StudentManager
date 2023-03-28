@@ -27,11 +27,11 @@ Iterator<T>::Iterator(const Iterator<T> &other)
 	*this = other;
 }
 
-template <class T>
-Iterator<T>::Iterator(const RIterator<T> &other)
-{
-	*this = other;
-}
+/* template <class T>
+ * Iterator<T>::Iterator(const RIterator<T> &other)
+ * {
+ * 	*this = other;
+ * } */
 
 template <class T>
 Iterator<T>& Iterator<T>::operator=(const Iterator<T> &other)
@@ -40,12 +40,12 @@ Iterator<T>& Iterator<T>::operator=(const Iterator<T> &other)
 	return *this;
 }
 
-template <class T>
-Iterator<T>& Iterator<T>::operator=(const RIterator<T> &other)
-{
-	pointer_ = other.pointer_;
-	return *this;
-}
+/* template <class T>
+ * Iterator<T>& Iterator<T>::operator=(const RIterator<T> &other)
+ * {
+ * 	pointer_ = other.pointer_;
+ * 	return *this;
+ * } */
 
 template <class T>
 bool Iterator<T>::operator==(const Iterator<T> &other) const
@@ -57,6 +57,17 @@ template <class T>
 bool Iterator<T>::operator!=(const Iterator<T> &other) const
 {
 	return !(*this == other);
+}
+
+template <class T>
+int Iterator<T>::operator-(const Iterator<T> &other) const
+{
+	int res = 0;
+	for (auto it = other; it != *this; ++it)
+	{
+		++res;
+	}
+	return res;
 }
 
 template <class T>

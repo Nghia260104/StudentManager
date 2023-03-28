@@ -28,10 +28,22 @@ RIterator<T>::RIterator(const RIterator<T> &other)
 }
 
 template <class T>
+RIterator<T>::RIterator(const Iterator<T> &other)
+{
+	*this = other;
+}
+
+template <class T>
 RIterator<T>& RIterator<T>::operator=(const RIterator<T> &other)
 {
 	pointer_ = other.pointer_;
 	return *this;
+}
+
+template <class T>
+RIterator<T>& RIterator<T>::operator=(const Iterator<T> &other)
+{
+	pointer_ = other.getPointer();
 }
 
 template <class T>
@@ -44,6 +56,17 @@ template <class T>
 bool RIterator<T>::operator!=(const RIterator<T> &other) const
 {
 	return !(*this == other);
+}
+
+template <class T>
+int RIterator<T>::operator-(const RIterator<T> &other) const
+{
+	int res = 0;
+	for (auto it = other; it != *this; ++it)
+	{
+		++res;
+	}
+	return res;
 }
 
 template <class T>
