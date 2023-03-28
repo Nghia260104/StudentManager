@@ -1,5 +1,4 @@
 #include <StudentManager.hpp>
-#include <iostream>
 
 TextBox::TextBox()
 {
