@@ -80,18 +80,6 @@ typename List<T>::iterator List<T>::end() const
 }
 
 template <class T>
-typename List<T>::reverse_iterator List<T>::rbegin() const
-{
-	return List<T>::reverse_iterator(tail_->prev);
-}
-
-template <class T>
-typename List<T>::reverse_iterator List<T>::rend() const
-{
-	return List<T>::reverse_iterator(head_);
-}
-
-template <class T>
 bool List<T>::empty() const
 {
 	return begin() == end();
@@ -187,19 +175,10 @@ void List<T>::swap(List<T> &Other)
 template <class T>
 void List<T>::merge(const List<T> &Other)
 {
-	auto it = begin();
-	auto otherIt = Other.begin();
-	while (it != end() && otherIt != Other.end())
+	merge(Other, [](const T &a, const T &b) -> bool
 	{
-		for (; it != end() && *it <= *otherIt; ++it);
-		insert(it, *otherIt);
-		++otherIt;
-	}
-	while (it == end() && otherIt != Other.end())
-	{
-		insert(it, *otherIt);
-		++otherIt;
-	}
+		return a < b;
+	});
 }
 
 template <class T>
@@ -234,11 +213,21 @@ void List<T>::reverse()
 template <class T>
 int List<T>::remove(const T &value)
 {
+	return remove_if(value, [](const T &x) -> T
+	{
+		return x;
+	});
+}
+
+template <class T>
+template <class UnaryPredicate>
+int List<T>::remove_if(const T &value, UnaryPredicate predicate)
+{
 	auto it = begin();
 	int res = 0;
 	while (it != end())
 	{
-		if (*it != value)
+		if (predicate(*it) != value)
 		{
 			++it;
 			continue;
@@ -251,22 +240,93 @@ int List<T>::remove(const T &value)
 }
 
 template <class T>
-template <class UnaryPredicate>
-int List<T>::remove_if(const T &value, UnaryPredicate p)
+int List<T>::unique()
 {
-	auto it = begin();
-	int res = 0;
-	while (it != end())
+	return unique([](const T &a, const T &b) -> bool
 	{
-		if (p(*it) != value)
+		return a == b;
+	});
+}
+
+template <class T>
+template <class BinaryPredicate>
+int List<T>::unique(BinaryPredicate predicate)
+{
+	int res = 0;
+	auto it = begin();
+	while (it != end() && it+1 != end())
+    {
+		/* std::cerr << *it << ' ' << *(it+1) << std::endl; */
+		while (it+1 != end() && predicate(*it, *(it+1)))
 		{
-			++it;
-			continue;
+			++res;
+			erase(it+1);
 		}
-		
-		++res;
-		it = erase(it);
+		++it;
 	}
 	return res;
 }
 
+template <class T>
+template <class Compare>
+void List<T>::sortRange(typename List<T>::iterator first, typename List<T>::iterator last, Compare cmp)
+{
+	int dist = last-first;
+	/* std::cerr << *first << ' ' << *last << ' ' << dist << std::endl; */
+	
+	if (dist == 0 || dist == 1)
+	{
+		return;
+	}
+	
+	sortRange(first, first + dist/2, cmp);
+	sortRange(first + dist/2, last, cmp);
+	mergeRange(first, first + dist/2, last, cmp);
+}
+
+template <class T>
+template <class Compare>
+void List<T>::mergeRange(typename List<T>::iterator first, typename List<T>::iterator mid, typename List<T>::iterator last, Compare cmp)
+{
+	List<T> Left, Right;
+	/* std::cerr << "Left: "; */
+	for (auto it = first; it != mid; ++it)
+	{
+		/* std::cerr << *it << ' '; */
+		Left.push_back(*it);
+	}
+	/* std::cerr << std::endl; */
+	/* std::cerr << "Right: "; */
+	for (auto it = mid; it != last; ++it)
+	{
+		/* std::cerr << *it << ' '; */
+		Right.push_back(*it);
+	}
+	/* std::cerr << std::endl; */
+	Left.merge(Right, cmp);
+	auto it = first;
+	auto leftIt = Left.begin();
+	while (it != last)
+	{
+		*it = *leftIt;
+		++it;
+		++leftIt;
+	}
+	/* std::cerr << std::endl; */
+}
+
+template <class T>
+void List<T>::sort()
+{
+	sort([](const T &a, const T &b) -> bool
+	{
+		return a < b;
+	});
+}
+
+template <class T>
+template <class Compare>
+void List<T>::sort(Compare cmp)
+{
+	sortRange(begin(), end(), cmp);
+}

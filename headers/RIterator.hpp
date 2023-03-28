@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Node.hpp"
+#include "Iterator.hpp"
 
 template <class T>
 class RIterator
@@ -12,10 +13,13 @@ public:
 	RIterator();
 	RIterator(Node<T>*);
 	RIterator(const RIterator<T>&);
-
+	RIterator(const Iterator<T>&);
+	
 	RIterator<T>& operator=(const RIterator<T>&);
+	RIterator<T>& operator=(const Iterator<T>&);
 	bool operator==(const RIterator<T>&) const;
 	bool operator!=(const RIterator<T>&) const;
+	int operator-(const RIterator<T>&) const;
 
 	T& operator*() const;
 	Node<T>* getPointer() const;

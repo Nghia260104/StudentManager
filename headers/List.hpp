@@ -4,7 +4,6 @@
 
 #include "Node.hpp"
 #include "Iterator.hpp"
-#include "RIterator.hpp"
 
 template <class T>
 class List
@@ -13,9 +12,13 @@ private:
 	Node<T> *head_, *tail_;
 	int size_;
 
+	template <class Compare>
+	void sortRange(Iterator<T>, Iterator<T>, Compare);
+	template <class Compare>
+	void mergeRange(Iterator<T>, Iterator<T>, Iterator<T>, Compare);
+
 public:
 	typedef Iterator<T> iterator;
-	typedef RIterator<T> reverse_iterator;
 
 	/* Constructors */
 	List();
@@ -36,8 +39,6 @@ public:
 	/* Iterators */
 	iterator begin() const;
 	iterator end() const;
-	reverse_iterator rbegin() const;
-	reverse_iterator rend() const;
 
 	/* Capacity */
 	bool empty() const;
@@ -68,6 +69,10 @@ public:
 	int remove(const T &value); // Removes all elements equal to value. Returns the number of elements removed.
 	template <class UnaryPredicate>
 	int remove_if(const T &value, UnaryPredicate p); // Removes all elements of which predicate p is equal to value. Returns the number of elements removed.
+
+	int unique(); // For each group of equal adjacent elements, keep only the first element. Returns the number of elements removed.
+	template <class BinaryPredicate>
+	int unique(BinaryPredicate);
 
 	void sort();
 	template <class Compare>
