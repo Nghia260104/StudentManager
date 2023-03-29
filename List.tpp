@@ -256,7 +256,6 @@ int List<T>::unique(BinaryPredicate predicate)
 	auto it = begin();
 	while (it != end() && it+1 != end())
     {
-		/* std::cerr << *it << ' ' << *(it+1) << std::endl; */
 		while (it+1 != end() && predicate(*it, *(it+1)))
 		{
 			++res;
@@ -272,7 +271,6 @@ template <class Compare>
 void List<T>::sortRange(typename List<T>::iterator first, typename List<T>::iterator last, Compare cmp)
 {
 	int dist = last-first;
-	/* std::cerr << *first << ' ' << *last << ' ' << dist << std::endl; */
 	
 	if (dist == 0 || dist == 1)
 	{
@@ -289,20 +287,14 @@ template <class Compare>
 void List<T>::mergeRange(typename List<T>::iterator first, typename List<T>::iterator mid, typename List<T>::iterator last, Compare cmp)
 {
 	List<T> Left, Right;
-	/* std::cerr << "Left: "; */
 	for (auto it = first; it != mid; ++it)
 	{
-		/* std::cerr << *it << ' '; */
 		Left.push_back(*it);
 	}
-	/* std::cerr << std::endl; */
-	/* std::cerr << "Right: "; */
 	for (auto it = mid; it != last; ++it)
 	{
-		/* std::cerr << *it << ' '; */
 		Right.push_back(*it);
 	}
-	/* std::cerr << std::endl; */
 	Left.merge(Right, cmp);
 	auto it = first;
 	auto leftIt = Left.begin();
@@ -312,7 +304,6 @@ void List<T>::mergeRange(typename List<T>::iterator first, typename List<T>::ite
 		++it;
 		++leftIt;
 	}
-	/* std::cerr << std::endl; */
 }
 
 template <class T>
