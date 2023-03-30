@@ -1,17 +1,5 @@
 template <class T>
 Iterator<T>::Iterator()
-<<<<<<< HEAD
-{}
-
-template <class T>
-Iterator<T>::Iterator(Node<T> *other)
-{
-	pointer_ = other;
-}
-
-template <class T>
-It<T>& Iterator<T>::operator++()
-=======
 	: pointer_(nullptr)
 {}
 
@@ -84,16 +72,12 @@ Node<T>* Iterator<T>::getPointer() const
 
 template <class T>
 Iterator<T>& Iterator<T>::operator++()
->>>>>>> build_class_List
 {
 	pointer_ = pointer_->next;
 	return *this;
 }
 
 template <class T>
-<<<<<<< HEAD
-It<T>& Iterator<T>::operator--()
-=======
 Iterator<T> Iterator<T>::operator++(int)
 {
 	Iterator<T> res = *this;
@@ -120,13 +104,10 @@ Iterator<T>& Iterator<T>::operator+=(int steps)
 
 template <class T>
 Iterator<T>& Iterator<T>::operator--()
->>>>>>> build_class_List
 {
 	pointer_ = pointer_->prev;
 	return *this;
 }
-<<<<<<< HEAD
-=======
 
 template <class T>
 Iterator<T> Iterator<T>::operator--(int)
@@ -152,4 +133,3 @@ Iterator<T>& Iterator<T>::operator-=(int steps)
 {
 	return *this = *this - steps;
 }
->>>>>>> build_class_List

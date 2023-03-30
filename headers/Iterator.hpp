@@ -1,14 +1,5 @@
 #pragma once
 
-<<<<<<< HEAD
-#include "It.hpp"
-
-template <class T>
-class Iterator : public It<T>
-{
-protected:
-	using It<T>::pointer_;
-=======
 #include "Node.hpp"
 
 template <class T>
@@ -16,16 +7,10 @@ class Iterator
 {
 protected:
 	Node<T> *pointer_;
->>>>>>> build_class_List
 
 public:
 	Iterator();
 	Iterator(Node<T>*);
-<<<<<<< HEAD
-	
-	virtual It<T>& operator++() override;
-	virtual It<T>& operator--() override;
-=======
 	Iterator(const Iterator<T>&);
 	/* Iterator(const RIterator<T>&); */
 
@@ -47,7 +32,6 @@ public:
 	Iterator<T> operator--(int);
 	Iterator<T> operator-(int) const;
 	Iterator<T>& operator-=(int);
->>>>>>> build_class_List
 };
 
 #include "Iterator.tpp"

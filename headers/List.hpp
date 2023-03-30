@@ -1,13 +1,5 @@
 #pragma once
 
-<<<<<<< HEAD
-#include "Iterator.hpp"
-
-class List
-{
-	
-};
-=======
 #include <initializer_list>
 
 #include "Node.hpp"
@@ -88,4 +80,3 @@ public:
 };
 
 #include "List.tpp"
->>>>>>> build_class_List
