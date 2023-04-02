@@ -1,5 +1,6 @@
 // #include <SFML/Graphics.hpp>
 #include <StudentManager.hpp>
+#include <iostream>
 
 class Circle : public sf::Drawable
 {
@@ -22,25 +23,42 @@ private:
     sf::CircleShape circle_;
     sf::Text text;
 };
-static int Click = 0;
+sf::RenderWindow window;
+int Click = 0;
 sf::Vector2i MousePos;
 sf::Clock clock_;
+sf::Font RegularFont, BoldFont, ItalicFont, LightFont, HeavyFont;
 
 int main()
 {
     // Initialize Window
-
-    sf::RenderWindow window(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height * 93 / 100), "Student Manager");
-    window.setPosition(sf::Vector2i((int)-window.getSize().x / 192, 0));
+    window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height * 93 / 100),
+                  "Student Manager",
+                  sf::Style::Default ^ sf::Style::Resize);
+    window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(60);
 
     // Load Fonts
-
-    sf::Font RegularFont, BoldFont, ItalicFont, LightFont, HeavyFont;
     LoadFonts(RegularFont, BoldFont, ItalicFont, LightFont, HeavyFont);
+
+    // Test
+
+    TextBox Test(50, 50, 800, 50, 30, sf::Vector2f(8, 25));
+    Test.setCaret();
+    Test.setColor(sf::Color::Black, sf::Color::Cyan);
+    Test.setFont(RegularFont);
+    Test.setFontSize(20);
+    Test.setTextColor(sf::Color::Black);
+    Test.setOpacity();
+    Test.setTyping();
+    Test.setText("The quick brown fox jumps over the lazy dog");
+    // Test.setTextColor(sf::Color::White);
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
+    Test.drawTexture();
+    if (window.isOpen())
+        window.draw(Test);
     while (window.isOpen())
     {
         sf::Event event;
@@ -51,34 +69,17 @@ int main()
             case sf::Event::Closed:
                 window.close();
                 break;
-            case sf::Event::MouseButtonPressed:
-                if (event.mouseButton.button == sf::Mouse::Left)
-                    Click = 1;
-                if (event.mouseButton.button == sf::Mouse::Right)
-                    Click = 2;
-                sf::Mouse mouse;
-                MousePos = mouse.getPosition(window);
-                clock_.restart();
+            default:
                 break;
             }
+            Test.processEvent(event);
         }
         // Circle circle;
 
         // window.clear(sf::Color::Black);
         // window.draw(circle);
         window.clear(sf::Color::White);
-        TextBox Test(20.0f, 20.0f, 100.0f, 50.0f, 15);
-        Test.setColor(sf::Color::Black, sf::Color::Green);
-        Test.setTyping(MousePos, Click);
-        Test.setOpacity();
-        Test.setBlinkCursor();
-        Test.setMouseCursor(window);
-        Test.setText("Tesg");
-        Test.setFont(RegularFont);
-        Test.setTextColor(sf::Color::Black);
-        Test.drawTexture(clock_);
         window.draw(Test);
-        // Test.TestDraw(window);
         window.display();
     }
 }
