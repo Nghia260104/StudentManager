@@ -45,14 +45,15 @@ int main()
 
     TextBox Test(50, 50, 800, 50, 30, sf::Vector2f(8, 25));
     Test.setCaret();
-    Test.setColor(sf::Color::Black, sf::Color::Cyan);
+    Test.setOutlineColor(sf::Color::Black, sf::Color::Cyan);
+    Test.setFillColor(sf::Color::Magenta, 8);
     Test.setFont(RegularFont);
     Test.setFontSize(20);
-    Test.setTextColor(sf::Color::Black);
+    // Test.setTextColor(sf::Color::Black);
     Test.setOpacity();
     Test.setTyping();
-    // Test.setText("The quick brown fox jumps over the lazy dog");
-    Test.setPassword();
+    Test.setText("The quick brown fox jumps over the lazy dog");
+    // Test.setPassword();
     // Test.setTextColor(sf::Color::White);
 
     ///////////////////////////////////////////////////////////////////////////////////////

@@ -8,7 +8,7 @@ TextBox::TextBox()
 {
     setPosition(0, 0);
     setSize(50.0f, 50.0f);
-    setColor();
+    setOutlineColor();
     setFontSize();
     setTextPos();
     EdgeOpacity = 0;
@@ -30,7 +30,7 @@ TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::
     setPosition(a, b);
     setSize(w, h);
     setFontSize(fontsize);
-    setColor();
+    setOutlineColor();
     setTextPos(pos);
     EdgeOpacity = 0;
     AllowTyping = 0;
@@ -60,13 +60,24 @@ void TextBox::setSize(float w, float h)
     Rec.setSize(sf::Vector2f(w, h));
 }
 
-void TextBox::setColor(sf::Color c1, sf::Color c2)
+void TextBox::setOutlineColor(sf::Color c1, sf::Color c2)
 {
     color1 = c1;
     color2 = c2;
     Rec.setFillColor(sf::Color::White);
     Rec.setOutlineColor(color1);
     Rec.setOutlineThickness(-1.0f);
+}
+
+void TextBox::setFillColor(sf::Color color, float ratio)
+{
+    fill = color;
+    Rec.setFillColor(fill);
+    if (ratio > 0)
+    {
+        if (ratio < 4.5) ratio = 4.5;
+        Text.setFillColor(getContrastColor(fill, ratio));
+    }
 }
 
 // Text ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -182,7 +193,7 @@ sf::RectangleShape TextBox::Caret()
         return Caret;
         break;
     default:
-        Caret.setFillColor(sf::Color::White);
+        Caret.setFillColor(fill);
         return Caret;
         break;
     }
@@ -215,7 +226,7 @@ sf::RectangleShape *TextBox::Opacity()
             Tmp[i].setSize(sf::Vector2f(Rec.getSize().x - 0.2f * i, Rec.getSize().y - 0.2f * i));
             Tmp[i].setPosition(0.1f * i, 0.1f * i);
             Tmp[i].setFillColor(sf::Color::Transparent);
-            Tmp[i].setOutlineColor(sf::Color::White);
+            Tmp[i].setOutlineColor(fill);
             Tmp[i].setOutlineThickness(-0.1f);
         }
     return Tmp;
@@ -282,9 +293,9 @@ void TextBox::checkTyping(sf::Event event)
     }
 }
 
-sf::Color TextBox::getContrastColor(sf::Color color)
+sf::Color TextBox::getContrastColor(sf::Color color, float ratio)
 {
-    const float Ratio = 8;
+    const float Ratio = ratio;
     float L = (color.r * 299 + color.g * 587 + color.b * 114);
     float L1 = (L + 50) / Ratio - 50;
     float L2 = (L + 50) * Ratio - 50;

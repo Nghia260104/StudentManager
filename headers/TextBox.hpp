@@ -13,7 +13,8 @@ public:
 
     void setPosition(float a, float b);
     void setSize(float w, float h);
-    void setColor(sf::Color c1 = sf::Color::Black, sf::Color c2 = sf::Color::Black);
+    void setOutlineColor(sf::Color c1 = sf::Color::Black, sf::Color c2 = sf::Color::Black);
+    void setFillColor(sf::Color color = sf::Color::White, float ratio = 0);
 
     // Text
 
@@ -47,7 +48,7 @@ private:
     sf::Text Text;
     sf::RectangleShape Rec;
     sf::RenderTexture Texture;
-    sf::Color color1, color2;
+    sf::Color color1, color2, fill;
     sf::String Pass;
     bool isTyping, HasCaret, AllowTyping, password;
     unsigned int EdgeOpacity;
@@ -67,7 +68,7 @@ private:
     sf::Vector2i getMousePosition();
     bool mouseOn(sf::Vector2i MousePos);
     void checkTyping(sf::Event event);
-    sf::Color getContrastColor(sf::Color color);
+    sf::Color getContrastColor(sf::Color color, float ratio);
     void updateTypePos();
     void updateText();
 };
