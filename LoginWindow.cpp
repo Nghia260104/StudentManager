@@ -3,6 +3,7 @@
 
 void loginWindow()
 {
+    extern Sf::RenderWindow window;
     // Create the SFML window
     sf::RenderWindow window(sf::VideoMode(400, 300), "Login Window");
 
