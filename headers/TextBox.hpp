@@ -23,6 +23,7 @@ public:
     void setTextColor(sf::Color color = sf::Color::Black);
     void setFont(sf::Font &font);
     void setText(sf::String S);
+    void setPassword();
 
     // Misc
 
@@ -47,7 +48,8 @@ private:
     sf::RectangleShape Rec;
     sf::RenderTexture Texture;
     sf::Color color1, color2;
-    bool isTyping, HasCaret, AllowTyping;
+    sf::String Pass;
+    bool isTyping, HasCaret, AllowTyping, password;
     unsigned int EdgeOpacity;
     int FKey, Key, limit;
     const int Backspace = sf::Keyboard::Backspace,

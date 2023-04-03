@@ -51,7 +51,8 @@ int main()
     Test.setTextColor(sf::Color::Black);
     Test.setOpacity();
     Test.setTyping();
-    Test.setText("The quick brown fox jumps over the lazy dog");
+    // Test.setText("The quick brown fox jumps over the lazy dog");
+    Test.setPassword();
     // Test.setTextColor(sf::Color::White);
 
     ///////////////////////////////////////////////////////////////////////////////////////

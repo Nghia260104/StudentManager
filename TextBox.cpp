@@ -1,5 +1,4 @@
 #include <TextBox.hpp>
-#include <string>
 
 extern sf::RenderWindow window;
 
@@ -23,6 +22,7 @@ TextBox::TextBox()
     charlength = 1;
     Key = 0;
     limit = INT_MAX;
+    password = 0;
 }
 
 TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::Vector2f pos)
@@ -44,6 +44,7 @@ TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::
     charlength = 1;
     Key = 0;
     limit = INT_MAX;
+    password = 0;
 }
 
 // Box ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -103,6 +104,13 @@ void TextBox::setText(sf::String S)
     Text.setString(S);
 }
 
+void TextBox::setPassword()
+{
+    password = 1;
+    Pass = "";
+    Text.setString("");
+}
+
 // Misc ///////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextBox::processEvent(sf::Event event)
@@ -121,7 +129,12 @@ void TextBox::processEvent(sf::Event event)
             if (isTyping)
             {
                 FKey = event.key.code;
-                if (FKey == Backspace || FKey == LeftArrow || FKey == RightArrow || FKey == Enter || FKey == Esc)
+                if (FKey == Enter || FKey == Esc)
+                {
+                    checkTyping(event);
+                    drawTexture();
+                }
+                if (FKey == Backspace || FKey == LeftArrow || FKey == RightArrow)
                 {
                     Type = keyPressed;
                     updateText();
@@ -142,7 +155,6 @@ void TextBox::processEvent(sf::Event event)
             break;
         }
     }
-    // drawTexture();
 }
 
 void TextBox::setTyping()
@@ -263,6 +275,11 @@ void TextBox::checkTyping(sf::Event event)
             event.mouseButton.button == sf::Mouse::Right)
             isTyping = false;
     }
+    if (event.type == sf::Event::KeyPressed)
+    {
+        if (FKey == Enter || FKey == Esc)
+            isTyping = false;
+    }
 }
 
 sf::Color TextBox::getContrastColor(sf::Color color)
@@ -322,8 +339,10 @@ void TextBox::updateText()
         {
             if (id <= 0)
                 return;
-            std::string S = Text.getString();
+            sf::String S = Text.getString();
             S.erase(id - 1, 1);
+            if (password)
+                Pass.erase(id - 1, 1);
             Text.setString(S);
             id--;
             return;
@@ -333,7 +352,13 @@ void TextBox::updateText()
             if (Text.getString().getSize() < limit)
             {
                 sf::String S = Text.getString();
-                S.insert(id, (sf::String) static_cast<char>(Key));
+                if (!password)
+                    S.insert(id, (sf::String) static_cast<char>(Key));
+                else
+                {
+                    S.insert(id, '*');
+                    Pass.insert(id, (sf::String) static_cast<char>(Key));
+                }
                 Text.setString(S);
                 id++;
             }
