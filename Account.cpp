@@ -109,7 +109,7 @@ void Account::setDateOfBirth(const std::string &nDateOfBirth)
 	dateOfBirth_ = Date(year, month, day);
 }
 
-void setDateOfBirth(const Date &nDateOfBirth)
+void Account::setDateOfBirth(const Date &nDateOfBirth)
 {
 	dateOfBirth_ = nDateOfBirth;
 }
