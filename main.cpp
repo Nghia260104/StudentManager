@@ -27,7 +27,11 @@ sf::RenderWindow window;
 int Click = 0;
 sf::Vector2i MousePos;
 sf::Clock clock_;
-sf::Font RegularFont, BoldFont, ItalicFont, LightFont, HeavyFont;
+sf::Font RegularFont, BoldFont, MediumFont, LightFont, HeavyFont;
+sf::Color Background;
+LogIn LogInWindow;
+
+// Windows
 
 int main()
 {
@@ -37,9 +41,10 @@ int main()
                   sf::Style::Default ^ sf::Style::Resize);
     window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(60);
+    Background = sf::Color::White;
 
     // Load Fonts
-    LoadFonts(RegularFont, BoldFont, ItalicFont, LightFont, HeavyFont);
+    LoadFonts(RegularFont, BoldFont, MediumFont, LightFont, HeavyFont);
 
     // Test
 
@@ -56,11 +61,11 @@ int main()
     // Test.setPassword();
     // Test.setTextColor(sf::Color::White);
 
+    // LogIn LogInWindow;
+    LogInWindow.create();
+
     ///////////////////////////////////////////////////////////////////////////////////////
 
-    Test.drawTexture();
-    if (window.isOpen())
-        window.draw(Test);
     while (window.isOpen())
     {
         sf::Event event;
@@ -74,14 +79,15 @@ int main()
             default:
                 break;
             }
-            Test.processEvent(event);
+            // Test.processEvent(event);
+            LogInWindow.processEvent(event);
         }
         // Circle circle;
 
         // window.clear(sf::Color::Black);
         // window.draw(circle);
-        window.clear(sf::Color::White);
-        window.draw(Test);
+        window.clear(Background);
+        window.draw(LogInWindow);
         window.display();
     }
 }

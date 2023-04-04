@@ -47,6 +47,28 @@ TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::
     password = 0;
 }
 
+void TextBox::create(float a, float b, float w, float h, unsigned int fontsize, sf::Vector2f pos)
+{
+    setPosition(a, b);
+    setSize(w, h);
+    setFontSize(fontsize);
+    setOutlineColor();
+    setTextPos(pos);
+    EdgeOpacity = 0;
+    AllowTyping = 0;
+    HasCaret = 0;
+    isTyping = 0;
+    Texture.create(w, h);
+    Rec.setPosition(0, 0);
+    FKey = 0;
+    Type = 0;
+    id = 0;
+    charlength = 1;
+    Key = 0;
+    limit = INT_MAX;
+    password = 0;
+}
+
 // Box ////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextBox::setPosition(float a, float b)
@@ -58,6 +80,7 @@ void TextBox::setPosition(float a, float b)
 void TextBox::setSize(float w, float h)
 {
     Rec.setSize(sf::Vector2f(w, h));
+    RecSize = sf::Vector2f(w, h);
 }
 
 void TextBox::setOutlineColor(sf::Color c1, sf::Color c2)
@@ -75,7 +98,8 @@ void TextBox::setFillColor(sf::Color color, float ratio)
     Rec.setFillColor(fill);
     if (ratio > 0)
     {
-        if (ratio < 4.5) ratio = 4.5;
+        if (ratio < 4.5)
+            ratio = 4.5;
         Text.setFillColor(getContrastColor(fill, ratio));
     }
 }
@@ -212,7 +236,7 @@ sf::RectangleShape *TextBox::Opacity()
     {
         for (int i = 0; i < 10 * EdgeOpacity; i++)
         {
-            Tmp[i].setSize(sf::Vector2f(Rec.getSize().x - 0.2f * i, Rec.getSize().y - 0.2f * i));
+            Tmp[i].setSize(sf::Vector2f(RecSize.x - 0.2f * i, RecSize.y - 0.2f * i));
             Tmp[i].setPosition(0.1f * i, 0.1f * i);
             Tmp[i].setFillColor(sf::Color::Transparent);
             float Alpha = 255.f * (10 * (float)EdgeOpacity - (float)i) / (10 * (float)EdgeOpacity);
@@ -223,7 +247,7 @@ sf::RectangleShape *TextBox::Opacity()
     else
         for (int i = 10 * abs(Rec.getOutlineThickness()); i < 10 * EdgeOpacity; i++)
         {
-            Tmp[i].setSize(sf::Vector2f(Rec.getSize().x - 0.2f * i, Rec.getSize().y - 0.2f * i));
+            Tmp[i].setSize(sf::Vector2f(RecSize.x - 0.2f * i, RecSize.y - 0.2f * i));
             Tmp[i].setPosition(0.1f * i, 0.1f * i);
             Tmp[i].setFillColor(sf::Color::Transparent);
             Tmp[i].setOutlineColor(fill);
@@ -244,7 +268,7 @@ void TextBox::draw(sf::RenderTarget &target, sf::RenderStates state) const
 void TextBox::drawTexture()
 {
     charlength = (Text.getFont()->getGlyph('A', Text.getCharacterSize(), false)).advance;
-    limit = (Rec.getSize().x - posText.x - EdgeOpacity) / charlength;
+    limit = (RecSize.x - posText.x - EdgeOpacity) / charlength;
     Texture.draw(Rec);
     if (EdgeOpacity)
     {
@@ -269,8 +293,8 @@ sf::Vector2i TextBox::getMousePosition()
 
 bool TextBox::mouseOn(sf::Vector2i MousePos)
 {
-    if (x <= MousePos.x && MousePos.x <= x + Rec.getSize().x &&
-        y <= MousePos.y && MousePos.y <= y + Rec.getSize().y)
+    if (x <= MousePos.x && MousePos.x <= x + RecSize.x &&
+        y <= MousePos.y && MousePos.y <= y + RecSize.y)
         return true;
     return false;
 }

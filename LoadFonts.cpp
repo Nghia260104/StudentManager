@@ -4,7 +4,7 @@ void LoadFonts(sf::Font &font1, sf::Font &font2, sf::Font &font3, sf::Font &font
 {
     font1.loadFromFile("../resources/Font/Fira Code/FiraCode-Regular.ttf");
     font2.loadFromFile("../resources/Font/Fira Code/FiraCode-Bold.ttf");
-    font3.loadFromFile("../resources/Font/Fira Code/FiraCode-Italic.ttf");
+    font3.loadFromFile("../resources/Font/Fira Code/FiraCode-Medium.ttf");
     font4.loadFromFile("../resources/Font/Fira Code/FiraCode-Light.ttf");
-    font5.loadFromFile("../resources/Font/Fira Code/FiraCode-Heavy.ttf");
+    font5.loadFromFile("../resources/Font/Fira Code/FiraCode-SemiBold.ttf");
 }

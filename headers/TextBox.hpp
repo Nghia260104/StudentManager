@@ -8,6 +8,7 @@ public:
 
     TextBox();
     TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::Vector2f pos);
+    void create(float a, float b, float w, float h, unsigned int fontsize, sf::Vector2f pos);
 
     // Box
 
@@ -44,7 +45,7 @@ protected:
 
 private:
     float x, y;
-    sf::Vector2f posText;
+    sf::Vector2f posText, RecSize;
     sf::Text Text;
     sf::RectangleShape Rec;
     sf::RenderTexture Texture;
