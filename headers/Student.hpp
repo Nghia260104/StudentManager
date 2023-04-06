@@ -3,19 +3,23 @@
 #include <string>
 
 #include "Account.hpp"
-#include "Course.hpp"
 #include "Class.hpp"
+#include "Course.hpp"
 
 namespace Backend
 {
+	class Class;
+	class Course;
+	
 	class Student : public Account
 	{
 	public:
 		Student();
+		Student(const std::string &nID);
 
 		const std::string& getID() const;
 		const Class* getClass() const;
-		const List<Course*>* getCourses() const;
+		const List<Course*>& getCourses() const;
 		
 		void setID(const std::string &nID);
 		void setClass(Class *nClass);
