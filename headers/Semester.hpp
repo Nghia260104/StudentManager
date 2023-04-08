@@ -1,6 +1,7 @@
 #pragma once
 
 #include "SchoolYear.hpp"
+#include "List.hpp"
 
 namespace Backend
 {
@@ -18,7 +19,7 @@ namespace Backend
 
 		void setID(int nID);
 		void setSchoolYear(SchoolYear *nSchoolYear);
-		void addCourse(Course *nCourse);
+		bool addCourse(Course *nCourse);
 		
 	private:
 		int id_;

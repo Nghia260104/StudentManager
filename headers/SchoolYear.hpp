@@ -1,5 +1,7 @@
 #pragma once
 
+#include "List.hpp"
+
 namespace Backend
 {
 	class Semester;
@@ -14,7 +16,7 @@ namespace Backend
 		const List<Semester*> getSemesters() const;
 
 		void setStartYear(int nStartYear);
-		void addSemester(Semester *nSemester);
+		bool addSemester(Semester *nSemester);
 
 	private:
 		int startYear_;

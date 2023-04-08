@@ -65,10 +65,14 @@ public:
 	template <class Compare>
 	void merge(const List<T>&, Compare);
 	void reverse();
+
+	bool find(const T &value) const;
+	template <class UnaryPredicate>
+	bool find_if(const T &value, UnaryPredicate predicate) const;
 	
 	int remove(const T &value); // Removes all elements equal to value. Returns the number of elements removed.
 	template <class UnaryPredicate>
-	int remove_if(const T &value, UnaryPredicate p); // Removes all elements of which predicate p is equal to value. Returns the number of elements removed.
+	int remove_if(UnaryPredicate p); // Removes all elements of which predicate p is equal to value. Returns the number of elements removed.
 
 	int unique(); // For each group of equal adjacent elements, keep only the first element. Returns the number of elements removed.
 	template <class BinaryPredicate>

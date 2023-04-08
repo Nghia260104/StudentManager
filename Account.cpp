@@ -1,6 +1,20 @@
 #include "Account.hpp"
+#include "BackendGlobal.hpp"
 
 using namespace Backend;
+
+bool Account::signIn(const std::string &username, const std::string &password)
+{
+	for (auto it = g_accounts.begin(); it != g_accounts.end(); ++it)
+	{
+		if (username == (*it)->getUsername() && password == (*it)->getPassword())
+		{
+			activeUser = *it;
+			return 1;
+		}
+	}
+	return 0;
+}
 
 Account::Account(Account::Type nType)
 	: type_(nType)
@@ -21,7 +35,7 @@ const std::string& Account::getLastName() const
 	return lastName_;
 }
 
-std::string Account::getName() const
+const std::string& Account::getName() const
 {
 	return firstName_ + lastName_;
 }
@@ -55,8 +69,8 @@ void Account::setType(const std::string &nType) const
 		type_ = Account::Type::Student;
 		break;
 		
-	case "STAFF":
-		type_ = Account::Type::Staff;
+	case "STAFFMEMBER":
+		type_ = Account::Type::StaffMember;
 		break;
 
 	case "ADMIN":
@@ -112,4 +126,17 @@ void Account::setDateOfBirth(const std::string &nDateOfBirth)
 void Account::setDateOfBirth(const Date &nDateOfBirth)
 {
 	dateOfBirth_ = nDateOfBirth;
+}
+
+bool Account::changePassword(const std::string &oldPassword,
+							 const std::string &newPassword,
+							 const std::string &confirmNewPassword)
+{
+	if (oldPassword != getPassword() || newPassword != confirmNewPassword)
+	{
+		return 0;
+	}
+
+	setPassword(newPassword);
+	return 1;
 }

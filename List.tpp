@@ -175,10 +175,11 @@ void List<T>::swap(List<T> &Other)
 template <class T>
 void List<T>::merge(const List<T> &Other)
 {
-	merge(Other, [](const T &a, const T &b) -> bool
-	{
-		return a < b;
-	});
+	merge(Other,
+		  [](const T &a, const T &b) -> bool
+		  {
+			  return a < b;
+		  });
 }
 
 template <class T>
@@ -211,23 +212,48 @@ void List<T>::reverse()
 }
 
 template <class T>
-int List<T>::remove(const T &value)
+bool List<T>::find(const T &value) const
 {
-	return remove_if(value, [](const T &x) -> T
-	{
-		return x;
-	});
+	return find_if(
+		[](const T &element) -> bool
+		{
+			return x == value;
+		});
 }
 
 template <class T>
 template <class UnaryPredicate>
-int List<T>::remove_if(const T &value, UnaryPredicate predicate)
+bool List<T>::find_if(UnaryPredicate predicate) const
+{
+	for (auto it = begin(); it != end(); ++it)
+	{
+		if (!predicate(*it))
+		{
+			return 1;
+		}
+	}
+	return 0;
+}
+
+template <class T>
+int List<T>::remove(const T &value)
+{
+	return remove_if(
+		[](const T &element) -> bool
+		{
+			return element == value;
+		});
+}
+
+template <class T>
+template <class UnaryPredicate>
+int List<T>::remove_if(UnaryPredicate predicate)
 {
 	auto it = begin();
 	int res = 0;
 	while (it != end())
 	{
-		if (predicate(*it) != value)
+		if (!predicate(*it))
 		{
 			++it;
 			continue;
@@ -242,10 +268,11 @@ int List<T>::remove_if(const T &value, UnaryPredicate predicate)
 template <class T>
 int List<T>::unique()
 {
-	return unique([](const T &a, const T &b) -> bool
-	{
-		return a == b;
-	});
+	return unique(
+		[](const T &a, const T &b) -> bool
+		{
+			return a == b;
+		});
 }
 
 template <class T>
@@ -309,10 +336,11 @@ void List<T>::mergeRange(typename List<T>::iterator first, typename List<T>::ite
 template <class T>
 void List<T>::sort()
 {
-	sort([](const T &a, const T &b) -> bool
-	{
-		return a < b;
-	});
+	sort(
+		[](const T &a, const T &b) -> bool
+		{
+			return a < b;
+		});
 }
 
 template <class T>

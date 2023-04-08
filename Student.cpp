@@ -3,14 +3,12 @@
 using namespace Backend;
 
 Student::Student()
-	: Account(Account::Type::Student), class_(nullptr)
+	: Account(Account::Type::Student), class_(nullptr), password("123456")
 {}
 
 Student::Student(const std::string &nID)
-	: Student()
-{
-	setID(nID);
-}
+	: Student(), id_(nID), username_(nID)
+{}
 
 const std::string& Student::getID() const
 {
@@ -35,9 +33,4 @@ void Student::setID(const std::string &nID)
 void Student::setClass(Class *nClass)
 {
 	class_->addStudent(this);
-}
-
-void Student::addCourse(Course *nCourse)
-{
-	nCourse->addStudent(this);
 }

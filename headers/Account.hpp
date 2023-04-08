@@ -11,7 +11,7 @@ namespace Backend
 	public:
 		enum class Type
 		{
-			Student, Staff, Admin
+			Student, StaffMember, Admin
 		};
 
 		enum class Gender
@@ -19,6 +19,8 @@ namespace Backend
 			Male, Female
 		};
 
+		static bool signIn(const std::string &username, const std::string &password);
+		
 		Account(Type nType = Type::Admin);
 		
 		Type getType() const;
@@ -41,7 +43,10 @@ namespace Backend
 		
 		void setDateOfBirth(const std::string &nDateOfBirth);
 		void setDateOfBirth(const Date &nDateOfBirth);
-
+		
+		bool changePassword(const std::string &oldPassword,
+							const std::string &newPassword,
+							const std::string &confirmNewPassword);
 	protected:
 		Type type_;
 		std::string firstName_, lastName_, socialID_;

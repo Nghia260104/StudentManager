@@ -2,6 +2,8 @@
 
 #include <string>
 
+#include "List.hpp"
+
 namespace Backend
 {
 	class Student;
@@ -16,7 +18,7 @@ namespace Backend
 		const List<Student*>& getStudents() const;
 
 		void setID(const std::string &nID);
-		void addStudent(Student *nStudent);
+		bool addStudent(Student *nStudent);
 
 	private:
 		std::string id_;

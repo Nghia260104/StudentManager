@@ -5,6 +5,7 @@
 #include "Account.hpp"
 #include "Class.hpp"
 #include "Course.hpp"
+#include "List.hpp"
 
 namespace Backend
 {
@@ -23,7 +24,6 @@ namespace Backend
 		
 		void setID(const std::string &nID);
 		void setClass(Class *nClass);
-		void addCourse(Course *nCourse);
 
 	private:
 		std::string id_;
