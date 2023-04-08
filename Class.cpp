@@ -1,4 +1,5 @@
 #include "Class.hpp"
+#include "Student.hpp"
 
 using namespace Backend;
 
@@ -15,18 +16,24 @@ const std::string& Class::getID() const
 	return id_;
 }
 
-const List<Student*>& getStudents() const
+const List<Student*>& Class::getStudents() const
 {
 	return students_;
 }
 
-void Student::setID(const std::string &nID)
+void Class::setID(const std::string &nID)
 {
 	id_ = nID;
 }
 
-void Student::addStudent(Student *nStudent)
+bool Class::addStudent(Student *nStudent)
 {
+	if (students_.find(nStudent))
+	{
+		return 0;
+	}
+	
 	students_.push_back(nStudent);
 	nStudent->class_ = this;
+	return 1;
 }

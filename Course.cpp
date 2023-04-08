@@ -1,4 +1,5 @@
 #include "Course.hpp"
+#include "Student.hpp"
 
 using namespace Backend;
 
@@ -27,8 +28,14 @@ void Course::setID(const std::string &nID)
 	id_ = nID;
 }
 
-void Course::addStudent(Student *nStudent)
+bool Course::addStudent(Student *nStudent)
 {
+	if (students_.find(nStudent))
+	{
+		return 0;
+	}
+	
 	students_.push_back(nStudent);
 	nStudent->courses_.push_back(this);
+	return 1;
 }

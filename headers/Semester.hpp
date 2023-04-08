@@ -1,10 +1,10 @@
 #pragma once
 
-#include "SchoolYear.hpp"
 #include "List.hpp"
 
 namespace Backend
 {
+	class SchoolYear;
 	class Course;
 
 	class Semester

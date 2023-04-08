@@ -9,6 +9,6 @@ namespace Backend
 	public:
 		Admin();
 
-		bool addStaffMember(const std::string &id) const;
+		bool createStaffMember(const std::string &id) const;
 	};
 }

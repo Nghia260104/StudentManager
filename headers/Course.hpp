@@ -2,11 +2,11 @@
 
 #include <string>
 
-#include "Semester.hpp"
 #include "List.hpp"
 
 namespace Backend
 {
+	class Semester;
 	class Student;
 	
 	class Course

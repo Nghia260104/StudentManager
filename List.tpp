@@ -215,9 +215,9 @@ template <class T>
 bool List<T>::find(const T &value) const
 {
 	return find_if(
-		[](const T &element) -> bool
+		[&](const T &element) -> bool
 		{
-			return x == value;
+			return element == value;
 		});
 }
 
@@ -239,7 +239,7 @@ template <class T>
 int List<T>::remove(const T &value)
 {
 	return remove_if(
-		[](const T &element) -> bool
+		[&](const T &element) -> bool
 		{
 			return element == value;
 		});

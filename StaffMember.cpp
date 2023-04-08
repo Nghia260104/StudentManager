@@ -7,14 +7,15 @@ using namespace Backend;
 StaffMember::StaffMember()
 {}
 
-StaffMember::StaffMember(const std::string &nID)
-	: id_(nID)
-{}
+StaffMember::StaffMember(const std::string &nSocialID)
+{
+	socialID_ = nSocialID;
+}
 
-bool StaffMember::addStudent(const std::string &studentID) const
+bool StaffMember::createStudent(const std::string &studentID) const
 {
 	if (g_students.find_if(
-			[](const Student &student) -> bool
+			[&studentID](const Student &student) -> bool
 			{
 				return student.getID() == studentID;
 			}))

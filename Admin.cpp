@@ -1,22 +1,23 @@
 #include "Admin.hpp"
 #include "StaffMember.hpp"
+#include "BackendGlobal.hpp"
 
 using namespace Backend;
 
 Admin::Admin()
 {}
 
-bool Admin::addStaffMember(const std::string &id) const
+bool Admin::createStaffMember(const std::string &socialID) const
 {
 	if (g_staffMembers.find_if(
-			[](const StaffMember &staffMember) -> bool
+			[&](const StaffMember &staffMember) -> bool
 			{
-				return id = staffMember.getID();
+				return socialID == staffMember.getSocialID();
 			}))
 	{
 		return 0;
 	}
 	
-	g_staffMembers.push_back(StaffMember(id));
+	g_staffMembers.push_back(StaffMember(socialID));
 	return 1;
 }

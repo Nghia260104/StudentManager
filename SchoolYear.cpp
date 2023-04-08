@@ -1,4 +1,7 @@
 #include "SchoolYear.hpp"
+#include "Semester.hpp"
+
+using namespace Backend;
 
 SchoolYear::SchoolYear()
 {}
@@ -23,8 +26,14 @@ void SchoolYear::setStartYear(int nStartYear)
 	startYear_ = nStartYear;
 }
 
-void SchoolYear::addSemester(Semester *nSemester)
+bool SchoolYear::addSemester(Semester *nSemester)
 {
+	if (semesters_.find(nSemester))
+	{
+		return 0;
+	}
+	
 	semesters_.push_back(nSemester);
 	nSemester->schoolYear_ = this;
+	return 1;
 }

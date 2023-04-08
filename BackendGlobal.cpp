@@ -2,13 +2,13 @@
 
 using namespace Backend;
 
-Account *activeUser = nullptr;
-Semester *activeSemester = nullptr;
+Account *Backend::activeUser = nullptr;
+Semester *Backend::activeSemester = nullptr;
 
-List<SchoolYear> g_schoolYears;
-List<Semester> g_semesters;
-List<Course> g_courses;
-List<Class> g_classes;
-List<Student> g_students;
-List<Staff> g_staffMembers;
-List<Account*> g_accounts;
+List<SchoolYear> Backend::g_schoolYears;
+List<Semester> Backend::g_semesters;
+List<Course> Backend::g_courses;
+List<Class> Backend::g_classes;
+List<Student> Backend::g_students;
+List<StaffMember> Backend::g_staffMembers;
+List<Account*> Backend::g_accounts;

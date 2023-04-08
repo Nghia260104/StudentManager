@@ -6,10 +6,12 @@
 #include "Course.hpp"
 #include "Class.hpp"
 #include "Student.hpp"
-#include "Staff.hpp"
+#include "StaffMember.hpp"
 
 namespace Backend
 {
+	class Account;
+	
 	extern Account *activeUser;
 	extern Semester *activeSemester;
 	
@@ -18,6 +20,6 @@ namespace Backend
 	extern List<Course> g_courses;
 	extern List<Class> g_classes;
 	extern List<Student> g_students;
-	extern List<Staff> g_staffMembers;
+	extern List<StaffMember> g_staffMembers;
 	extern List<Account*> g_accounts;
 }

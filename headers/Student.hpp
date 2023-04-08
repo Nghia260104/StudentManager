@@ -3,8 +3,6 @@
 #include <string>
 
 #include "Account.hpp"
-#include "Class.hpp"
-#include "Course.hpp"
 #include "List.hpp"
 
 namespace Backend

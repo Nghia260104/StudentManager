@@ -7,7 +7,7 @@ bool Account::signIn(const std::string &username, const std::string &password)
 {
 	for (auto it = g_accounts.begin(); it != g_accounts.end(); ++it)
 	{
-		if (username == (*it)->getUsername() && password == (*it)->getPassword())
+		if (username == (*it)->username_ && password == (*it)->password_)
 		{
 			activeUser = *it;
 			return 1;
@@ -35,7 +35,7 @@ const std::string& Account::getLastName() const
 	return lastName_;
 }
 
-const std::string& Account::getName() const
+std::string Account::getName() const
 {
 	return firstName_ + lastName_;
 }
@@ -45,7 +45,7 @@ const std::string& Account::getSocialID() const
 	return socialID_;
 }
 
-Gender Account::getGender() const
+Account::Gender Account::getGender() const
 {
 	return gender_;
 }
@@ -55,7 +55,7 @@ const Date& Account::getDateOfBirth() const
 	return dateOfBirth_;
 }
 
-void Account::setType(const std::string &nType) const
+void Account::setType(const std::string &nType)
 {
 	std::string nTypeUpcase;
 	for (auto c: nType)
@@ -63,20 +63,9 @@ void Account::setType(const std::string &nType) const
 		nTypeUpcase += std::toupper(c);
 	}
 
-	switch (nTypeUpcase)
-	{
-	case "STUDENT":
-		type_ = Account::Type::Student;
-		break;
-		
-	case "STAFFMEMBER":
-		type_ = Account::Type::StaffMember;
-		break;
-
-	case "ADMIN":
-		type_ = Account::Type::Admin;
-		break;
-	}
+    type_ = (nTypeUpcase == "STUDENT" ? Account::Type::Student :
+			 (nTypeUpcase == "STAFFMEMBER" ? Account::Type::StaffMember :
+			  Account::Type::Admin));
 }
 
 void Account::setType(Account::Type nType)
@@ -132,11 +121,11 @@ bool Account::changePassword(const std::string &oldPassword,
 							 const std::string &newPassword,
 							 const std::string &confirmNewPassword)
 {
-	if (oldPassword != getPassword() || newPassword != confirmNewPassword)
+	if (oldPassword != password_ || newPassword != confirmNewPassword)
 	{
 		return 0;
 	}
 
-	setPassword(newPassword);
+	password_ = newPassword;
 	return 1;
 }

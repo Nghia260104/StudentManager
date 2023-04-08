@@ -9,8 +9,8 @@ namespace Backend
 	{
 	public:
 		StaffMember();
-		StaffMember(const std::string &nID);
+		StaffMember(const std::string &nSocialID);
 
-		bool addStudent(const std::string &studentID) const;
+		bool createStudent(const std::string &studentID) const;
 	};
 }

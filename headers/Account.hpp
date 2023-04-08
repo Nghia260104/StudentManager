@@ -49,7 +49,7 @@ namespace Backend
 							const std::string &confirmNewPassword);
 	protected:
 		Type type_;
-		std::string firstName_, lastName_, socialID_;
+		std::string username_, password_, firstName_, lastName_, socialID_;
 		Gender gender_;
 		Date dateOfBirth_;
 	};

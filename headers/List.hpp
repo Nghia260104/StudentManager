@@ -68,7 +68,7 @@ public:
 
 	bool find(const T &value) const;
 	template <class UnaryPredicate>
-	bool find_if(const T &value, UnaryPredicate predicate) const;
+	bool find_if(UnaryPredicate predicate) const;
 	
 	int remove(const T &value); // Removes all elements equal to value. Returns the number of elements removed.
 	template <class UnaryPredicate>

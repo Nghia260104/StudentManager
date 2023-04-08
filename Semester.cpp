@@ -1,4 +1,5 @@
 #include "Semester.hpp"
+#include "Course.hpp"
 
 using namespace Backend;
 
@@ -29,7 +30,7 @@ const List<Course*>& Semester::getCourses() const
 
 void Semester::setID(int nID)
 {
-	id_ = nID
+	id_ = nID;
 }
 
 void Semester::setSchoolYear(SchoolYear *nSchoolYear)
@@ -37,8 +38,14 @@ void Semester::setSchoolYear(SchoolYear *nSchoolYear)
 	schoolYear_ = nSchoolYear;
 }
 
-void Semester::addCourse(Course *nCourse)
+bool Semester::addCourse(Course *nCourse)
 {
+	if (courses_.find(nCourse))
+	{
+		return 0;
+	}
+	
 	courses_.push_back(nCourse);
 	nCourse->semester_ = this;
+	return 1;
 }
