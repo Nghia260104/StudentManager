@@ -15,25 +15,12 @@ Iterator<T>::Iterator(const Iterator<T> &other)
 	*this = other;
 }
 
-/* template <class T>
- * Iterator<T>::Iterator(const RIterator<T> &other)
- * {
- * 	*this = other;
- * } */
-
 template <class T>
 Iterator<T>& Iterator<T>::operator=(const Iterator<T> &other)
 {
 	pointer_ = other.pointer_;
 	return *this;
 }
-
-/* template <class T>
- * Iterator<T>& Iterator<T>::operator=(const RIterator<T> &other)
- * {
- * 	pointer_ = other.pointer_;
- * 	return *this;
- * } */
 
 template <class T>
 bool Iterator<T>::operator==(const Iterator<T> &other) const
@@ -62,6 +49,12 @@ template <class T>
 T& Iterator<T>::operator*() const
 {
 	return pointer_->value;
+}
+
+template <class T>
+T* Iterator<T>::operator->() const
+{
+	return &pointer_->value;
 }
 
 template <class T>
