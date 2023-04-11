@@ -1,4 +1,6 @@
 #include <TextBox.hpp>
+#include <iostream>
+#include <string>
 
 extern sf::RenderWindow window;
 
@@ -173,6 +175,10 @@ void TextBox::processEvent(sf::Event event)
                 {
                     Type = keyPressed;
                     updateText();
+                    if (!password)
+                        std::cerr << (std::string)Text.getString() << '\n';
+                    else
+                        std::cerr << (std::string)Pass << '\n';
                     drawTexture();
                 }
             }
@@ -183,6 +189,10 @@ void TextBox::processEvent(sf::Event event)
                 Type = TextEntered;
                 Key = event.text.unicode;
                 updateText();
+                if (!password)
+                    std::cerr << (std::string)Text.getString() << '\n';
+                else
+                    std::cerr << (std::string)Pass << '\n';
                 drawTexture();
             }
             break;
@@ -256,6 +266,14 @@ sf::RectangleShape *TextBox::Opacity()
     return Tmp;
 }
 
+bool TextBox::mouseOn(sf::Vector2i MousePos)
+{
+    if (x <= MousePos.x && MousePos.x <= x + RecSize.x &&
+        y <= MousePos.y && MousePos.y <= y + RecSize.y)
+        return true;
+    return false;
+}
+
 // Draw //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextBox::draw(sf::RenderTarget &target, sf::RenderStates state) const
@@ -289,14 +307,6 @@ sf::Vector2i TextBox::getMousePosition()
 {
     sf::Mouse mouse;
     return mouse.getPosition(window);
-}
-
-bool TextBox::mouseOn(sf::Vector2i MousePos)
-{
-    if (x <= MousePos.x && MousePos.x <= x + RecSize.x &&
-        y <= MousePos.y && MousePos.y <= y + RecSize.y)
-        return true;
-    return false;
 }
 
 void TextBox::checkTyping(sf::Event event)

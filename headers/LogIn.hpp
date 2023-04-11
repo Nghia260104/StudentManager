@@ -14,6 +14,8 @@ public:
     // Misc
 
     void processEvent(sf::Event event);
+    bool mouseOn(sf::Vector2i MousePos);
+    void setMouseCursor(sf::Vector2i MousePos);
 
     // Draw
 

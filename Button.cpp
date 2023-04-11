@@ -6,10 +6,6 @@ extern sf::RenderWindow window;
 
 Button::Button()
 {
-    setPosition();
-    setSize();
-    setFillColor();
-    setOutline();
 }
 
 Button::Button(sf::String S)
@@ -21,14 +17,17 @@ Button::Button(sf::String S)
     setText(S);
 }
 
-Button::Button(float a, float b, float w, float h, unsigned int fontsize, sf::String S)
+void Button::create(float a, float b, float w, float h, sf::Font &font, unsigned int fontsize, sf::String S)
 {
     setPosition(a, b);
     setSize(w, h);
+    Texture.create(w, h);
     setFillColor();
     setOutline();
+    setFont(font);
     setFontSize(fontsize);
     setText(S);
+    setTextPos();
 }
 
 // Box ///////////////////////////////////////////////////////////////////////////////////////////////
@@ -92,17 +91,21 @@ void Button::setTextColor(sf::Color color)
 
 // Misc ///////////////////////////////////////////////////////////////////////////////////////////////
 
-// void Button::processEvent(sf::Event event)
-// {
-//     if (event.type == sf::Event::MouseButtonPressed)
-//     {
-//         sf::Vector2i MousePos = getMousePosition();
-//         if (event.mouseButton.button == sf::Mouse::Left && mouseOn(MousePos))
-//         {
+bool Button::isPressed(sf::Event event)
+{
+    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+    {
+        sf::Vector2i MousePos = getMousePosition();
+        if (mouseOn(MousePos))
+            return true;
+    }
+    return false;
+}
 
-//         }
-//     }
-// }
+void Button::setCoverColor(sf::Color color)
+{
+    Cover = color;
+}
 
 // Draw ///////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -110,7 +113,16 @@ void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const
 {
     sf::Sprite sprite(Texture.getTexture());
     sprite.setPosition(x, y);
+    if (mouseOn(getMousePosition()))
+        sprite.setColor(Cover);
     target.draw(sprite);
+}
+
+void Button::drawTexture()
+{
+    Texture.draw(Rec);
+    Texture.draw(Text);
+    Texture.display();
 }
 
 // Private ////////////////////////////////////////////////////////////////////////////////////////////
@@ -133,13 +145,13 @@ sf::Color Button::getContrastColor(sf::Color color, float ratio)
         return color20;
 }
 
-sf::Vector2i Button::getMousePosition()
+sf::Vector2i Button::getMousePosition() const
 {
     sf::Mouse mouse;
     return mouse.getPosition(window);
 }
 
-bool Button::mouseOn(sf::Vector2i MousePos)
+bool Button::mouseOn(sf::Vector2i MousePos) const
 {
     if (x <= MousePos.x && MousePos.x <= x + RecSize.x &&
         y <= MousePos.y && MousePos.y <= y + RecSize.y)

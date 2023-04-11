@@ -8,7 +8,7 @@ public:
 
     Button();
     Button(sf::String S);
-    Button(float a, float b, float w, float h, unsigned int fontsize, sf::String S);
+    void create(float a, float b, float w, float h, sf::Font &font, unsigned int fontsize, sf::String S);
 
     // Box
 
@@ -27,13 +27,14 @@ public:
 
     // Misc
 
-    void processEvent(sf::Event event);
+    bool isPressed(sf::Event event);
+    void setCoverColor(sf::Color color = sf::Color::Transparent);
 
     // Draw
 
     void drawTexture();
 
-protected:
+// protected:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
@@ -42,7 +43,8 @@ private:
     sf::Text Text;
     sf::RectangleShape Rec;
     sf::RenderTexture Texture;
+    sf::Color Cover;
     sf::Color getContrastColor(sf::Color color, float ratio);
-    sf::Vector2i getMousePosition();
-    bool mouseOn(sf::Vector2i MousePos);
+    sf::Vector2i getMousePosition() const;
+    bool mouseOn(sf::Vector2i MousePos) const;
 };

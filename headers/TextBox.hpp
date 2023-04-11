@@ -35,6 +35,7 @@ public:
     sf::RectangleShape Caret();
     void setOpacity(unsigned int thick = 4);
     sf::RectangleShape *Opacity();
+    bool mouseOn(sf::Vector2i MousePos);
 
     // Draw
 
@@ -67,7 +68,6 @@ private:
     float charlength;
 
     sf::Vector2i getMousePosition();
-    bool mouseOn(sf::Vector2i MousePos);
     void checkTyping(sf::Event event);
     sf::Color getContrastColor(sf::Color color, float ratio);
     void updateTypePos();

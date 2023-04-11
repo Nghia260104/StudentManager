@@ -25,10 +25,10 @@ private:
 };
 sf::RenderWindow window;
 int Click = 0;
-sf::Vector2i MousePos;
-sf::Clock clock_;
+sf::Clock Clock;
 sf::Font RegularFont, BoldFont, MediumFont, LightFont, HeavyFont;
 sf::Color Background;
+sf::Cursor cursor;
 LogIn LogInWindow;
 
 // Windows
@@ -68,6 +68,8 @@ int main()
 
     while (window.isOpen())
     {
+        sf::Mouse mouse;
+        sf::Vector2i MousePos = mouse.getPosition(window);
         sf::Event event;
         while (window.pollEvent(event))
         {
@@ -86,6 +88,16 @@ int main()
 
         // window.clear(sf::Color::Black);
         // window.draw(circle);
+        if (LogInWindow.mouseOn(MousePos))
+        {
+            cursor.loadFromSystem(sf::Cursor::Text);
+            window.setMouseCursor(cursor);
+        }
+        else
+        {
+            cursor.loadFromSystem(sf::Cursor::Arrow);
+            window.setMouseCursor(cursor);
+        }
         window.clear(Background);
         window.draw(LogInWindow);
         window.display();

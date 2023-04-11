@@ -96,7 +96,7 @@ void LogIn::create()
 
     Title.setString("Log in");
     Title.setFillColor(sf::Color(25, 89, 34, 255));
-    Title.setFont(RegularFont);
+    Title.setFont(LightFont);
     Title.setCharacterSize(40);
     Title.setStyle(sf::Text::Bold);
     Title.setOrigin(Title.getLocalBounds().width / 2, Title.getLocalBounds().height / 2);
@@ -105,18 +105,18 @@ void LogIn::create()
     Title1.setString("Username: ");
     Title1.setFillColor(sf::Color::Black);
     Title1.setFont(RegularFont);
-    Title1.setCharacterSize(15);
-    Title1.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 130);
+    Title1.setCharacterSize(20);
+    Title1.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 135);
 
     Title2.setString("Password: ");
     Title2.setFillColor(sf::Color::Black);
     Title2.setFont(RegularFont);
-    Title2.setCharacterSize(15);
-    Title2.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 30);
+    Title2.setCharacterSize(20);
+    Title2.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 25);
 
     // Username
 
-    Username.create(0, 0, 700, 50, 15, sf::Vector2f(8, 25));
+    Username.create(0, 0, 700, 50, 18, sf::Vector2f(8, 25));
     Username.setCaret();
     Username.setTyping();
     Username.setOpacity();
@@ -128,7 +128,7 @@ void LogIn::create()
 
     // Password
 
-    Password.create(0, 0, 700, 50, 15, sf::Vector2f(8, 25));
+    Password.create(0, 0, 700, 50, 18, sf::Vector2f(8, 25));
     Password.setCaret();
     Password.setTyping();
     Password.setOpacity();
@@ -137,7 +137,14 @@ void LogIn::create()
     Password.setFillColor(Background);
     Password.setTextColor();
     Password.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
-    Password.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y);
+    Password.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y + 15);
+
+    // Button
+
+    Confirm.create(Bound.getPosition().x - 50, Bound.getPosition().y + 115, 100, 50, BoldFont, 24, "Log In");
+    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
+    Confirm.setTextColor(sf::Color::White);
+    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
 
     // First Draw
 
@@ -153,6 +160,23 @@ void LogIn::processEvent(sf::Event event)
     drawTexture();
 }
 
+bool LogIn::mouseOn(sf::Vector2i MousePos)
+{
+    if (Username.mouseOn(MousePos) || Password.mouseOn(MousePos))
+        return true;
+    return false;
+}
+
+void LogIn::setMouseCursor(sf::Vector2i MousePos)
+{
+    sf::Cursor cursor;
+    if (mouseOn(MousePos))
+    {
+        cursor.loadFromSystem(sf::Cursor::Text);
+        window.setMouseCursor(cursor);
+    }
+}
+
 // Draw //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LogIn::drawTexture()
@@ -163,6 +187,7 @@ void LogIn::drawTexture()
     Texture.draw(Username);
     Texture.draw(Title2);
     Texture.draw(Password);
+    Texture.draw(Confirm);
     Texture.display();
 }
 
@@ -176,6 +201,8 @@ void LogIn::FirstDraw()
     Texture.draw(Title2);
     Password.drawTexture();
     Texture.draw(Password);
+    Confirm.drawTexture();
+    Texture.draw(Confirm);
     Texture.display();
 }
 
