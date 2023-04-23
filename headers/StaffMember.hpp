@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Account.hpp"
-#include "Student.hpp"
 
 namespace Backend
 {
@@ -10,6 +9,8 @@ namespace Backend
 	public:
 		StaffMember();
 		StaffMember(const std::string &nSocialID);
+
+		static bool loadStaffMembers();
 
 		bool createStudent(const std::string &studentID) const;
 	};

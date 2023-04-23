@@ -1,5 +1,7 @@
 #pragma once
 
+#include <filesystem>
+
 #include "List.hpp"
 
 namespace Backend
@@ -11,11 +13,14 @@ namespace Backend
 	{
 	public:
 		Semester();
-		Semester(int nID);
+		Semester(int nID, SchoolYear *schoolYear);
+
+		static bool loadSemesters(const std::filesystem::path &path, SchoolYear *schoolYear);
 		
 		int getID() const;
 		const SchoolYear* getSchoolYear() const;
 		const List<Course*>& getCourses() const;
+		/* const std::string& getPath() const; */
 
 		void setID(int nID);
 		void setSchoolYear(SchoolYear *nSchoolYear);
@@ -25,6 +30,7 @@ namespace Backend
 		int id_;
 		SchoolYear *schoolYear_;
 		List<Course*> courses_;
+		/* std::filesystem::path path_; */
 		
 		friend class SchoolYear;
 	};

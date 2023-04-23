@@ -15,13 +15,14 @@ namespace Backend
 	public:
 		Student();
 		Student(const std::string &nID);
-
+		
+		static bool loadStudents();
+		
 		const std::string& getID() const;
 		const Class* getClass() const;
 		const List<Course*>& getCourses() const;
 		
 		void setID(const std::string &nID);
-		void setClass(Class *nClass);
 
 	private:
 		std::string id_;

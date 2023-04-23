@@ -14,6 +14,8 @@ namespace Backend
 		Class();
 		Class(const std::string &nID);
 
+		static bool loadClasses(const std::string &classesPath);
+
 		const std::string& getID() const;
 		const List<Student*>& getStudents() const;
 

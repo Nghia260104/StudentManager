@@ -1,3 +1,0 @@
-C:\Users\phamt\scoop\apps\cmake\3.26.1\bin\cmake.exe -E rm -f CMakeFiles\ftp.dir/objects.a
-C:\msys64\mingw64\bin\ar.exe qc CMakeFiles\ftp.dir/objects.a @CMakeFiles\ftp.dir\objects1.rsp
-C:\msys64\mingw64\bin\c++.exe -O3 -DNDEBUG -Wl,--whole-archive CMakeFiles\ftp.dir/objects.a -Wl,--no-whole-archive -o ftp.exe -Wl,--out-implib,libftp.dll.a -Wl,--major-image-version,0,--minor-image-version,0 @CMakeFiles\ftp.dir\linkLibs.rsp

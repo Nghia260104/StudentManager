@@ -6,6 +6,10 @@
 
 namespace Backend
 {
+	class Admin;
+	class StaffMember;
+	class Student;
+	
 	class Account
 	{
 	public:
