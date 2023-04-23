@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <BackendGlobal.hpp>
 #include <TextBox.hpp>
 #include <Button.hpp>
 
@@ -14,8 +15,11 @@ public:
     // Misc
 
     void processEvent(sf::Event event);
-    bool mouseOn(sf::Vector2i MousePos);
-    void setMouseCursor(sf::Vector2i MousePos);
+    bool mouseOn(const sf::Vector2i &MousePos);
+    void setMouseCursor(const sf::Vector2i &MousePos);
+    bool isHidden();
+    void hide();
+    void show();
 
     // Draw
 
@@ -29,7 +33,8 @@ private:
     sf::RenderTexture Texture;
     TextBox Username;
     TextBox Password;
-    sf::RectangleShape Bound;
-    sf::Text Title, Title1, Title2;
+    sf::RectangleShape Bound, Background;
+    sf::Text Title, Title1, Title2, Fail;
     Button Confirm;
+    bool hidden, fail;
 };

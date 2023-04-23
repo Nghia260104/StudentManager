@@ -9,6 +9,7 @@ public:
     TextBox();
     TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::Vector2f pos);
     void create(float a, float b, float w, float h, unsigned int fontsize, sf::Vector2f pos);
+    void createTexture(float w, float h);
 
     // Box
 
@@ -25,17 +26,20 @@ public:
     void setTextColor(sf::Color color = sf::Color::Black);
     void setFont(sf::Font &font);
     void setText(sf::String S);
+    void erase();
     void setPassword();
+    const sf::String &getText();
 
     // Misc
 
     void processEvent(sf::Event event);
+    bool checkEvent(sf::Event event);
     void setTyping();
     void setCaret();
     sf::RectangleShape Caret();
     void setOpacity(unsigned int thick = 4);
     sf::RectangleShape *Opacity();
-    bool mouseOn(sf::Vector2i MousePos);
+    bool mouseOn(const sf::Vector2i &MousePos);
 
     // Draw
 

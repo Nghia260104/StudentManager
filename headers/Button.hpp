@@ -29,12 +29,13 @@ public:
 
     bool isPressed(sf::Event event);
     void setCoverColor(sf::Color color = sf::Color::Transparent);
+    bool mouseOn(const sf::Vector2i &MousePos) const;
 
     // Draw
 
     void drawTexture();
 
-// protected:
+protected:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
@@ -46,5 +47,4 @@ private:
     sf::Color Cover;
     sf::Color getContrastColor(sf::Color color, float ratio);
     sf::Vector2i getMousePosition() const;
-    bool mouseOn(sf::Vector2i MousePos) const;
 };

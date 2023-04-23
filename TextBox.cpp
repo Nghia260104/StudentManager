@@ -17,7 +17,7 @@ TextBox::TextBox()
     AllowTyping = 0;
     HasCaret = 0;
     isTyping = 0;
-    Texture.create(50.0f, 50.0f);
+    // Texture.create(1000.0f, 500.0f);
     FKey = 0;
     Type = 0;
     id = 0;
@@ -69,6 +69,11 @@ void TextBox::create(float a, float b, float w, float h, unsigned int fontsize, 
     Key = 0;
     limit = INT_MAX;
     password = 0;
+}
+
+void TextBox::createTexture(float w, float h)
+{
+    Texture.create(w, h);
 }
 
 // Box ////////////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -141,11 +146,26 @@ void TextBox::setText(sf::String S)
     Text.setString(S);
 }
 
+void TextBox::erase()
+{
+    Text.setString("");
+    if (password)
+        Pass.clear();
+    id = 0;
+}
+
 void TextBox::setPassword()
 {
     password = 1;
     Pass = "";
     Text.setString("");
+}
+
+const sf::String &TextBox::getText()
+{
+    if (password)
+        return Pass;
+    return Text.getString();
 }
 
 // Misc ///////////////////////////////////////////////////////////////////////////////////////////////////////
@@ -175,10 +195,10 @@ void TextBox::processEvent(sf::Event event)
                 {
                     Type = keyPressed;
                     updateText();
-                    if (!password)
-                        std::cerr << (std::string)Text.getString() << '\n';
-                    else
-                        std::cerr << (std::string)Pass << '\n';
+                    // if (!password)
+                    //     std::cerr << (std::string)Text.getString() << '\n';
+                    // else
+                    //     std::cerr << (std::string)Pass << '\n';
                     drawTexture();
                 }
             }
@@ -189,10 +209,10 @@ void TextBox::processEvent(sf::Event event)
                 Type = TextEntered;
                 Key = event.text.unicode;
                 updateText();
-                if (!password)
-                    std::cerr << (std::string)Text.getString() << '\n';
-                else
-                    std::cerr << (std::string)Pass << '\n';
+                // if (!password)
+                //     std::cerr << (std::string)Text.getString() << '\n';
+                // else
+                //     std::cerr << (std::string)Pass << '\n';
                 drawTexture();
             }
             break;
@@ -200,6 +220,54 @@ void TextBox::processEvent(sf::Event event)
             break;
         }
     }
+}
+
+bool TextBox::checkEvent(sf::Event event)
+{
+    if (AllowTyping)
+    {
+        switch (event.type)
+        {
+        case sf::Event::MouseButtonPressed:
+            Type = Click;
+            checkTyping(event);
+            updateTypePos();
+            drawTexture();
+            return true;
+        case sf::Event::KeyPressed:
+            if (isTyping)
+            {
+                FKey = event.key.code;
+                if (FKey == Enter || FKey == Esc)
+                {
+                    checkTyping(event);
+                    drawTexture();
+                    return true;
+                }
+                if (FKey == Backspace || FKey == LeftArrow || FKey == RightArrow)
+                {
+                    Type = keyPressed;
+                    updateText();
+                    drawTexture();
+                    return true;
+                }
+            }
+            return false;
+        case sf::Event::TextEntered:
+            if (isTyping)
+            {
+                Type = TextEntered;
+                Key = event.text.unicode;
+                updateText();
+                drawTexture();
+                return true;
+            }
+            return false;
+        default:
+            return false;
+        }
+    }
+    return false;
 }
 
 void TextBox::setTyping()
@@ -266,7 +334,7 @@ sf::RectangleShape *TextBox::Opacity()
     return Tmp;
 }
 
-bool TextBox::mouseOn(sf::Vector2i MousePos)
+bool TextBox::mouseOn(const sf::Vector2i &MousePos)
 {
     if (x <= MousePos.x && MousePos.x <= x + RecSize.x &&
         y <= MousePos.y && MousePos.y <= y + RecSize.y)
@@ -279,14 +347,18 @@ bool TextBox::mouseOn(sf::Vector2i MousePos)
 void TextBox::draw(sf::RenderTarget &target, sf::RenderStates state) const
 {
     sf::Sprite sprite(Texture.getTexture());
+    sprite.setTextureRect(sf::IntRect(0, 0, RecSize.x, RecSize.y));
     sprite.setPosition(x, y);
     target.draw(sprite);
 }
 
 void TextBox::drawTexture()
 {
-    charlength = (Text.getFont()->getGlyph('A', Text.getCharacterSize(), false)).advance;
-    limit = (RecSize.x - posText.x - EdgeOpacity) / charlength;
+    if (AllowTyping)
+    {
+        charlength = (Text.getFont()->getGlyph('A', Text.getCharacterSize(), false)).advance;
+        limit = (RecSize.x - posText.x - EdgeOpacity) / charlength;
+    }
     Texture.draw(Rec);
     if (EdgeOpacity)
     {
@@ -371,8 +443,8 @@ void TextBox::updateTypePos()
             id = Text.getString().getSize();
         return;
     }
-    if (Type == TextEntered && Key != '\b' && Key < 128 && Key != '\n' && Key != '\r')
-        id++;
+    // if (Type == TextEntered && Key != '\b' && Key < 128 && Key != '\n' && Key != '\r')
+    //     id++;
     return;
 }
 

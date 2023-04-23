@@ -1,76 +1,10 @@
-#include <StudentManager.hpp>
-
-extern sf::Font RegularFont, BoldFont, MediumFont, LightFont, HeavyFont;
-extern sf::RenderWindow window;
-extern sf::Color Background;
+#include <LogIn.hpp>
+#include <FrontendGlobal.hpp>
 
 // Constructor ///////////////////////////////////////////////////////////////////////////////////////////////////
 
 LogIn::LogIn()
 {
-    // // Background
-
-    // Texture.create(window.getSize().x, window.getSize().y);
-    // Texture.setSmooth(true);
-    // sf::RectangleShape back((sf::Vector2f)window.getSize());
-    // back.setFillColor(Background);
-    // Texture.draw(back);
-
-    // // Bound
-
-    // Bound.setSize(sf::Vector2f(800, 400));
-    // Bound.setOrigin(400, 200);
-    // Bound.setFillColor(Background);
-    // Bound.setOutlineColor(sf::Color(25, 89, 34, 255));
-    // Bound.setOutlineThickness(1);
-    // Bound.setPosition(window.getSize().x / 2, window.getSize().y / 2);
-
-    // // Title
-
-    // Title.setString("Log in");
-    // Title.setFillColor(sf::Color(25, 89, 34, 255));
-    // Title.setFont(RegularFont);
-    // Title.setCharacterSize(40);
-    // Title.setStyle(sf::Text::Bold);
-    // Title.setOrigin(Title.getLocalBounds().width / 2, Title.getLocalBounds().height / 2);
-    // Title.setPosition(Bound.getPosition().x, Bound.getPosition().y - 170);
-
-    // Title1.setString("Username: ");
-    // Title1.setFillColor(sf::Color::Black);
-    // Title1.setFont(RegularFont);
-    // Title1.setCharacterSize(15);
-    // Title1.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 130);
-
-    // Title2.setString("Password: ");
-    // Title2.setFillColor(sf::Color::Black);
-    // Title2.setFont(RegularFont);
-    // Title2.setCharacterSize(15);
-    // Title2.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 30);
-
-    // // Username
-
-    // Username.create(0, 0, 700, 50, 15, sf::Vector2f(8, 25));
-    // Username.setCaret();
-    // Username.setTyping();
-    // Username.setOpacity();
-    // Username.setFont(RegularFont);
-    // Username.setFillColor(Background);
-    // Username.setTextColor();
-    // Username.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
-    // Username.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 100);
-
-    // // Password
-
-    // Password.create(0, 0, 700, 50, 15, sf::Vector2f(8, 25));
-    // Password.setCaret();
-    // Password.setTyping();
-    // Password.setOpacity();
-    // Password.setPassword();
-    // Password.setFont(RegularFont);
-    // Password.setFillColor(Background);
-    // Password.setTextColor();
-    // Password.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
-    // Password.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y);
 }
 
 void LogIn::create()
@@ -79,15 +13,14 @@ void LogIn::create()
 
     Texture.create(window.getSize().x, window.getSize().y);
     Texture.setSmooth(true);
-    sf::RectangleShape back((sf::Vector2f)window.getSize());
-    back.setFillColor(Background);
-    Texture.draw(back);
+    Background.setSize(sf::Vector2f(window.getSize()));
+    Background.setFillColor(BackgroundColor);
 
     // Bound
 
     Bound.setSize(sf::Vector2f(800, 400));
     Bound.setOrigin(400, 200);
-    Bound.setFillColor(Background);
+    Bound.setFillColor(BackgroundColor);
     Bound.setOutlineColor(sf::Color(25, 89, 34, 255));
     Bound.setOutlineThickness(1);
     Bound.setPosition(window.getSize().x / 2, window.getSize().y / 2);
@@ -112,7 +45,7 @@ void LogIn::create()
     Title2.setFillColor(sf::Color::Black);
     Title2.setFont(RegularFont);
     Title2.setCharacterSize(20);
-    Title2.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 25);
+    Title2.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 30);
 
     // Username
 
@@ -121,7 +54,7 @@ void LogIn::create()
     Username.setTyping();
     Username.setOpacity();
     Username.setFont(RegularFont);
-    Username.setFillColor(Background);
+    Username.setFillColor(BackgroundColor);
     Username.setTextColor();
     Username.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
     Username.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 100);
@@ -134,10 +67,18 @@ void LogIn::create()
     Password.setOpacity();
     Password.setPassword();
     Password.setFont(RegularFont);
-    Password.setFillColor(Background);
+    Password.setFillColor(BackgroundColor);
     Password.setTextColor();
     Password.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
-    Password.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y + 15);
+    Password.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y + 5);
+
+    // Log in failed
+
+    Fail.setFont(RegularFont);
+    Fail.setCharacterSize(20);
+    Fail.setFillColor(sf::Color(168, 30, 20, 255));
+    Fail.setString("Failed: Wrong Username or Password!");
+    Fail.setPosition(Bound.getPosition().x - 320, Bound.getPosition().y + 70);
 
     // Button
 
@@ -149,25 +90,46 @@ void LogIn::create()
     // First Draw
 
     FirstDraw();
+
+    // Set showed
+
+    hidden = 0;
+    fail = 0;
+
 }
 
 // Misc //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LogIn::processEvent(sf::Event event)
 {
-    Username.processEvent(event);
-    Password.processEvent(event);
-    drawTexture();
+    if (Username.checkEvent(event))
+        drawTexture();
+    if (Password.checkEvent(event))
+        drawTexture();
+    Texture.draw(Confirm);
+    if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
+    {
+        const std::string user = Username.getText(), pass = Password.getText();
+        if (!Backend::activeUser->signIn(user, pass)) fail = 1;
+        else
+        {
+            fail = 0;
+            Username.erase();
+            Password.erase();
+            hidden = 1;
+        }
+        drawTexture();
+    }
 }
 
-bool LogIn::mouseOn(sf::Vector2i MousePos)
+bool LogIn::mouseOn(const sf::Vector2i &MousePos)
 {
     if (Username.mouseOn(MousePos) || Password.mouseOn(MousePos))
         return true;
     return false;
 }
 
-void LogIn::setMouseCursor(sf::Vector2i MousePos)
+void LogIn::setMouseCursor(const sf::Vector2i &MousePos)
 {
     sf::Cursor cursor;
     if (mouseOn(MousePos))
@@ -177,22 +139,39 @@ void LogIn::setMouseCursor(sf::Vector2i MousePos)
     }
 }
 
+bool LogIn::isHidden()
+{
+    return hidden;
+}
+
+void LogIn::hide()
+{
+    hidden = 1;
+}
+
+void LogIn::show()
+{
+    hidden = 0;
+}
+
 // Draw //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void LogIn::drawTexture()
 {
+    Texture.draw(Background);
     Texture.draw(Bound);
     Texture.draw(Title);
     Texture.draw(Title1);
     Texture.draw(Username);
     Texture.draw(Title2);
+    if (fail) Texture.draw(Fail);
     Texture.draw(Password);
-    Texture.draw(Confirm);
     Texture.display();
 }
 
 void LogIn::FirstDraw()
 {
+    Texture.draw(Background);
     Texture.draw(Bound);
     Texture.draw(Title);
     Texture.draw(Title1);

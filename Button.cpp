@@ -21,7 +21,6 @@ void Button::create(float a, float b, float w, float h, sf::Font &font, unsigned
 {
     setPosition(a, b);
     setSize(w, h);
-    Texture.create(w, h);
     setFillColor();
     setOutline();
     setFont(font);
@@ -42,6 +41,7 @@ void Button::setSize(float w, float h)
 {
     Rec.setSize(sf::Vector2f(w, h));
     RecSize = sf::Vector2f(w, h);
+    Texture.create(w, h);
 }
 
 void Button::setFillColor(sf::Color color, float ratio)
@@ -93,7 +93,7 @@ void Button::setTextColor(sf::Color color)
 
 bool Button::isPressed(sf::Event event)
 {
-    if (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter)
+    if (event.type == sf::Event::MouseButtonPressed && event.mouseButton.button == sf::Mouse::Left)
     {
         sf::Vector2i MousePos = getMousePosition();
         if (mouseOn(MousePos))
@@ -151,7 +151,7 @@ sf::Vector2i Button::getMousePosition() const
     return mouse.getPosition(window);
 }
 
-bool Button::mouseOn(sf::Vector2i MousePos) const
+bool Button::mouseOn(const sf::Vector2i &MousePos) const
 {
     if (x <= MousePos.x && MousePos.x <= x + RecSize.x &&
         y <= MousePos.y && MousePos.y <= y + RecSize.y)
