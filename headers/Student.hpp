@@ -25,10 +25,12 @@ namespace Backend
 		void setID(const std::string &nID);
 
 	private:
+		static void readCSV(std::stringstream &streamLine, std::string &word);
+		
 		std::string id_;
 		Class *class_;
 		List<Course*> courses_;
-		
+
 		friend class Class;
 		friend class Course;
 	};

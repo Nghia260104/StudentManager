@@ -18,23 +18,22 @@ List<Course> Backend::g_courses;
 List<Class> Backend::g_classes;
 List<Student> Backend::g_students;
 List<StaffMember> Backend::g_staffMembers;
+Admin Backend::g_admin;
 List<Account*> Backend::g_accounts;
 
 bool Backend::loadData()
 {
-	if (!SchoolYear::loadSchoolYears())
+	if (!loadAccounts())
 	{
-		std::cerr << "Load data unsuccessful" << std::endl;
 		return 0;
 	}
 
-	std::cerr << "Load data successful" << std::endl;
 	/* if (!Classes::loadClasses())
 	 * {
 	 * 	return 0;
 	 * }
 	 * 
-	 * if (!loadAccounts())
+	 * if (!SchoolYear::loadSchoolYears())
 	 * {
 	 * 	return 0;
 	 * } */
@@ -42,12 +41,23 @@ bool Backend::loadData()
 	return 1;
 }
 
-/* bool loadAccounts()
- * {
- * 	Admin::loadAdmin();
- * 	Student::loadStudents();
- * 	StaffMember::loadStaffMembers();
- * } */
+bool Backend::loadAccounts()
+{
+	g_accounts.push_back(&g_admin);
+	std::filesystem::path path(ACCOUNTS_PATH);
+
+	if (!std::filesystem::exists(path))
+	{
+		std::filesystem::create_directories(path);
+		return 0;
+	}
+
+	Admin::loadAdmin();
+	StaffMember::loadStaffMembers();
+	Student::loadStudents();
+
+	return 1;
+}
 
 std::string Backend::toString(const std::wstring &wstring)
 {

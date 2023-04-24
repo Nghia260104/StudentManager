@@ -7,9 +7,9 @@ namespace Backend
 	class Admin : public Account
 	{
 	public:
-		Admin();
-
 		static bool loadAdmin();
+		
+		Admin();
 
 		bool createStaffMember(const std::string &id) const;
 	};

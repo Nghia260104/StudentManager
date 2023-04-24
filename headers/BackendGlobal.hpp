@@ -9,6 +9,7 @@
 #include "Class.hpp"
 #include "Student.hpp"
 #include "StaffMember.hpp"
+#include "Admin.hpp"
 
 namespace Backend
 {
@@ -28,6 +29,7 @@ namespace Backend
 	extern List<Class> g_classes;
 	extern List<Student> g_students;
 	extern List<StaffMember> g_staffMembers;
+	extern Admin g_admin;
 	extern List<Account*> g_accounts;
 
 	bool loadData();
