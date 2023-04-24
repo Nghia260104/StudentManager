@@ -20,22 +20,15 @@ List<Student> Backend::g_students;
 List<StaffMember> Backend::g_staffMembers;
 List<Account*> Backend::g_accounts;
 
-void printSchoolYear()
-{
-	for (auto it = g_schoolYears.begin(); it != g_schoolYears.end(); ++it)
-	{
-		std::cerr << it->getStartYear() << std::endl;
-	}
-}
-
 bool Backend::loadData()
 {
 	if (!SchoolYear::loadSchoolYears())
 	{
-		printSchoolYear();
+		std::cerr << "Load data unsuccessful" << std::endl;
 		return 0;
 	}
 
+	std::cerr << "Load data successful" << std::endl;
 	/* if (!Classes::loadClasses())
 	 * {
 	 * 	return 0;

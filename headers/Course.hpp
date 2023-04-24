@@ -56,8 +56,8 @@ namespace Backend
 
 	private:
 		static void loadOneCourse(const std::filesystem::path &courseFile, Semester *semester);
-		static void loadOneCourseGeneral(const std::filesystem::path &courseFile, Semester *semester);
-		static void loadOneCourseStudents(const std::filesystem::path &courseFile);
+		static void loadOneCourseGeneral(std::ifstream &fi, Semester *semester);
+		static void loadOneCourseStudents(std::ifstream &fi);
 		
 		const int DEFAULT_MAX_STUDENTS = 50;
 		

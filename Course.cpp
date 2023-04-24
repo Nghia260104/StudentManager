@@ -26,17 +26,18 @@ bool Course::loadCourses(const std::filesystem::path &path, Semester *semester)
 void Course::loadOneCourse(const std::filesystem::path &courseFile, Semester *semester)
 {
 	std::string courseFileStem = toString(courseFile.stem());
+	std::cerr << courseFileStem << std::endl;
 	g_courses.push_back(Course(courseFileStem, semester));
 
-	loadOneCourseGeneral(courseFile, semester);
-	loadOneCourseStudents(courseFile);
+	std::ifstream fi(courseFile);
+	loadOneCourseGeneral(fi, semester);
+	loadOneCourseStudents(fi);
 }
 
-void Course::loadOneCourseGeneral(const std::filesystem::path &courseFile, Semester *semester)
+void Course::loadOneCourseGeneral(std::ifstream &fi, Semester *semester)
 {
 	Course &currCourse = g_courses.back();
 	
-	std::ifstream fi(courseFile);
 	std::string line, word;
 
 	/* course name
@@ -45,32 +46,44 @@ void Course::loadOneCourseGeneral(const std::filesystem::path &courseFile, Semes
 	 * number of credits
 	 * MON,S1 */
 
-	std::getline(fi, line);
-	currCourse.setCourseName(line);
-
-	std::getline(fi, line);
-	currCourse.setTeacherName(line);
-	
-	std::getline(fi, line);
-	currCourse.setMaxStudents(std::stoi(line));
-	
-	std::getline(fi, line);
-	currCourse.setNumberOfCredits(std::stoi(line));
+	if (std::getline(fi, line))
+	{
+		std::cerr << line << std::endl;
+		currCourse.setCourseName(line);
+	}
+	if (std::getline(fi, line))
+	{
+		std::cerr << line << std::endl;
+		currCourse.setTeacherName(line);
+	}
+	if (std::getline(fi, line))
+	{
+		std::cerr << line << std::endl;
+		currCourse.setMaxStudents(std::stoi(line));
+	}
+	if (std::getline(fi, line))
+	{
+		std::cerr << line << std::endl;
+		currCourse.setNumberOfCredits(std::stoi(line));
+	}
 
 	/* MON,S1 */
-	std::getline(fi, line);
-	std::stringstream streamLine(line);
-	std::getline(streamLine, word, ',');
-	currCourse.session().day = word;
-	std::getline(streamLine, word, ',');
-	currCourse.session().type = word;
+	if (std::getline(fi, line))
+	{
+		std::stringstream streamLine(line);
+		std::getline(streamLine, word, ',');
+		std::cerr << word << std::endl;
+		currCourse.session().day = word;
+		std::getline(streamLine, word, ',');
+		std::cerr << word << std::endl;
+		currCourse.session().type = word;
+	}
 }
 
-void Course::loadOneCourseStudents(const std::filesystem::path &courseFile)
+void Course::loadOneCourseStudents(std::ifstream &fi)
 {
 	Course &currCourse = g_courses.back();
 	
-	std::ifstream fi(courseFile);
 	std::stringstream streamLine;
 	std::string line, word;
 	
