@@ -11,6 +11,8 @@ namespace Backend
 	class Class
 	{
 	public:
+		static bool loadClasses();
+		
 		Class();
 		Class(const std::string &nID);
 
@@ -21,6 +23,8 @@ namespace Backend
 		bool addStudent(Student *nStudent);
 
 	private:
+		static void loadOneClass(const std::filesystem::path &path);
+		
 		std::string id_;
 		List<Student*> students_;
 	};

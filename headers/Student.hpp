@@ -15,19 +15,22 @@ namespace Backend
 	public:
 		Student();
 		Student(const std::string &nID);
-
+		
+		static bool loadStudents();
+		
 		const std::string& getID() const;
 		const Class* getClass() const;
 		const List<Course*>& getCourses() const;
 		
 		void setID(const std::string &nID);
-		void setClass(Class *nClass);
 
 	private:
+		static void readCSV(std::stringstream &streamLine, std::string &word);
+		
 		std::string id_;
 		Class *class_;
 		List<Course*> courses_;
-		
+
 		friend class Class;
 		friend class Course;
 	};

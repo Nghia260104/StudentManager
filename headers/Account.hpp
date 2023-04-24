@@ -6,6 +6,10 @@
 
 namespace Backend
 {
+	class Admin;
+	class StaffMember;
+	class Student;
+	
 	class Account
 	{
 	public:
@@ -36,7 +40,7 @@ namespace Backend
 		
 		void setFirstName(const std::string &nFirstName);
 		void setLastName(const std::string &nLastName);
-		void setSocialID(const std::string &nSocialID);
+		virtual void setSocialID(const std::string &nSocialID);
 		
 		void setGender(const std::string &nGender); // format "dd/mm/yyyy"
 		void setGender(Gender nGender);
