@@ -23,6 +23,7 @@ public:
     void setFontSize(unsigned int fontsize);
     void setText(sf::String S);
     void setTextPos();
+    void setTextPos(float y);
     void setTextColor(sf::Color color = sf::Color::Black);
 
     // Misc

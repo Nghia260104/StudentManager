@@ -84,6 +84,11 @@ void Button::setTextPos()
     Text.setPosition(RecSize.x / 2, RecSize.y / 2);
 }
 
+void Button::setTextPos(float y)
+{
+    Text.setPosition(RecSize.x / 2, y);
+}
+
 void Button::setTextColor(sf::Color color)
 {
     Text.setFillColor(color);
