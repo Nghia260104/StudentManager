@@ -258,7 +258,40 @@ bool Course::addStudent(Student *nStudent)
 	StudentInfo nStudentInfo;
 	nStudentInfo.student = nStudent;
 	studentInfos_.push_back(nStudentInfo);
+<<<<<<< HEAD
 	nStudent->courses_.push_back(this);
+=======
+	nStudent->courseInfos_.push_back({this, &nStudentInfo});
+	return 1;
+}
+
+bool Course::removeStudent(const std::string &studentID)
+{
+	bool isRemovable = 0;
+	Student *studentToRemove = nullptr;
+	for (auto it = studentInfos_.begin(); it != studentInfos_.end(); ++it)
+	{
+		if (it->student->getID() == studentID)
+		{
+			studentToRemove = it->student;
+			studentInfos_.erase(it);
+			isRemovable = 1;
+			break;
+		}
+	}
+	
+	if (!isRemovable)
+	{
+		return 0;
+	}
+
+	studentToRemove->courseInfos_.remove_if(
+		[=](const Student::CourseInfo &courseInfo) ->bool
+		{
+			return courseInfo.course == this;
+		});
+
+>>>>>>> build_login_feature
 	return 1;
 }
 

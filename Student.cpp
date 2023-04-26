@@ -50,6 +50,15 @@ void Student::readCSV(std::stringstream &streamLine, std::string &word)
 	}
 }
 
+<<<<<<< HEAD
+=======
+Student::CourseInfo::CourseInfo(Course *nCourse, Course::StudentInfo *nStudentInfo)
+{
+	this->course = nCourse;
+	this->studentInfo = nStudentInfo;
+}
+
+>>>>>>> build_login_feature
 Student::Student()
 	: Account(Account::Type::Student), class_(nullptr)
 {
@@ -72,9 +81,9 @@ const Class* Student::getClass() const
 	return class_;
 }
 
-const List<Course*>& Student::getCourses() const
+const List<Student::CourseInfo>& Student::getCourseInfos() const
 {
-	return courses_;
+	return courseInfos_;
 }
 
 void Student::setID(const std::string &nID)
