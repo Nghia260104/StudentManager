@@ -3,6 +3,7 @@
 #include <string>
 
 #include "Account.hpp"
+#include "Course.hpp"
 #include "List.hpp"
 
 namespace Backend
@@ -13,6 +14,14 @@ namespace Backend
 	class Student : public Account
 	{
 	public:
+		struct CourseInfo
+		{
+			Course *course;
+			Course::StudentInfo *studentInfo;
+
+			CourseInfo(Course *nCourse = nullptr, Course::StudentInfo *nStudentInfo = nullptr);
+		};
+		
 		Student();
 		Student(const std::string &nID);
 		
@@ -20,7 +29,7 @@ namespace Backend
 		
 		const std::string& getID() const;
 		const Class* getClass() const;
-		const List<Course*>& getCourses() const;
+		const List<CourseInfo>& getCourseInfos() const;
 		
 		void setID(const std::string &nID);
 
@@ -29,7 +38,7 @@ namespace Backend
 		
 		std::string id_;
 		Class *class_;
-		List<Course*> courses_;
+		List<CourseInfo> courseInfos_;
 
 		friend class Class;
 		friend class Course;
