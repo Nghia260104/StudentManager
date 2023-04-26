@@ -38,11 +38,7 @@ namespace Backend
 		
 		std::string id_;
 		Class *class_;
-<<<<<<< HEAD
-		List<Course*> courses_;
-=======
 		List<CourseInfo> courseInfos_;
->>>>>>> build_login_feature
 
 		friend class Class;
 		friend class Course;

@@ -16,7 +16,9 @@ TextBox::TextBox()
     EdgeOpacity = 0;
     AllowTyping = 0;
     HasCaret = 0;
+    HasLimit = 0;
     isTyping = 0;
+    OnlyNumber = 0;
     // Texture.create(1000.0f, 500.0f);
     FKey = 0;
     Type = 0;
@@ -37,6 +39,8 @@ TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::
     EdgeOpacity = 0;
     AllowTyping = 0;
     HasCaret = 0;
+    HasLimit = 0;
+    OnlyNumber = 0;
     isTyping = 0;
     Texture.create(w, h);
     Rec.setPosition(0, 0);
@@ -59,6 +63,8 @@ void TextBox::create(float a, float b, float w, float h, unsigned int fontsize, 
     EdgeOpacity = 0;
     AllowTyping = 0;
     HasCaret = 0;
+    HasLimit = 0;
+    OnlyNumber = 0;
     isTyping = 0;
     Texture.create(w, h);
     Rec.setPosition(0, 0);
@@ -342,6 +348,17 @@ bool TextBox::mouseOn(const sf::Vector2i &MousePos)
     return false;
 }
 
+void TextBox::setLimit(unsigned int lim)
+{
+    HasLimit = 1;
+    limit = lim;
+}
+
+void TextBox::setNumber()
+{
+    OnlyNumber = 1;
+}
+
 // Draw //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextBox::draw(sf::RenderTarget &target, sf::RenderStates state) const
@@ -357,7 +374,8 @@ void TextBox::drawTexture()
     if (AllowTyping)
     {
         charlength = (Text.getFont()->getGlyph('A', Text.getCharacterSize(), false)).advance;
-        limit = (RecSize.x - posText.x - EdgeOpacity) / charlength;
+        if (!HasLimit)
+            limit = (RecSize.x - posText.x - EdgeOpacity) / charlength;
     }
     Texture.draw(Rec);
     if (EdgeOpacity)
@@ -462,6 +480,24 @@ void TextBox::updateText()
                 Pass.erase(id - 1, 1);
             Text.setString(S);
             id--;
+            return;
+        }
+        if (OnlyNumber && Type == TextEntered)
+        {
+            if ('0' <= Key && Key <= '9')
+            if (Text.getString().getSize() < limit)
+            {
+                sf::String S = Text.getString();
+                if (!password)
+                    S.insert(id, (sf::String) static_cast<char>(Key));
+                else
+                {
+                    S.insert(id, '*');
+                    Pass.insert(id, (sf::String) static_cast<char>(Key));
+                }
+                Text.setString(S);
+                id++;
+            }
             return;
         }
         if (Type == TextEntered && Key < 128 && Key != '\b' && Key != '\n' && Key != '\r')

@@ -50,15 +50,12 @@ void Student::readCSV(std::stringstream &streamLine, std::string &word)
 	}
 }
 
-<<<<<<< HEAD
-=======
 Student::CourseInfo::CourseInfo(Course *nCourse, Course::StudentInfo *nStudentInfo)
 {
 	this->course = nCourse;
 	this->studentInfo = nStudentInfo;
 }
 
->>>>>>> build_login_feature
 Student::Student()
 	: Account(Account::Type::Student), class_(nullptr)
 {

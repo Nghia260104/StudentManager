@@ -40,6 +40,8 @@ public:
     void setOpacity(unsigned int thick = 4);
     sf::RectangleShape *Opacity();
     bool mouseOn(const sf::Vector2i &MousePos);
+    void setLimit(unsigned int lim);
+    void setNumber();
 
     // Draw
 
@@ -56,7 +58,7 @@ private:
     sf::RenderTexture Texture;
     sf::Color color1, color2, fill;
     sf::String Pass;
-    bool isTyping, HasCaret, AllowTyping, password;
+    bool isTyping, HasCaret, AllowTyping, HasLimit, password, OnlyNumber;
     unsigned int EdgeOpacity;
     int FKey, Key, limit;
     const int Backspace = sf::Keyboard::Backspace,

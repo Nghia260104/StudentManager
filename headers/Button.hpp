@@ -13,6 +13,7 @@ public:
     // Box
 
     void setPosition(float a = 0, float b = 0);
+    void setGlobalPosition(float a = 0, float b = 0);
     void setSize(float w = 50, float h = 50);
     void setFillColor(sf::Color color = sf::Color::White, float ratio = 0);
     void setOutline(sf::Color color = sf::Color::Black, float thick = 1.0f);
@@ -40,7 +41,7 @@ protected:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
-    float x, y;
+    float x, y, g_x, g_y;
     sf::Vector2f RecSize;
     sf::Text Text;
     sf::RectangleShape Rec;

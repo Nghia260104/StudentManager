@@ -1,6 +1,9 @@
 // #include <SFML/Graphics.hpp>
 #include <StudentManager.hpp>
-#include <iostream>
+#include <FrontendGlobal.hpp>
+#include <Password.hpp>
+#include <CoursesTable.hpp>
+#include <StudentWindow.hpp>
 
 class Circle : public sf::Drawable
 {
@@ -23,15 +26,13 @@ private:
     sf::CircleShape circle_;
     sf::Text text;
 };
-sf::RenderWindow window;
-int Click = 0;
-sf::Clock Clock;
-sf::Font RegularFont, BoldFont, MediumFont, LightFont, HeavyFont;
-sf::Color Background;
-sf::Cursor cursor;
-LogIn LogInWindow;
 
 // Windows
+PasswordWindow TestWindow;
+CoursesTable Test12;
+StudentWindow Test20;
+Page pages;
+extern List<Backend::Course *> list;
 
 int main()
 {
@@ -41,28 +42,49 @@ int main()
                   sf::Style::Default ^ sf::Style::Resize);
     window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(60);
-    Background = sf::Color::White;
+    LeftWindowWidth = (window.getSize().x * 4) / 5;
+    RightWindowWidth = window.getSize().x - LeftWindowWidth;
+    BackgroundColor = sf::Color::White;
 
     // Load Fonts
     LoadFonts(RegularFont, BoldFont, MediumFont, LightFont, HeavyFont);
 
     // Test
 
-    TextBox Test(50, 50, 800, 50, 30, sf::Vector2f(8, 25));
-    Test.setCaret();
-    Test.setOutlineColor(sf::Color::Black, sf::Color::Cyan);
-    Test.setFillColor(sf::Color::Magenta, 8);
-    Test.setFont(RegularFont);
-    Test.setFontSize(20);
-    // Test.setTextColor(sf::Color::Black);
-    Test.setOpacity();
-    Test.setTyping();
-    Test.setText("The quick brown fox jumps over the lazy dog");
-    // Test.setPassword();
-    // Test.setTextColor(sf::Color::White);
+    // for (int i = 0; i < 25; i++)
+    // {
+    //     Backend::Course *Tmp = new Backend::Course;
+    //     list.push_back(Tmp);
+    // }
 
     // LogIn LogInWindow;
     LogInWindow.create();
+
+    // Student Window
+    StudentScreen.create();
+
+    // Admin Window
+    AdminScreen.create();
+
+    // Password Window
+    TestWindow.create();
+
+    List<Backend::Course *> Tmp;
+    Backend::Course *Tmp1;
+    Tmp1 = new Backend::Course;
+    Tmp1->setID("22125066");
+    Tmp1->setMaxStudents(40);
+    Tmp.push_back(Tmp1);
+    // Test12.setFont(RegularFont);
+    Test12.create(RegularFont);
+    Test12.drawTexture(Tmp, 1);
+    Test12.setPosition(100, 100);
+
+    pages.create();
+    pages.setPosition(Test12.getPosition().x + 577, Test12.getPosition().y + Test12.getHeight() + 20);
+    pages.drawTexture();
+
+    // Test20.create();
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -81,25 +103,40 @@ int main()
             default:
                 break;
             }
-            // Test.processEvent(event);
-            LogInWindow.processEvent(event);
+            if (!LogInWindow.isHidden())
+                LogInWindow.processEvent(event);
+            if (!StudentScreen.isHidden())
+                StudentScreen.processEvent(event);
+            if (!AdminScreen.isHidden())
+                AdminScreen.processEvent(event);
+            // TestWindow.processEvent(event);
+            // Test20.processEvent(event);
         }
         // Circle circle;
 
         // window.clear(sf::Color::Black);
         // window.draw(circle);
-        if (LogInWindow.mouseOn(MousePos))
-        {
-            cursor.loadFromSystem(sf::Cursor::Text);
-            window.setMouseCursor(cursor);
-        }
-        else
-        {
-            cursor.loadFromSystem(sf::Cursor::Arrow);
-            window.setMouseCursor(cursor);
-        }
-        window.clear(Background);
-        window.draw(LogInWindow);
+        // if (TestWindow.mouseOn(MousePos))
+        // {
+        //     cursor.loadFromSystem(sf::Cursor::Text);
+        //     window.setMouseCursor(cursor);
+        // }
+        // else
+        // {
+        //     cursor.loadFromSystem(sf::Cursor::Arrow);
+        //     window.setMouseCursor(cursor);
+        // }
+        window.clear(BackgroundColor);
+        // window.clear(sf::Color::Yellow);
+        if (!LogInWindow.isHidden())
+            window.draw(LogInWindow);
+        if (!StudentScreen.isHidden())
+            window.draw(StudentScreen);
+        if (!AdminScreen.isHidden())
+            window.draw(AdminScreen);
+        // window.draw(TestWindow);
+        // window.draw(Test12);
+        // window.draw(pages);
         window.display();
     }
 }

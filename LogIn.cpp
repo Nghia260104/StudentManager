@@ -85,7 +85,7 @@ void LogIn::create()
     Confirm.create(Bound.getPosition().x - 50, Bound.getPosition().y + 115, 100, 50, BoldFont, 24, "Log In");
     Confirm.setFillColor(sf::Color(25, 89, 34, 255));
     Confirm.setTextColor(sf::Color::White);
-    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
+    Confirm.setCoverColor(sf::Color(50, 120, 60, 255));
 
     // First Draw
 
@@ -110,13 +110,18 @@ void LogIn::processEvent(sf::Event event)
     if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
     {
         const std::string user = Username.getText(), pass = Password.getText();
-        if (!Backend::activeUser->signIn(user, pass)) fail = 1;
+        // if (!Backend::activeUser->signIn(user, pass)) fail = 1;
+        if (user != (sf::String)"Admin" || pass != (sf::String)"123") fail = 1;
         else
         {
             fail = 0;
             Username.erase();
             Password.erase();
-            hidden = 1;
+            Username.drawTexture();
+            Password.drawTexture();
+            hide();
+            AdminScreen.Show();
+            // StudentScreen.Show();
         }
         drawTexture();
     }

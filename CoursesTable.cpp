@@ -48,7 +48,7 @@ void CoursesTable::create(sf::Font &font)
         Cell[i].setFontSize(15);
         Cell[i].createTexture(width[i], height);
         Cell[i].setSize(width[i], height);
-        Cell[i].setPosition(pos[i], 75);
+        Cell[i].setPosition(pos[i], Offset);
         Cell[i].setTextPos();
         Cell[i].setTextColor(sf::Color::Black);
     }
@@ -64,12 +64,12 @@ void CoursesTable::create(sf::Font &font)
     // Background
 
     Background.setSize(sf::Vector2f(pos[6] + width[6], height * MAX_ROW));
-    Background.setPosition(0, height + 75);
+    Background.setPosition(0, height + Offset);
     Background.setFillColor(BackgroundColor);
 
     // Texture
 
-    Texture.create(pos[6] + width[6], 75 + (MAX_ROW + 1) * height);
+    Texture.create(pos[6] + width[6], Offset + (MAX_ROW + 1) * height);
     Texture.draw(Title);
     for (int i = 0; i < numCell; i++)
     {
@@ -107,7 +107,7 @@ void CoursesTable::drawTexture(const List<Backend::Course *> &list, int page)
         Cell[6].setText("");
         for (int j = 0; j < numCell; j++)
         {
-            Cell[j].setPosition(pos[j], (i + 1) * height);
+            Cell[j].setPosition(pos[j], Offset + (i + 1) * height);
             Cell[j].drawTexture();
             Texture.draw(Cell[j]);
         }
@@ -127,7 +127,7 @@ void CoursesTable::draw(sf::RenderTarget &target, sf::RenderStates state) const
 
 int CoursesTable::getHeight() const
 {
-    return height * (MAX_ROW + 1);
+    return Offset + height * (MAX_ROW + 1);
 }
 
 sf::Vector2f CoursesTable::getPosition() const

@@ -258,9 +258,6 @@ bool Course::addStudent(Student *nStudent)
 	StudentInfo nStudentInfo;
 	nStudentInfo.student = nStudent;
 	studentInfos_.push_back(nStudentInfo);
-<<<<<<< HEAD
-	nStudent->courses_.push_back(this);
-=======
 	nStudent->courseInfos_.push_back({this, &nStudentInfo});
 	return 1;
 }
@@ -291,15 +288,14 @@ bool Course::removeStudent(const std::string &studentID)
 			return courseInfo.course == this;
 		});
 
->>>>>>> build_login_feature
 	return 1;
 }
 
-bool Course::removeStudent(const std::string &studentID)
-{
-	return studentInfos_.remove_if(
-		[&](const StudentInfo &studentInfo) -> bool
-		{
-			return studentInfo.student->getID() == studentID;
-		});
-}
+// bool Course::removeStudent(const std::string &studentID)
+// {
+// 	return studentInfos_.remove_if(
+// 		[&](const StudentInfo &studentInfo) -> bool
+// 		{
+// 			return studentInfo.student->getID() == studentID;
+// 		});
+// }

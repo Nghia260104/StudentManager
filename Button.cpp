@@ -35,6 +35,14 @@ void Button::setPosition(float a, float b)
 {
     x = a;
     y = b;
+    g_x = a;
+    g_y = b;
+}
+
+void Button::setGlobalPosition(float a, float b)
+{
+    g_x = x + a;
+    g_y = y + b;
 }
 
 void Button::setSize(float w, float h)
@@ -158,8 +166,8 @@ sf::Vector2i Button::getMousePosition() const
 
 bool Button::mouseOn(const sf::Vector2i &MousePos) const
 {
-    if (x <= MousePos.x && MousePos.x <= x + RecSize.x &&
-        y <= MousePos.y && MousePos.y <= y + RecSize.y)
+    if (g_x <= MousePos.x && MousePos.x <= g_x + RecSize.x &&
+        g_y <= MousePos.y && MousePos.y <= g_y + RecSize.y)
         return true;
     return false;
 }
