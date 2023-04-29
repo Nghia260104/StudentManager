@@ -44,7 +44,9 @@ namespace Backend
 		void setMaxStudents(int nMaxStudents);
 		void setNumberOfCredits(int nNumberOfCredits);
 
-		/* struct accessors */
+		/* direct accessors */
+		Semester* semester();
+		const Semester* semester() const;
 		List<StudentInfo>& studentInfos();
 		const List<StudentInfo>& studentInfos() const;
 		Session& session();
@@ -52,7 +54,7 @@ namespace Backend
 
 		/* student list modifiers */
 		bool addStudent(Student *nStudent);
-		bool removeStudent(const std::string &studentID);
+		void removeStudent(Student *student);
 
 	private:
 		static void loadOneCourse(const std::filesystem::path &courseFile, Semester *semester);
@@ -65,7 +67,6 @@ namespace Backend
 		int maxStudents_, numberOfCredits_;
 		Semester *semester_;
 		List<StudentInfo> studentInfos_;
-		/* std::filesystem::path path_; */
 		Session session_;
 
 		friend class Semester;

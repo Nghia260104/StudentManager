@@ -42,15 +42,15 @@ int SchoolYear::getStartYear() const
 	return startYear_;
 }
 
-const List<Semester*>& SchoolYear::getSemesters() const
+List<Semester*>& SchoolYear::semesters()
 {
 	return semesters_;
 }
 
-/* const std::string& SchoolYear::getPath() const
- * {
- * 	return path_;
- * } */
+const List<Semester*>& SchoolYear::semesters() const
+{
+	return semesters_;
+}
 
 void SchoolYear::setStartYear(int nStartYear)
 {
@@ -59,7 +59,7 @@ void SchoolYear::setStartYear(int nStartYear)
 
 bool SchoolYear::addSemester(Semester *nSemester)
 {
-	if (semesters_.find(nSemester))
+	if (semesters_.find(nSemester) != semesters_.end())
 	{
 		return 0;
 	}
@@ -67,4 +67,9 @@ bool SchoolYear::addSemester(Semester *nSemester)
 	semesters_.push_back(nSemester);
 	nSemester->schoolYear_ = this;
 	return 1;
+}
+
+void SchoolYear::removeSemester(Semester *nSemester)
+{
+	semesters_.remove(nSemester);
 }

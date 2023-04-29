@@ -7,7 +7,8 @@ using namespace Backend;
 
 bool Student::loadStudents()
 {
-	std::ifstream fi(ACCOUNTS_PATH + "/students.csv");
+	std::ifstream fi;
+	fi.open(ACCOUNTS_PATH + "/students.csv");
 
 	if (!fi.is_open())
 	{
@@ -73,12 +74,22 @@ const std::string& Student::getID() const
 	return id_;
 }
 
+Class* Student::getClass()
+{
+	return class_;
+}
+
 const Class* Student::getClass() const
 {
 	return class_;
 }
 
-const List<Student::CourseInfo>& Student::getCourseInfos() const
+List<Student::CourseInfo>& Student::courseInfos()
+{
+	return courseInfos_;
+}
+
+const List<Student::CourseInfo>& Student::courseInfos() const
 {
 	return courseInfos_;
 }

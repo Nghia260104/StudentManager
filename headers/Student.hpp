@@ -28,8 +28,10 @@ namespace Backend
 		static bool loadStudents();
 		
 		const std::string& getID() const;
+		Class* getClass();
 		const Class* getClass() const;
-		const List<CourseInfo>& getCourseInfos() const;
+		List<CourseInfo>& courseInfos();
+		const List<CourseInfo>& courseInfos() const;
 		
 		void setID(const std::string &nID);
 

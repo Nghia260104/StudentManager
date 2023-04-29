@@ -172,6 +172,16 @@ const std::string& Course::getID() const
 	return id_;
 }
 
+Semester* Course::semester()
+{
+	return semester_;
+}
+
+const Semester* Course::semester() const
+{
+	return semester_;
+}
+	
 const std::string& Course::getCourseName() const
 {
 	return courseName_;
@@ -250,7 +260,7 @@ bool Course::addStudent(Student *nStudent)
 			[=](const StudentInfo &studentInfo) -> bool
 			{
 				return nStudent == studentInfo.student;
-			}))
+			}) != studentInfos_.end())
 	{
 		return 0;
 	}
@@ -258,35 +268,20 @@ bool Course::addStudent(Student *nStudent)
 	StudentInfo nStudentInfo;
 	nStudentInfo.student = nStudent;
 	studentInfos_.push_back(nStudentInfo);
-	nStudent->courseInfos_.push_back({this, &nStudentInfo});
+	nStudent->courseInfos().push_back({this, &nStudentInfo});
 	return 1;
 }
 
-bool Course::removeStudent(const std::string &studentID)
+void Course::removeStudent(Student *student)
 {
-	bool isRemovable = 0;
-	Student *studentToRemove = nullptr;
-	for (auto it = studentInfos_.begin(); it != studentInfos_.end(); ++it)
-	{
-		if (it->student->getID() == studentID)
-		{
-			studentToRemove = it->student;
-			studentInfos_.erase(it);
-			isRemovable = 1;
-			break;
-		}
-	}
-	
-	if (!isRemovable)
-	{
-		return 0;
-	}
-
-	studentToRemove->courseInfos_.remove_if(
-		[=](const Student::CourseInfo &courseInfo) ->bool
+	student->courseInfos().remove_if(
+		[&](const Student::CourseInfo &courseInfo) -> bool
 		{
 			return courseInfo.course == this;
 		});
-
-	return 1;
+	studentInfos().remove_if(
+		[&](const StudentInfo &studentInfo) -> bool
+		{
+			return studentInfo.student == student;
+		});
 }

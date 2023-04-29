@@ -16,6 +16,11 @@ bool Account::signIn(const std::string &username, const std::string &password)
 	return 0;
 }
 
+void Account::logOut()
+{
+	activeUser = nullptr;
+}
+
 Account::Account(Account::Type nType)
 	: type_(nType)
 {}

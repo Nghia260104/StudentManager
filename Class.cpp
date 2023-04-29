@@ -68,7 +68,7 @@ void Class::setID(const std::string &nID)
 
 bool Class::addStudent(Student *nStudent)
 {
-	if (students_.find(nStudent))
+	if (students_.find(nStudent) == students_.end())
 	{
 		return 0;
 	}

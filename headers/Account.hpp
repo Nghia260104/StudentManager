@@ -24,9 +24,10 @@ namespace Backend
 		};
 
 		static bool signIn(const std::string &username, const std::string &password);
-		
+		static void logOut();
+
 		Account(Type nType = Type::Admin);
-		
+
 		Type getType() const;
 		const std::string& getFirstName() const;
 		const std::string& getLastName() const;
