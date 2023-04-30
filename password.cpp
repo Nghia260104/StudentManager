@@ -1,164 +1,216 @@
-#include "password.h"
+#include <Password.hpp>
+#include <BackendGlobal.hpp>
+#include <FrontendGlobal.hpp>
 
-const int max_value = 20;
+// Constructor ////////////////////////////////////////////////////////////////////////////////////////////////
 
-struct passInfo
+PasswordWindow::PasswordWindow()
 {
-    passInfo *next;
-    string login;
-    string password;
-    char type;
-    string ID;
-};
-
-bool LoginCheck(string login, string password, char &type, string &ID, passInfo *readfile)
-{
-    while(readfile != nullptr)
-    {
-        if (password == readfile->password && login == readfile->login)
-            return true;
-        readfile = readfile->next;
-    }
-    return false;
 }
 
-void ReadPassword(passInfo *&readfile)
+void PasswordWindow::create()
 {
-    ifstream fi;
-    fi.open("password.txt");
-    if(fi.is_open() == false)
-    {
-        cout << "Error cannot open file.";
-        return;
-    }
-    passInfo *dummyNode;
-    passInfo *temp;
-    dummyNode->next = readfile;
-    passInfo *cur = dummyNode;
-    while (!fi.eof())
-    {
-        temp = new passInfo;
-        temp->next = nullptr;
-        fi >> temp->login >> temp->password >> temp->type >> temp->ID;
-        cur->next = temp;
-        cur = cur->next;
-    }
-    temp = dummyNode;
-    dummyNode = dummyNode->next;
-    delete dummyNode;
-    fi.close();
-    readfile = dummyNode;
+    // Background
+
+    Texture.create(LeftWindowWidth, window.getSize().y);
+    Texture.setSmooth(true);
+    Background.setSize(sf::Vector2f(Texture.getSize()));
+    Background.setFillColor(BackgroundColor);
+
+    // Title
+
+    Title.setString("Change Password");
+    Title.setFillColor(sf::Color::Black);
+    Title.setFont(LightFont);
+    Title.setCharacterSize(40);
+    Title.setStyle(sf::Text::Bold);
+    Title.setPosition(100, 100);
+
+    // Current Password
+
+    Subtitle1.setString("Current Password:");
+    Subtitle1.setFillColor(sf::Color::Black);
+    Subtitle1.setFont(RegularFont);
+    Subtitle1.setCharacterSize(20);
+    Subtitle1.setPosition(200, 200);
+
+    Current.create(0, 0, 700, 50, 18, sf::Vector2f(8, 25));
+    Current.setCaret();
+    Current.setTyping();
+    Current.setOpacity();
+    Current.setFont(RegularFont);
+    Current.setFillColor(BackgroundColor);
+    Current.setTextColor();
+    Current.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    Current.setPosition(200, 235);
+
+    // New Password
+
+    Subtitle2.setString("New Password:");
+    Subtitle2.setFillColor(sf::Color::Black);
+    Subtitle2.setFont(RegularFont);
+    Subtitle2.setCharacterSize(20);
+    Subtitle2.setPosition(200, 305);
+
+    NewPassword.create(0, 0, 700, 50, 18, sf::Vector2f(8, 25));
+    NewPassword.setCaret();
+    NewPassword.setTyping();
+    NewPassword.setOpacity();
+    NewPassword.setFont(RegularFont);
+    NewPassword.setFillColor(BackgroundColor);
+    NewPassword.setTextColor();
+    NewPassword.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    NewPassword.setPosition(200, 340);
+
+    // Confirm Password
+
+    Subtitle3.setString("Confirm Password:");
+    Subtitle3.setFillColor(sf::Color::Black);
+    Subtitle3.setFont(RegularFont);
+    Subtitle3.setCharacterSize(20);
+    Subtitle3.setPosition(200, 410);
+
+    confirmPassword.create(0, 0, 700, 50, 18, sf::Vector2f(8, 25));
+    confirmPassword.setCaret();
+    confirmPassword.setTyping();
+    confirmPassword.setOpacity();
+    confirmPassword.setFont(RegularFont);
+    confirmPassword.setFillColor(BackgroundColor);
+    confirmPassword.setTextColor();
+    confirmPassword.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    confirmPassword.setPosition(200, 445);
+
+    // Fail type 1: wrong Password
+
+    Fail1.setFont(RegularFont);
+    Fail1.setCharacterSize(20);
+    Fail1.setFillColor(sf::Color(168, 30, 20, 255));
+    Fail1.setString("Failed: Wrong Password!");
+    Fail1.setPosition(250, 500);
+
+    // Fail type 2: New Password and Confirm Password are not the same
+
+    Fail2.setFont(RegularFont);
+    Fail2.setCharacterSize(20);
+    Fail2.setFillColor(sf::Color(168, 30, 20, 255));
+    Fail2.setString("Failed: Confirm Password do not match!");
+    Fail2.setPosition(250, 500);
+
+    // Success
+
+    Success.setFont(RegularFont);
+    Success.setCharacterSize(20);
+    Success.setFillColor(sf::Color(144, 212, 58, 255));
+    Success.setString("Change password successfully!");
+    Success.setPosition(250, 500);
+
+    // Confirm Button
+
+    Confirm.create(480, 540, 150, 50, BoldFont, 24, "Confirm");
+    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
+    Confirm.setTextColor(sf::Color::White);
+    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
+
+    // First Draw
+
+    FirstDraw();
+
+    // Set up
+
+    fail = Clear;
 }
 
-void clear(passInfo *&readfile)
+// Draw ///////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+void PasswordWindow::drawTexture()
 {
-    passInfo *temp;
-    while (readfile != nullptr)
+    Texture.draw(Background);
+    Texture.draw(Title);
+    Texture.draw(Subtitle1);
+    Texture.draw(Current);
+    Texture.draw(Subtitle2);
+    Texture.draw(NewPassword);
+    Texture.draw(Subtitle3);
+    Texture.draw(confirmPassword);
+    // Texture.draw(Confirm);
+    if (fail == 0)
+        Texture.draw(Success);
+    if (fail == 1)
+        Texture.draw(Fail1);
+    if (fail == 2)
+        Texture.draw(Fail2);
+    Texture.display();
+}
+
+void PasswordWindow::FirstDraw()
+{
+    Texture.draw(Background);
+    Texture.draw(Title);
+    Texture.draw(Subtitle1);
+    Current.drawTexture();
+    Texture.draw(Current);
+    Texture.draw(Subtitle2);
+    NewPassword.drawTexture();
+    Texture.draw(NewPassword);
+    Texture.draw(Subtitle3);
+    confirmPassword.drawTexture();
+    Texture.draw(confirmPassword);
+    Confirm.drawTexture();
+    Texture.draw(Confirm);
+    Texture.display();
+}
+
+void PasswordWindow::draw(sf::RenderTarget &target, sf::RenderStates state) const
+{
+    sf::Sprite sprite(Texture.getTexture());
+    target.draw(sprite);
+}
+
+// Misc ///////////////////////////////////////////////////////////////////////////////////////////////
+
+void PasswordWindow::processEvent(sf::Event event)
+{
+    if (Current.checkEvent(event))
+        Texture.draw(Current);
+    if (NewPassword.checkEvent(event))
+        Texture.draw(NewPassword);
+    if (confirmPassword.checkEvent(event))
+        Texture.draw(confirmPassword);
+    Texture.draw(Confirm);
+    if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
     {
-        temp = readfile;
-        readfile = readfile->next;
-        delete temp;
+        fail = 0;
+        // if (!Backend::activeUser->changePassword(Current.getText(), NewPassword.getText(), confirmPassword.getText()))
+        //     fail = 1;
+        if (NewPassword.getText() != confirmPassword.getText())
+            fail = 2;
+        drawTexture();
+    }
+    Texture.display();
+}
+
+bool PasswordWindow::mouseOn(const sf::Vector2i &MousePos)
+{
+    return (Current.mouseOn(MousePos) ||
+            NewPassword.mouseOn(MousePos) ||
+            confirmPassword.mouseOn(MousePos));
+}
+
+void PasswordWindow::setMouseCursor(const sf::Vector2i &MousePos)
+{
+    sf::Cursor cursor;
+    if (mouseOn(MousePos))
+    {
+        cursor.loadFromSystem(sf::Cursor::Text);
+        window.setMouseCursor(cursor);
     }
 }
 
-
-void login(char &type, string &ID)
+void PasswordWindow::clearLine()
 {
-    string login, password;
-    cout << "Enter your account name: ";
-    cin >> login;
-    cout << "Enter your password: ";
-    password = pass();
-    passInfo *readfile = nullptr;
-    ReadPassword(readfile);
-    if(LoginCheck(login, password, type, ID, readfile) == true)
-        cout << "Login successful! " << type << " " << ID << endl;
-    clear(readfile);
-}
-
-bool doTheEdit(string login, string password, string ID, passInfo *head)
-{
-    passInfo *readfile = head;
-    while (readfile != nullptr)
-    {
-        if(readfile->login == login)
-        {
-            cout << "Username already exists. Please try again:\n";
-                return true;
-        }
-        readfile = readfile->next;
-    }
-    readfile = head;
-    while (readfile != nullptr)
-    {
-        if(readfile->ID == ID)
-        {
-            readfile->login = login;
-            readfile->password = password;
-            cout << "Change username and password successfully.\n";
-            return false;
-        }
-        readfile = readfile->next;
-    }
-    cout << "Change username and password fail. Please try again;\n";
-    return true;
-}
-
-void edit(string ID)
-{
-    char type;
-    int i;
-    string temp_ID;
-    string new_login, new_password;
-    passInfo *readfile;
-    ReadPassword(readfile);
-    do
-    {
-        cout << "Do you want to change your username and password:\n";
-        cout << "1. Yes. 0. No.:\n";
-        cin >> i;
-        if (i == 0)
-            break;
-        cout << "Enter your new account name: ";
-        cin >> new_login;
-        cout << "Enter your new password: ";
-        new_password = pass();
-    }
-    while (doTheEdit(new_login, new_password, ID, readfile));
-    clear(readfile);
-}
-
-string pass()
-{
-    char *password = new char[max_value];
-    int i = 0;
-    while((password[i]=getch() ) != '\n' && password[i] != '\r' && i < (max_value - 1))
-    {
-        if (password[i] != '\b')
-        {
-            putchar('*');
-            i++;
-        }
-        else
-            if( i != 0)
-            {
-                putchar('\b');
-                putchar(' ');
-                putchar('\b');
-                i--;
-            }
-    }
-    if (i < (max_value - 1))
-    {
-        password[i] = '\0';
-        cout << '\n';
-        string s = password;
-        delete password;
-        return s;
-    }
-    else
-    {
-        cout << "\nPassword exceeded the maximun number of characters allow.\n Please try again: ";
-        return pass();
-    }
+    fail = Clear;
+    Current.erase();
+    NewPassword.erase();
+    confirmPassword.erase();
+    drawTexture();
 }
