@@ -212,7 +212,7 @@ void List<T>::reverse()
 }
 
 template <class T>
-bool List<T>::find(const T &value) const
+typename List<T>::iterator List<T>::find(const T &value) const
 {
 	return find_if(
 		[&](const T &element) -> bool
@@ -223,16 +223,16 @@ bool List<T>::find(const T &value) const
 
 template <class T>
 template <class UnaryPredicate>
-bool List<T>::find_if(UnaryPredicate predicate) const
+typename List<T>::iterator List<T>::find_if(UnaryPredicate predicate) const
 {
 	for (auto it = begin(); it != end(); ++it)
 	{
 		if (!predicate(*it))
 		{
-			return 1;
+			return it;
 		}
 	}
-	return 0;
+	return end();
 }
 
 template <class T>

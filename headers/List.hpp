@@ -66,9 +66,9 @@ public:
 	void merge(const List<T>&, Compare);
 	void reverse();
 
-	bool find(const T &value) const;
+	iterator find(const T &value) const;
 	template <class UnaryPredicate>
-	bool find_if(UnaryPredicate predicate) const;
+	iterator find_if(UnaryPredicate predicate) const;
 	
 	int remove(const T &value); // Removes all elements equal to value. Returns the number of elements removed.
 	template <class UnaryPredicate>

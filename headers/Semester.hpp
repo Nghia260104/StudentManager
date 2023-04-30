@@ -18,13 +18,16 @@ namespace Backend
 		static bool loadSemesters(const std::filesystem::path &path, SchoolYear *schoolYear);
 		
 		int getID() const;
-		const SchoolYear* getSchoolYear() const;
-		const List<Course*>& getCourses() const;
+		SchoolYear* schoolYear();
+		const SchoolYear* schoolYear() const;
+		List<Course*>& courses();
+		const List<Course*>& courses() const;
 		/* const std::string& getPath() const; */
 
 		void setID(int nID);
 		void setSchoolYear(SchoolYear *nSchoolYear);
 		bool addCourse(Course *nCourse);
+		void removeCourse(Course *course);
 		
 	private:
 		int id_;

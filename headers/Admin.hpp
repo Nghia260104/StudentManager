@@ -12,5 +12,6 @@ namespace Backend
 		Admin();
 
 		bool createStaffMember(const std::string &socialID) const;
+		void deleteStaffMember(const std::string &socialID) const;
 	};
 }

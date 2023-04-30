@@ -1,7 +1,70 @@
+#include <fstream>
+#include <sstream>
+
 #include "Account.hpp"
 #include "BackendGlobal.hpp"
 
 using namespace Backend;
+
+bool Account::loadAccounts()
+{
+	std::ifstream fi;
+	fi.open(ACCOUNTS_PATH);
+
+	if (!fi.is_open())
+	{
+		return 0;
+	}
+
+	std::string line;
+	std::stringstream streamLine;
+	while (std::getline(fi, line))
+	{
+		streamLine.str(line);
+		
+		std::string type, username, password;
+		std::getline(streamLine, type, ',');
+		std::getline(streamLine, username, ',');
+		std::getline(streamLine, password, ',');
+
+		switch (stringToType(type))
+		{
+		case Type::Admin:
+			g_admin.setUsername(username);
+			g_accounts.push_back(&g_admin);
+			break;
+		case Type::StaffMember:
+			g_staffMembers.push_back(StaffMember(username));
+			g_accounts.push_back(&g_staffMembers.back());
+			break;
+		default:
+			g_students.push_back(Student(username));
+			g_accounts.push_back(&g_students.back());
+		}
+
+		g_accounts.back()->setPassword(password);
+	}
+	return 1;
+}
+
+Account::Type Account::stringToType(const std::string &type)
+{
+	std::string typeUpcase;
+	for (auto c: type)
+	{
+		typeUpcase += std::toupper(c);
+	}
+	
+	if (typeUpcase == "ADMIN")
+	{
+		return Type::Admin;
+	}
+	if (typeUpcase == "STAFF MEMBER")
+	{
+		return Type::StaffMember;
+	}
+	return Type::Student;
+}
 
 bool Account::signIn(const std::string &username, const std::string &password)
 {
@@ -14,6 +77,11 @@ bool Account::signIn(const std::string &username, const std::string &password)
 		}
 	}
 	return 0;
+}
+
+void Account::logOut()
+{
+	activeUser = nullptr;
 }
 
 Account::Account(Account::Type nType)
@@ -53,19 +121,6 @@ Account::Gender Account::getGender() const
 const Date& Account::getDateOfBirth() const
 {
 	return dateOfBirth_;
-}
-
-void Account::setType(const std::string &nType)
-{
-	std::string nTypeUpcase;
-	for (auto c: nType)
-	{
-		nTypeUpcase += std::toupper(c);
-	}
-
-    type_ = (nTypeUpcase == "STUDENT" ? Account::Type::Student :
-			 (nTypeUpcase == "STAFFMEMBER" ? Account::Type::StaffMember :
-			  Account::Type::Admin));
 }
 
 void Account::setType(Account::Type nType)
@@ -128,4 +183,24 @@ bool Account::changePassword(const std::string &oldPassword,
 
 	password_ = newPassword;
 	return 1;
+}
+
+const std::string& Account::getUsername() const
+{
+	return username_;
+}
+
+void Account::setUsername(const std::string &nUsername)
+{
+	username_ = nUsername;
+}
+
+const std::string& Account::getPassword() const
+{
+	return password_;
+}
+
+void Account::setPassword(const std::string &nPassword)
+{
+	password_ = nPassword;
 }

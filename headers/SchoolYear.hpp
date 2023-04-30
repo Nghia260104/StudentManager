@@ -18,11 +18,12 @@ namespace Backend
 		SchoolYear(int nStartYear);
 
 		int getStartYear() const;
-		const List<Semester*>& getSemesters() const;
-		/* const std::string& getPath() const; */
 
+		List<Semester*>& semesters();
+		const List<Semester*>& semesters() const;
 		void setStartYear(int nStartYear);
 		bool addSemester(Semester *nSemester);
+		void removeSemester(Semester *semester);
 
 	private:
 		int startYear_;

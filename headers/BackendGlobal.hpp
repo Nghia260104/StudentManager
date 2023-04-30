@@ -33,6 +33,5 @@ namespace Backend
 	extern List<Account*> g_accounts;
 
 	bool loadData();
-	bool loadAccounts();
 	std::string toString(const std::wstring&);
 }

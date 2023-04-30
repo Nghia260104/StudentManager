@@ -11,7 +11,8 @@ using namespace Backend;
 
 bool StaffMember::loadStaffMembers()
 {
-	std::ifstream fi(ACCOUNTS_PATH + "/staff members.csv");
+	std::ifstream fi;
+	fi.open(ACCOUNTS_PATH + "/staff members.csv");
 
 	if (!fi.is_open())
 	{
@@ -73,11 +74,118 @@ bool StaffMember::createStudent(const std::string &studentID) const
 			[&studentID](const Student &student) -> bool
 			{
 				return student.getID() == studentID;
-			}))
+			})
+		!= g_students.end())
 	{
 		return 0;
 	}
 	
 	g_students.push_back(Student(studentID));
+	g_accounts.push_back(&g_students.back());
 	return 1;
+}
+
+void StaffMember::deleteStudent(const std::string &studentID) const
+{
+	g_accounts.remove_if(
+		[&](const Account *student) -> bool
+		{
+			return reinterpret_cast<const Student*>(student)->getID() == studentID;
+		});
+
+	g_students.remove_if(
+		[&](const Student &student) -> bool
+		{
+			return student.getID() == studentID;
+		});
+}
+
+bool StaffMember::createSchoolYear(int startYear) const
+{
+	if (g_schoolYears.find_if(
+			[=](const SchoolYear &schoolYear) -> bool
+			{
+				return schoolYear.getStartYear() == startYear;
+			})
+		!= g_schoolYears.end())
+	{
+		return 0;
+	}
+
+	g_schoolYears.push_back(SchoolYear(startYear));
+	return 1;
+}
+
+void StaffMember::deleteSchoolYear(int startYear) const
+{
+	for (int i = 1; i <= 3; ++i)
+	{
+		deleteSemester(i, startYear);
+	}
+	
+	g_schoolYears.remove_if(
+		[&](const SchoolYear &schoolYear) -> bool
+		{
+			return schoolYear.getStartYear() == startYear;
+		});
+}
+
+bool StaffMember::createSemester(int id, int schoolStartYear) const
+{
+	auto currSchoolYear = g_schoolYears.find_if(
+		[&](const SchoolYear &schoolYear) -> bool
+		{
+			return schoolYear.getStartYear() == schoolStartYear;
+		});
+
+	if (currSchoolYear == g_schoolYears.end())
+	{
+		return 0;
+	}
+	
+	g_semesters.push_back(Semester(id, &*currSchoolYear));
+	currSchoolYear->addSemester(&g_semesters.back());
+	return 1;
+}
+
+void StaffMember::deleteSemester(int id, int schoolStartYear) const
+{
+    auto currSemester = g_semesters.find_if(
+		[&](const Semester &semester) -> bool
+		{
+			return semester.schoolYear()->getStartYear() == schoolStartYear
+				&& semester.getID() == id;
+		});
+
+    currSemester->schoolYear()->removeSemester(&*currSemester);
+	g_courses.remove_if(
+		[&](const Course &course) -> bool
+		{
+			return course.semester() == &*currSemester;
+		});
+	g_semesters.erase(currSemester);
+}
+
+void StaffMember::deleteCourse(const std::string &id) const
+{
+	auto currCourse = g_courses.find_if(
+		[&](const Course &course) -> bool
+		{
+			return course.getID() == id;
+		});
+
+	currCourse->semester()->removeCourse(&*currCourse);
+	
+	for (auto iStudent = currCourse->studentInfos().begin();
+		 iStudent != currCourse->studentInfos().end();
+		 ++iStudent)
+	{
+		iStudent->student->courseInfos().remove_if(
+			[&](const Student::CourseInfo &courseInfo) -> bool
+			{
+				return courseInfo.course == &*currCourse;
+			});
+	}
+
+	g_courses.erase(currCourse);
 }

@@ -17,16 +17,19 @@ namespace Backend
 		{
 			Student, StaffMember, Admin
 		};
-
+	
 		enum class Gender
 		{
 			Male, Female
 		};
 
+		static bool loadAccounts();
+		static Type stringToType(const std::string &type);
 		static bool signIn(const std::string &username, const std::string &password);
-		
+		static void logOut();
+
 		Account(Type nType = Type::Admin);
-		
+
 		Type getType() const;
 		const std::string& getFirstName() const;
 		const std::string& getLastName() const;
@@ -35,7 +38,6 @@ namespace Backend
 		Gender getGender() const;
 		const Date& getDateOfBirth() const;
 
-		void setType(const std::string &nType);
 		void setType(Type nType);
 		
 		void setFirstName(const std::string &nFirstName);
@@ -56,5 +58,10 @@ namespace Backend
 		std::string username_, password_, firstName_, lastName_, socialID_;
 		Gender gender_;
 		Date dateOfBirth_;
+
+		const std::string& getUsername() const;
+		void setUsername(const std::string &nUsername);
+		const std::string& getPassword() const;
+		void setPassword(const std::string &nPassword);
 	};
 }
