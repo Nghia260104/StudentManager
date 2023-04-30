@@ -23,7 +23,7 @@ List<Account*> Backend::g_accounts;
 
 bool Backend::loadData()
 {
-	if (!loadAccounts())
+	if (!Account::loadAccounts())
 	{
 		return 0;
 	}
@@ -37,24 +37,6 @@ bool Backend::loadData()
 	 * {
 	 * 	return 0;
 	 * } */
-
-	return 1;
-}
-
-bool Backend::loadAccounts()
-{
-	g_accounts.push_back(&g_admin);
-	std::filesystem::path path(ACCOUNTS_PATH);
-
-	if (!std::filesystem::exists(path))
-	{
-		std::filesystem::create_directories(path);
-		return 0;
-	}
-
-	Admin::loadAdmin();
-	StaffMember::loadStaffMembers();
-	Student::loadStudents();
 
 	return 1;
 }

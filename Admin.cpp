@@ -7,26 +7,11 @@
 
 using namespace Backend;
 
-bool Admin::loadAdmin()
-{
-	std::ifstream fi(ACCOUNTS_PATH + "/admin.csv");
-	
-	if (!fi.is_open())
-	{
-		return 0;
-	}
-	
-	if (!std::getline(fi, g_admin.username_, ','))
-	{
-		return 0;
-	}
-	
-	std::getline(fi, g_admin.password_, ',');
-	return 1;
-}
-
 Admin::Admin()
-{}
+	: Account(Account::Type::Admin)
+{
+	setUsername("admin");
+}
 
 bool Admin::createStaffMember(const std::string &socialID) const
 {

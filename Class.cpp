@@ -28,18 +28,43 @@ bool Class::loadClasses()
 void Class::loadOneClass(const std::filesystem::path &path)
 {
 	Class &currClass = g_classes.back();
+	
 	std::ifstream fi(path);
-	std::string studentID;
-	while (fi >> studentID)
+	std::string line;
+	std::stringstream streamLine;
+	while (!std::getline(fi, line))
 	{
-		for (auto it = g_students.begin(); it != g_students.end(); ++it)
+		streamLine.str(line);
+
+		std::string no, studentID, firstName, lastName, gender, dateOfBirth, socialID;
+		
+		std::getline(streamLine, no);
+		
+		if (!std::getline(streamLine, studentID))
 		{
-			if (it->getID() == studentID)
-			{
-				currClass.addStudent(&*it);
-				break;
-			}
+			continue;
 		}
+		
+		auto currStudent = g_students.find_if(
+			[&](const Student &student)
+			{
+				return student.getID() == studentID;
+			});
+
+		std::getline(streamLine, firstName);
+		currStudent->setFirstName(firstName);
+
+		std::getline(streamLine, lastName);
+		currStudent->setLastName(lastName);
+
+		std::getline(streamLine, gender);
+		currStudent->setGender(gender);
+
+		std::getline(streamLine, dateOfBirth);
+		currStudent->setDateOfBirth(dateOfBirth);
+
+		std::getline(streamLine, socialID);
+		currStudent->setSocialID(socialID);
 	}
 }
 
