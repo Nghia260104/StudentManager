@@ -116,18 +116,29 @@ bool StaffMember::createSchoolYear(int startYear) const
 	return 1;
 }
 
-void StaffMember::deleteSchoolYear(int startYear) const
+bool StaffMember::deleteSchoolYear(int startYear) const
 {
-	for (int i = 1; i <= 3; ++i)
-	{
-		deleteSemester(i, startYear);
-	}
-	
-	g_schoolYears.remove_if(
+	auto currSchoolYear = g_schoolYears.find_if(
 		[&](const SchoolYear &schoolYear) -> bool
 		{
 			return schoolYear.getStartYear() == startYear;
 		});
+
+	if (currSchoolYear == g_schoolYears.end())
+	{
+		return 0;
+	}
+	
+	for (auto iSemester = currSchoolYear->semesters().begin();
+		 iSemester != currSchoolYear->semesters().end();
+		 ++iSemester)
+	{
+		deleteSemester(iSemester->getID(); startYear);
+	}
+
+	g_schoolYears.erase(currSchoolYear);
+
+	return 1;
 }
 
 bool StaffMember::createSemester(int id, int schoolStartYear) const
@@ -148,7 +159,7 @@ bool StaffMember::createSemester(int id, int schoolStartYear) const
 	return 1;
 }
 
-void StaffMember::deleteSemester(int id, int schoolStartYear) const
+bool StaffMember::deleteSemester(int id, int schoolStartYear) const
 {
     auto currSemester = g_semesters.find_if(
 		[&](const Semester &semester) -> bool
@@ -157,6 +168,11 @@ void StaffMember::deleteSemester(int id, int schoolStartYear) const
 				&& semester.getID() == id;
 		});
 
+	if (currSemester == g_semesters.end())
+	{
+		return 0;
+	}
+
     currSemester->schoolYear()->removeSemester(&*currSemester);
 	g_courses.remove_if(
 		[&](const Course &course) -> bool
@@ -164,15 +180,39 @@ void StaffMember::deleteSemester(int id, int schoolStartYear) const
 			return course.semester() == &*currSemester;
 		});
 	g_semesters.erase(currSemester);
+
+	return 1;
 }
 
-void StaffMember::deleteCourse(const std::string &id) const
+bool StaffMember::createCourse(const std::string &id) const
 {
 	auto currCourse = g_courses.find_if(
 		[&](const Course &course) -> bool
 		{
 			return course.getID() == id;
 		});
+
+	if (currCourse != g_courses.end())
+	{
+		return 0;
+	}
+	
+	g_courses.push_back(Course(id));
+	return 1;
+}
+
+bool StaffMember::deleteCourse(const std::string &id) const
+{
+	auto currCourse = g_courses.find_if(
+		[&](const Course &course) -> bool
+		{
+			return course.getID() == id;
+		});
+
+	if (currCourse == g_courses.end())
+	{
+		return 0;
+	}
 
 	currCourse->semester()->removeCourse(&*currCourse);
 	
@@ -188,4 +228,47 @@ void StaffMember::deleteCourse(const std::string &id) const
 	}
 
 	g_courses.erase(currCourse);
+	
+	return 1;
+}
+
+bool StaffMember::createClass(const std::string &id) const
+{
+	if (g_classes.find_if(
+			[&](const Class &currClass) -> bool
+			{
+				return currClass.getID() == id;
+			})
+		!= g_classes.end())
+	{
+		return 0;
+	}
+
+	g_classes.push_back(Class(id));
+	return 1;
+}
+
+void StaffMember::deleteClass(const std::string &id) const
+{
+	auto currClass = g_classes.find_if(
+		[&](const Class &class_) -> bool
+		{
+			return class_.getID() == id;
+		});
+
+	if (currClass == g_classes.end())
+	{
+		return 0;
+	}
+	
+	for (auto iStudent = currClass->students.begin();
+		 iStudent != currClass->students.end();
+		 ++iStudent)
+	{
+		iStudent->getClass() = nullptr;
+	}
+
+	g_classes.erase(currClass);
+	
+	return 1;
 }
