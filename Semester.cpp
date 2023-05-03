@@ -42,12 +42,12 @@ int Semester::getID() const
 	return id_;
 }
 
-SchoolYear* Semester::schoolYear()
+SchoolYear*& Semester::schoolYear()
 {
 	return schoolYear_;
 }
 
-const SchoolYear* Semester::schoolYear() const
+SchoolYear* const& Semester::schoolYear() const
 {
 	return schoolYear_;
 }
@@ -72,11 +72,6 @@ void Semester::setID(int nID)
 	id_ = nID;
 }
 
-void Semester::setSchoolYear(SchoolYear *nSchoolYear)
-{
-	schoolYear_ = nSchoolYear;
-}
-
 bool Semester::addCourse(Course *nCourse)
 {
 	if (courses_.find(nCourse) != courses_.end())
@@ -85,22 +80,22 @@ bool Semester::addCourse(Course *nCourse)
 	}
 	
 	courses_.push_back(nCourse);
-	nCourse->semester_ = this;
+	nCourse->semester() = this;
 	/* nCourse->filePath_ = directoryPath_ + nCourse->getID() + ".csv"; */
 	return 1;
 }
 
-void Semester::removeCourse(Course *course)
+bool Semester::removeCourse(Course *course)
 {
-	for (auto iStudent = course->studentInfos().begin();
-		 iStudent != course->studentInfos().end();
-		 ++iStudent)
+	auto currCourse = courses().find(course);
+	
+	if (currCourse == courses().end())
 	{
-		iStudent->student->courseInfos().remove_if(
-			[&](const Student::CourseInfo &courseInfo) -> bool
-			{
-				return courseInfo.course == course;
-			});
+		return 0;
 	}
-	courses().remove(course);
+
+	(*currCourse)->semester() = nullptr;
+	courses().erase(currCourse);
+	
+	return 1;
 }

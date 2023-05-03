@@ -1,4 +1,4 @@
-#include <fstream>
+ #include <fstream>
 
 #include "Student.hpp"
 #include "BackendGlobal.hpp"
@@ -28,12 +28,12 @@ const std::string& Student::getID() const
 	return id_;
 }
 
-Class* Student::getClass()
+Class*& Student::getClass()
 {
 	return class_;
 }
 
-const Class* Student::getClass() const
+Class* const& Student::getClass() const
 {
 	return class_;
 }

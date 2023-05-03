@@ -81,7 +81,12 @@ const std::string& Class::getID() const
 	return id_;
 }
 
-const List<Student*>& Class::getStudents() const
+List<Student*>& Class::students()
+{
+	return students_;
+}
+
+const List<Student*>& Class::students() const
 {
 	return students_;
 }
@@ -100,5 +105,20 @@ bool Class::addStudent(Student *nStudent)
 	
 	students_.push_back(nStudent);
 	nStudent->class_ = this;
+	return 1;
+}
+
+bool Class::removeStudent(Student *student)
+{
+	auto currStudent = students_.find(student);
+
+	if (currStudent == students_.end())
+	{
+		return 0;
+	}
+
+	student->class_ = nullptr;
+	students_.erase(currStudent);
+
 	return 1;
 }

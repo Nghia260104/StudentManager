@@ -45,8 +45,8 @@ namespace Backend
 		void setNumberOfCredits(int nNumberOfCredits);
 
 		/* direct accessors */
-		Semester* semester();
-		const Semester* semester() const;
+		Semester*& semester();
+		Semester* const& semester() const;
 		List<StudentInfo>& studentInfos();
 		const List<StudentInfo>& studentInfos() const;
 		Session& session();
@@ -54,7 +54,7 @@ namespace Backend
 
 		/* student list modifiers */
 		bool addStudent(Student *nStudent);
-		void removeStudent(Student *student);
+		bool removeStudent(Student *student);
 
 	private:
 		static void loadOneCourse(const std::filesystem::path &courseFile, Semester *semester);

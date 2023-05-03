@@ -69,7 +69,17 @@ bool SchoolYear::addSemester(Semester *nSemester)
 	return 1;
 }
 
-void SchoolYear::removeSemester(Semester *nSemester)
+bool SchoolYear::removeSemester(Semester *semester)
 {
-	semesters_.remove(nSemester);
+	auto currSemester = semesters().find(semester);
+
+	if (currSemester == semesters().end())
+	{
+		return 0;
+	}
+
+	(*currSemester)->schoolYear() = nullptr;
+	semesters().erase(currSemester);
+
+	return 1;
 }
