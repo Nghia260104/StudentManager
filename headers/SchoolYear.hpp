@@ -23,11 +23,10 @@ namespace Backend
 		const List<Semester*>& semesters() const;
 		void setStartYear(int nStartYear);
 		bool addSemester(Semester *nSemester);
-		void removeSemester(Semester *semester);
+		bool removeSemester(Semester *semester);
 
 	private:
 		int startYear_;
 		List<Semester*> semesters_;
-		std::filesystem::path path_;
 	};
 }

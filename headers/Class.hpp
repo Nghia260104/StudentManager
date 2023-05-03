@@ -17,10 +17,13 @@ namespace Backend
 		Class(const std::string &nID);
 
 		const std::string& getID() const;
-		const List<Student*>& getStudents() const;
+		List<Student*>& students();
+		const List<Student*>& students() const;
 
 		void setID(const std::string &nID);
+		
 		bool addStudent(Student *nStudent);
+		bool removeStudent(Student *student);
 
 	private:
 		static void loadOneClass(const std::filesystem::path &path);

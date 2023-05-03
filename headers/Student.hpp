@@ -8,6 +8,7 @@
 
 namespace Backend
 {
+	class StaffMember;
 	class Class;
 	class Course;
 	
@@ -28,8 +29,8 @@ namespace Backend
 		static bool loadStudents();
 		
 		const std::string& getID() const;
-		Class* getClass();
-		const Class* getClass() const;
+		Class*& getClass();
+		Class* const& getClass() const;
 		List<CourseInfo>& courseInfos();
 		const List<CourseInfo>& courseInfos() const;
 		
@@ -42,6 +43,7 @@ namespace Backend
 		Class *class_;
 		List<CourseInfo> courseInfos_;
 
+		friend StaffMember;
 		friend class Class;
 		friend class Course;
 	};

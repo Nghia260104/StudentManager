@@ -23,11 +23,11 @@ namespace Backend
 		bool createSemester(int id, int schoolYear) const;
 	    bool deleteSemester(int id, int schoolYear) const;
 		
-		bool createCourse(const std::string &id) const;
+		bool createCourse(const std::string &id, int semesterID, int startYear) const;
 	    bool deleteCourse(const std::string &id) const;
 
-		bool createClass(const std::string id) const;
-	    bool deleteClass(const std::string id) const;
+		bool createClass(const std::string &id) const;
+	    bool deleteClass(const std::string &id) const;
 		
 	private:
 		static void readCSV(std::stringstream &streamLine, std::string &word);

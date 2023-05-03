@@ -172,12 +172,12 @@ const std::string& Course::getID() const
 	return id_;
 }
 
-Semester* Course::semester()
+Semester*& Course::semester()
 {
 	return semester_;
 }
 
-const Semester* Course::semester() const
+Semester* const& Course::semester() const
 {
 	return semester_;
 }
@@ -272,16 +272,26 @@ bool Course::addStudent(Student *nStudent)
 	return 1;
 }
 
-void Course::removeStudent(Student *student)
+bool Course::removeStudent(Student *student)
 {
-	student->courseInfos().remove_if(
-		[&](const Student::CourseInfo &courseInfo) -> bool
-		{
-			return courseInfo.course == this;
-		});
-	studentInfos().remove_if(
+	auto currStudentInfo = studentInfos().find_if(
 		[&](const StudentInfo &studentInfo) -> bool
 		{
 			return studentInfo.student == student;
 		});
+
+	if (currStudentInfo == studentInfos().end())
+	{
+		return 0;
+	}
+
+	currStudentInfo->student->courseInfos().remove_if(
+		[&](const Student::CourseInfo &courseInfo) -> bool
+		{
+			return courseInfo.course == this;
+		});
+
+	studentInfos().erase(currStudentInfo);
+
+	return 1;
 }
