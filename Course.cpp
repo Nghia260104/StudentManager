@@ -63,7 +63,6 @@ void Course::loadOneCourseGeneral(std::ifstream &fi, Semester *semester)
 	}
 	if (std::getline(fi, line))
 	{
-		std::cerr << line << std::endl;
 		currCourse.setNumberOfCredits(std::stoi(line));
 	}
 
