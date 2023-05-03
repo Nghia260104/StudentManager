@@ -21,7 +21,10 @@ namespace Backend
 	extern const std::string ACCOUNTS_PATH;
 	
 	extern Account *activeUser;
+	extern SchoolYear *activeSchoolYear;
 	extern Semester *activeSemester;
+	extern Course *activeCourse;
+	extern Class *activeClass;
 	
 	extern List<SchoolYear> g_schoolYears;
 	extern List<Semester> g_semesters;
@@ -34,4 +37,9 @@ namespace Backend
 
 	bool loadData();
 	std::string toString(const std::wstring&);
+
+	void setActiveSchoolYear(SchoolYear *schoolYear);
+	void setActiveSemester(Semester *semester);
+	void setActiveCourse(Course *course);
+	void setActiveClass(Class *currClass);
 }
