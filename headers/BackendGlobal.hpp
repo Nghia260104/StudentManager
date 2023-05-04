@@ -38,6 +38,7 @@ namespace Backend
 	bool loadData();
 	std::string toString(const std::wstring&);
 
+	void setActiveUser(Account *account);
 	void setActiveSchoolYear(SchoolYear *schoolYear);
 	void setActiveSemester(Semester *semester);
 	void setActiveCourse(Course *course);

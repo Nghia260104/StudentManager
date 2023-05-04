@@ -35,6 +35,6 @@ bool Admin::deleteStaffMember(const std::string &socialID) const
 	return g_staffMembers.remove_if(
 		[&](const StaffMember &staffMember) -> bool
 		{
-			return staffMember.getSocialID();
+			return staffMember.getSocialID() == socialID;
 		});
 }

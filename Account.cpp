@@ -27,6 +27,8 @@ bool Account::loadAccounts()
 		std::getline(streamLine, username, ',');
 		std::getline(streamLine, password, ',');
 
+		std::cerr << type << ' ' << username << ' ' << password << std::endl;
+
 		switch (stringToType(type))
 		{
 		case Type::Admin:
