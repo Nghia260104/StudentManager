@@ -7,7 +7,7 @@ using namespace Backend;
 const std::string Backend::DATA_PATH = "./Data";
 const std::string Backend::SCHOOL_YEARS_PATH = Backend::DATA_PATH + "/School Years";
 const std::string Backend::CLASSES_PATH = Backend::DATA_PATH + "/Classes";
-const std::string Backend::ACCOUNTS_PATH = Backend::DATA_PATH + "/Accounts";
+const std::string Backend::ACCOUNTS_PATH = Backend::DATA_PATH + "/accounts.csv";
 
 Account *Backend::activeUser = nullptr;
 SchoolYear *Backend::activeSchoolYear = nullptr;
@@ -64,6 +64,11 @@ std::string Backend::toString(const std::wstring &wstring)
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
 	return convert.to_bytes(wstring);
+}
+
+void Backend::setActiveUser(Account *account)
+{
+	activeUser = account;
 }
 
 void Backend::setActiveSchoolYear(SchoolYear *schoolYear)

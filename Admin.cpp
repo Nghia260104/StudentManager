@@ -30,17 +30,11 @@ bool Admin::createStaffMember(const std::string &socialID) const
 	return 1;
 }
 
-void Admin::deleteStaffMember(const std::string &socialID) const
+bool Admin::deleteStaffMember(const std::string &socialID) const
 {
-	g_accounts.remove_if(
-		[&](const Account *account) -> bool
-		{
-			return account->getSocialID() == socialID;
-		});
-
-	g_staffMembers.remove_if(
+	return g_staffMembers.remove_if(
 		[&](const StaffMember &staffMember) -> bool
 		{
-			return staffMember.getSocialID() == socialID;
+			return staffMember.getSocialID();
 		});
 }

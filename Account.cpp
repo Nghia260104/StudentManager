@@ -72,7 +72,7 @@ bool Account::signIn(const std::string &username, const std::string &password)
 	{
 		if (username == (*it)->username_ && password == (*it)->password_)
 		{
-			activeUser = *it;
+			setActiveUser(*it);
 			return 1;
 		}
 	}
