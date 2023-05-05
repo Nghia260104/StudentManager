@@ -36,6 +36,8 @@ extern List<Backend::Course *> list;
 
 int main()
 {
+	Backend::loadData();
+	
     // Initialize Window
     window.create(sf::VideoMode(sf::VideoMode::getDesktopMode().width, sf::VideoMode::getDesktopMode().height * 93 / 100),
                   "Student Manager",

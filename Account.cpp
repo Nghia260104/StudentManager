@@ -10,16 +10,17 @@ bool Account::loadAccounts()
 {
 	std::ifstream fi;
 	fi.open(ACCOUNTS_PATH);
-
+	std::cerr << ACCOUNTS_PATH << '\n';
+	
 	if (!fi.is_open())
 	{
 		return 0;
 	}
 
 	std::string line;
-	std::stringstream streamLine;
 	while (std::getline(fi, line))
 	{
+		std::stringstream streamLine;
 		streamLine.str(line);
 		
 		std::string type, username, password;
@@ -31,15 +32,15 @@ bool Account::loadAccounts()
 		{
 		case Type::Admin:
 			g_admin.setUsername(username);
-			g_accounts.push_back(&g_admin);
+			g_accounts.push_back(static_cast<Account*>(&g_admin));
 			break;
 		case Type::StaffMember:
 			g_staffMembers.push_back(StaffMember(username));
-			g_accounts.push_back(&g_staffMembers.back());
+			g_accounts.push_back(static_cast<Account*>(&g_staffMembers.back()));
 			break;
 		default:
 			g_students.push_back(Student(username));
-			g_accounts.push_back(&g_students.back());
+			g_accounts.push_back(static_cast<Account*>(&g_students.back()));
 		}
 
 		g_accounts.back()->setPassword(password);
@@ -72,7 +73,7 @@ bool Account::signIn(const std::string &username, const std::string &password)
 	{
 		if (username == (*it)->username_ && password == (*it)->password_)
 		{
-			activeUser = *it;
+			setActiveUser(*it);
 			return 1;
 		}
 	}
