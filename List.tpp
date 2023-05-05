@@ -58,13 +58,13 @@ const T& List<T>::front() const
 template <class T>
 T& List<T>::back()
 {
-	return *end();
+	return *(end()-1);
 }
 
 template <class T>
 const T& List<T>::back() const
 {
-	return *end();
+	return *(end()-1);
 }
 
 template <class T>

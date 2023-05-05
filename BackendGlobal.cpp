@@ -4,7 +4,7 @@
 
 using namespace Backend;
 
-const std::string Backend::DATA_PATH = "./Data";
+const std::string Backend::DATA_PATH = "../Data";
 const std::string Backend::SCHOOL_YEARS_PATH = Backend::DATA_PATH + "/School Years";
 const std::string Backend::CLASSES_PATH = Backend::DATA_PATH + "/Classes";
 const std::string Backend::ACCOUNTS_PATH = Backend::DATA_PATH + "/accounts.csv";
@@ -14,7 +14,6 @@ SchoolYear *Backend::activeSchoolYear = nullptr;
 Semester *Backend::activeSemester = nullptr;
 Course *Backend::activeCourse = nullptr;
 Class *Backend::activeClass = nullptr;
-
 
 List<SchoolYear> Backend::g_schoolYears;
 List<Semester> Backend::g_semesters;

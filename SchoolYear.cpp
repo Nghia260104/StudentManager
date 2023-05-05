@@ -13,15 +13,15 @@ bool SchoolYear::loadSchoolYears()
 	if (!std::filesystem::exists(schoolYearsPath))
 	{
 		std::filesystem::create_directories(schoolYearsPath);
-		std::cerr << "School Years path does not exist" << std::endl;
+		/* std::cerr << "School Years path does not exist" << std::endl; */
 		return 0;
 	}
 
-	std::cerr << "School Years path exists" << std::endl;
+	/* std::cerr << "School Years path exists" << std::endl; */
 	for (auto directory: std::filesystem::directory_iterator(schoolYearsPath))
 	{
 		int schoolStartYear = std::stoi(directory.path().filename());
-		std::cerr << schoolStartYear << std::endl;
+		/* std::cerr << schoolStartYear << std::endl; */
 		g_schoolYears.push_back(SchoolYear(schoolStartYear));
 		Semester::loadSemesters(directory.path(), &g_schoolYears.back());
 	}

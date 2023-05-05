@@ -26,7 +26,7 @@ bool Course::loadCourses(const std::filesystem::path &path, Semester *semester)
 void Course::loadOneCourse(const std::filesystem::path &courseFile, Semester *semester)
 {
 	std::string courseFileStem = toString(courseFile.stem());
-	std::cerr << courseFileStem << std::endl;
+	/* std::cerr << courseFileStem << std::endl; */
 	g_courses.push_back(Course(courseFileStem, semester));
 
 	std::ifstream fi(courseFile);
@@ -48,17 +48,17 @@ void Course::loadOneCourseGeneral(std::ifstream &fi, Semester *semester)
 
 	if (std::getline(fi, line))
 	{
-		std::cerr << line << std::endl;
+		/* std::cerr << line << std::endl; */
 		currCourse.setCourseName(line);
 	}
 	if (std::getline(fi, line))
 	{
-		std::cerr << line << std::endl;
+		/* std::cerr << line << std::endl; */
 		currCourse.setTeacherName(line);
 	}
 	if (std::getline(fi, line))
 	{
-		std::cerr << line << std::endl;
+		/* std::cerr << line << std::endl; */
 		currCourse.setMaxStudents(std::stoi(line));
 	}
 	if (std::getline(fi, line))
@@ -71,10 +71,10 @@ void Course::loadOneCourseGeneral(std::ifstream &fi, Semester *semester)
 	{
 		std::stringstream streamLine(line);
 		std::getline(streamLine, word, ',');
-		std::cerr << word << std::endl;
+		/* std::cerr << word << std::endl; */
 		currCourse.session().day = word;
 		std::getline(streamLine, word, ',');
-		std::cerr << word << std::endl;
+		/* std::cerr << word << std::endl; */
 		currCourse.session().type = word;
 	}
 }
