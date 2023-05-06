@@ -24,9 +24,18 @@ namespace Backend
 		};
 
 		static bool loadAccounts();
-		static Type stringToType(const std::string &type);
+		static void saveAccounts();
 		static bool signIn(const std::string &username, const std::string &password);
 		static void logOut();
+		
+		static std::string typeToString(Type type);
+		static Type stringToType(const std::string &type);
+		
+		static std::string genderToString(Gender gender);
+		static Gender stringToGender(const std::string &gender);
+		
+		static std::string dateToString(const Date &date);
+		static Date stringToDate(const std::string &date);
 
 		Account(Type nType = Type::Admin);
 
@@ -53,6 +62,7 @@ namespace Backend
 		bool changePassword(const std::string &oldPassword,
 							const std::string &newPassword,
 							const std::string &confirmNewPassword);
+		
 	protected:
 		Type type_;
 		std::string username_, password_, firstName_, lastName_, socialID_;

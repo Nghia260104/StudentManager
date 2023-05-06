@@ -13,8 +13,10 @@ namespace Backend
 	class Course
 	{
 	public:
-		static bool loadCourses(const std::filesystem::path &path, Semester *semesters);
-		
+		static bool loadCourses(const std::filesystem::path &path, Semester *semester);
+		static void saveCourses(const std::filesystem::path &path, Semester *semester);
+		static void clearCourses(Semester *semester);
+
 		struct StudentInfo
 		{
 			Student *student;
@@ -58,8 +60,10 @@ namespace Backend
 
 	private:
 		static void loadOneCourse(const std::filesystem::path &courseFile, Semester *semester);
-		static void loadOneCourseGeneral(std::ifstream &fi, Semester *semester);
+		static void loadOneCourseGeneral(std::ifstream &fi);
 		static void loadOneCourseStudents(std::ifstream &fi);
+		static void saveOneCourseGeneral(std::ofstream &fo, Course *course);
+		static void saveOneCourseStudents(std::ofstream &fo, Course *course);
 		
 		const int DEFAULT_MAX_STUDENTS = 50;
 		

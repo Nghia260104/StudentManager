@@ -17,6 +17,8 @@ bool Class::loadClasses()
 		return 0;
 	}
 
+	clearClasses();
+	
 	for (auto file: std::filesystem::directory_iterator(path))
 	{
 		g_classes.push_back(Class(toString(file.path().stem())));
@@ -51,6 +53,12 @@ void Class::loadOneClass(const std::filesystem::path &path)
 				return student.getID() == studentID;
 			});
 
+		if (currStudent == g_students.end())
+		{
+			g_students.push_back(Student(studentID));
+		}
+		currStudent = g_students.end()-1;
+
 		std::getline(streamLine, firstName);
 		currStudent->setFirstName(firstName);
 
@@ -65,6 +73,42 @@ void Class::loadOneClass(const std::filesystem::path &path)
 
 		std::getline(streamLine, socialID);
 		currStudent->setSocialID(socialID);
+	}
+}
+
+void Class::saveClasses()
+{
+	for (auto iClass = g_classes.begin(); iClass != g_classes.end(); ++iClass)
+	{
+		saveOneClass(&*iClass);
+	}
+}
+
+void Class::saveOneClass(Class *currClass)
+{
+	std::filesystem::path path(CLASSES_PATH + currClass->getID() + ".csv");
+	std::ofstream fo(path);
+	
+	int no = 0;
+	for (auto iStudent = currClass->students().begin();
+		 iStudent != currClass->students().end();
+		 ++iStudent)
+	{
+		fo << ++no;
+		fo << (*iStudent)->getID() << ',';
+		fo << (*iStudent)->getFirstName() << ',';
+		fo << (*iStudent)->getLastName() << ',';
+		fo << Account::genderToString((*iStudent)->getGender()) << ',';
+		fo << Account::dateToString((*iStudent)->getDateOfBirth()) << ',';
+		fo << (*iStudent)->getSocialID() << '\n';
+	}
+}
+
+void Class::clearClasses()
+{
+	while (!g_classes.empty())
+	{
+		StaffMember::deleteClass(g_classes.front().getID());
 	}
 }
 

@@ -16,6 +16,8 @@ namespace Backend
 		Semester(int nID, SchoolYear *schoolYear);
 
 		static bool loadSemesters(const std::filesystem::path &path, SchoolYear *schoolYear);
+		static void saveSemesters(const std::filesystem::path &path, SchoolYear *schoolYear);
+		static void clearSemesters(SchoolYear *schoolYear);
 		
 		int getID() const;
 		SchoolYear*& schoolYear();

@@ -12,6 +12,8 @@ namespace Backend
 	{
 	public:
 		static bool loadClasses();
+		static void saveClasses();
+		static void clearClasses();
 		
 		Class();
 		Class(const std::string &nID);
@@ -27,7 +29,8 @@ namespace Backend
 
 	private:
 		static void loadOneClass(const std::filesystem::path &path);
-		
+		static void saveOneClass(Class *currClass);
+	
 		std::string id_;
 		List<Student*> students_;
 	};

@@ -12,22 +12,22 @@ namespace Backend
 		StaffMember();
 		StaffMember(const std::string &nSocialID);
 
+		static bool createStudent(const std::string &studentID);
+	    static bool deleteStudent(const std::string &studentID);
+		
+		static bool createSchoolYear(int startYear);
+	    static bool deleteSchoolYear(int startYear);
+		
+		static bool createSemester(int id, int schoolYear);
+	    static bool deleteSemester(int id, int schoolYear);
+		
+		static bool createCourse(const std::string &id, int semesterID, int startYear);
+	    static bool deleteCourse(const std::string &id);
+		
+		static bool createClass(const std::string &id);
+	    static bool deleteClass(const std::string &id);
+
 		void setSocialID(const std::string &nSocialID) override;
-
-		bool createStudent(const std::string &studentID) const;
-	    bool deleteStudent(const std::string &studentID) const;
-
-		bool createSchoolYear(int startYear) const;
-	    bool deleteSchoolYear(int startYear) const;
-		
-		bool createSemester(int id, int schoolYear) const;
-	    bool deleteSemester(int id, int schoolYear) const;
-		
-		bool createCourse(const std::string &id, int semesterID, int startYear) const;
-	    bool deleteCourse(const std::string &id) const;
-
-		bool createClass(const std::string &id) const;
-	    bool deleteClass(const std::string &id) const;
 		
 	private:
 		static void readCSV(std::stringstream &streamLine, std::string &word);

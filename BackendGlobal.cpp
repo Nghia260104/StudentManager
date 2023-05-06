@@ -59,6 +59,13 @@ bool Backend::loadData()
 	return 1;
 }
 
+void Backend::saveData()
+{
+	/* Account::saveAccounts(); */
+	Class::saveClasses();
+	SchoolYear::saveSchoolYears();
+}
+
 std::string Backend::toString(const std::wstring &wstring)
 {
 	std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;

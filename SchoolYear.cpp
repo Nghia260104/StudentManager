@@ -13,19 +13,49 @@ bool SchoolYear::loadSchoolYears()
 	if (!std::filesystem::exists(schoolYearsPath))
 	{
 		std::filesystem::create_directories(schoolYearsPath);
-		/* std::cerr << "School Years path does not exist" << std::endl; */
 		return 0;
 	}
 
-	/* std::cerr << "School Years path exists" << std::endl; */
+	clearSchoolYears();
+
 	for (auto directory: std::filesystem::directory_iterator(schoolYearsPath))
 	{
 		int schoolStartYear = std::stoi(directory.path().filename());
-		/* std::cerr << schoolStartYear << std::endl; */
 		g_schoolYears.push_back(SchoolYear(schoolStartYear));
 		Semester::loadSemesters(directory.path(), &g_schoolYears.back());
 	}
 	return 1;
+}
+
+void SchoolYear::saveSchoolYears()
+{
+	std::filesystem::path schoolYearsPath(SCHOOL_YEARS_PATH);
+	
+	if (!std::filesystem::exists(schoolYearsPath))
+	{
+		std::filesystem::create_directories(schoolYearsPath);
+	}
+
+	for (auto directory: std::filesystem::directory_iterator(schoolYearsPath))
+	{
+		std::filesystem::remove_all(directory.path());
+	}
+	
+	for (auto schoolYear: g_schoolYears)
+	{
+		std::filesystem::path currSchoolYearPath(schoolYearsPath/std::to_string(schoolYear.getStartYear()));
+		std::filesystem::create_directories(currSchoolYearPath);
+
+		Semester::saveSemesters(currSchoolYearPath, &schoolYear);
+	}
+}
+
+void SchoolYear::clearSchoolYears()
+{
+	while (!g_schoolYears.empty())
+	{
+		StaffMember::deleteSchoolYear(g_schoolYears.back().getStartYear());
+	}
 }
 
 SchoolYear::SchoolYear()
