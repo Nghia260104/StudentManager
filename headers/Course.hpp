@@ -15,6 +15,7 @@ namespace Backend
 	public:
 		static bool loadCourses(const std::filesystem::path &path, Semester *semester);
 		static void saveCourses(const std::filesystem::path &path, Semester *semester);
+		static void clearCourses(Semester *semester);
 
 		struct StudentInfo
 		{

@@ -62,7 +62,7 @@ bool Backend::loadData()
 void Backend::saveData()
 {
 	/* Account::saveAccounts(); */
-	/* Class::saveClasses(); */
+	Class::saveClasses();
 	SchoolYear::saveSchoolYears();
 }
 

@@ -16,6 +16,8 @@ bool Course::loadCourses(const std::filesystem::path &path, Semester *semester)
 		return 0;
 	}
 
+	clearCourses(semester);
+
 	for (auto courseFile: std::filesystem::directory_iterator(path))
 	{
 		loadOneCourse(courseFile.path(), semester);
@@ -123,13 +125,18 @@ void Course::saveCourses(const std::filesystem::path &path, Semester *semester)
 	{
 		std::filesystem::create_directories(path);
 	}
-
+	
+	for (auto directory: std::filesystem::directory_iterator(path))
+	{
+		std::filesystem::remove_all(directory.path());
+	}
+	
 	std::ofstream fo;
 	for (auto iCourse = semester->courses().begin();
 		 iCourse != semester->courses().end();
 		 ++iCourse)
 	{
-		fo.open(path/((*iCourse)->getID() + "csv"));
+		fo.open(path/((*iCourse)->getID() + ".csv"));
 		saveOneCourseGeneral(fo, *iCourse);
 		saveOneCourseStudents(fo, *iCourse);
 		fo.close();
@@ -156,6 +163,14 @@ void Course::saveOneCourseStudents(std::ofstream &fo, Course *course)
 		fo << iStudentInfo->finalMark << ',';
 		fo << iStudentInfo->otherMark << ',';
 		fo << iStudentInfo->totalMark << '\n';
+	}
+}
+
+void Course::clearCourses(Semester *semester)
+{
+	while (!semester->courses().empty())
+	{
+		StaffMember::deleteCourse(semester->courses().front()->getID());
 	}
 }
 

@@ -14,6 +14,7 @@ namespace Backend
 	public:
 		static bool loadSchoolYears();
 		static void saveSchoolYears();
+		static void clearSchoolYears();
 		
 		SchoolYear();
 		SchoolYear(int nStartYear);

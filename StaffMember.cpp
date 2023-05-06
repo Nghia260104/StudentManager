@@ -68,7 +68,7 @@ void StaffMember::setSocialID(const std::string &nSocialID)
 	username_ = socialID_;
 }
 
-bool StaffMember::createStudent(const std::string &studentID) const
+bool StaffMember::createStudent(const std::string &studentID)
 {
 	if (g_students.find_if(
 			[&studentID](const Student &student) -> bool
@@ -85,7 +85,7 @@ bool StaffMember::createStudent(const std::string &studentID) const
 	return 1;
 }
 
-bool StaffMember::deleteStudent(const std::string &studentID) const
+bool StaffMember::deleteStudent(const std::string &studentID)
 {
 	auto currStudent = g_students.find_if(
 		[&](const Student &student) -> bool
@@ -117,7 +117,7 @@ bool StaffMember::deleteStudent(const std::string &studentID) const
 	return 1;
 }
 
-bool StaffMember::createSchoolYear(int startYear) const
+bool StaffMember::createSchoolYear(int startYear)
 {
 	if (g_schoolYears.find_if(
 			[=](const SchoolYear &schoolYear) -> bool
@@ -133,7 +133,7 @@ bool StaffMember::createSchoolYear(int startYear) const
 	return 1;
 }
 
-bool StaffMember::deleteSchoolYear(int startYear) const
+bool StaffMember::deleteSchoolYear(int startYear)
 {
 	auto currSchoolYear = g_schoolYears.find_if(
 		[&](const SchoolYear &schoolYear) -> bool
@@ -158,7 +158,7 @@ bool StaffMember::deleteSchoolYear(int startYear) const
 	return 1;
 }
 
-bool StaffMember::createSemester(int id, int schoolStartYear) const
+bool StaffMember::createSemester(int id, int schoolStartYear)
 {
 	auto currSchoolYear = g_schoolYears.find_if(
 		[&](const SchoolYear &schoolYear) -> bool
@@ -176,7 +176,7 @@ bool StaffMember::createSemester(int id, int schoolStartYear) const
 	return 1;
 }
 
-bool StaffMember::deleteSemester(int id, int schoolStartYear) const
+bool StaffMember::deleteSemester(int id, int schoolStartYear)
 {
     auto currSemester = g_semesters.find_if(
 		[&](const Semester &semester) -> bool
@@ -201,7 +201,7 @@ bool StaffMember::deleteSemester(int id, int schoolStartYear) const
 	return 1;
 }
 
-bool StaffMember::createCourse(const std::string &courseID, int semesterID, int schoolStartYear) const
+bool StaffMember::createCourse(const std::string &courseID, int semesterID, int schoolStartYear)
 {
 	auto currCourse = g_courses.find_if(
 		[&](const Course &course) -> bool
@@ -226,7 +226,7 @@ bool StaffMember::createCourse(const std::string &courseID, int semesterID, int 
 	return 1;
 }
 
-bool StaffMember::deleteCourse(const std::string &id) const
+bool StaffMember::deleteCourse(const std::string &id)
 {
 	auto currCourse = g_courses.find_if(
 		[&](const Course &course) -> bool
@@ -257,7 +257,7 @@ bool StaffMember::deleteCourse(const std::string &id) const
 	return 1;
 }
 
-bool StaffMember::createClass(const std::string &id) const
+bool StaffMember::createClass(const std::string &id)
 {
 	if (g_classes.find_if(
 			[&](const Class &currClass) -> bool
@@ -273,7 +273,7 @@ bool StaffMember::createClass(const std::string &id) const
 	return 1;
 }
 
-bool StaffMember::deleteClass(const std::string &id) const
+bool StaffMember::deleteClass(const std::string &id)
 {
 	auto currClass = g_classes.find_if(
 		[&](const Class &class_) -> bool

@@ -13,6 +13,8 @@ bool Semester::loadSemesters(const std::filesystem::path &path, SchoolYear *scho
 		return 0;
 	}
 
+	clearSemesters(schoolYear);
+	
 	for (auto semesterPath: std::filesystem::directory_iterator(path))
 	{
 		int id = std::stoi(semesterPath.path().filename());
@@ -29,12 +31,27 @@ void Semester::saveSemesters(const std::filesystem::path &path, SchoolYear *scho
 		std::filesystem::create_directories(path);
 	}
 	
+	for (auto directory: std::filesystem::directory_iterator(path))
+	{
+		std::filesystem::remove_all(directory.path());
+	}
+	
 	for (auto iSemester = schoolYear->semesters().begin();
 		 iSemester != schoolYear->semesters().end();
 		 ++iSemester)
 	{
 		std::filesystem::path currSemesterPath(path/std::to_string((*iSemester)->getID()));
+		std::filesystem::create_directories(currSemesterPath);
 		Course::saveCourses(currSemesterPath, *iSemester);
+	}
+}
+
+void Semester::clearSemesters(SchoolYear *schoolYear)
+{
+	while (!schoolYear->semesters().empty())
+	{
+		StaffMember::deleteSemester(schoolYear->semesters().front()->getID(),
+									schoolYear->getStartYear());
 	}
 }
 

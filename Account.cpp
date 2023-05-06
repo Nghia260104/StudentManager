@@ -48,6 +48,49 @@ bool Account::loadAccounts()
 	return 1;
 }
 
+void Account::saveAccounts()
+{
+	std::ofstream fo(ACCOUNTS_PATH);
+	for (auto iAccount = g_accounts.begin(); iAccount != g_accounts.end(); ++iAccount)
+	{
+		fo << typeToString((*iAccount)->getType()) << ',';
+		fo << (*iAccount)->getUsername() << ',';
+		fo << (*iAccount)->getPassword() << '\n';
+	}
+}
+
+bool Account::signIn(const std::string &username, const std::string &password)
+{
+	for (auto it = g_accounts.begin(); it != g_accounts.end(); ++it)
+	{
+		if (username == (*it)->username_ && password == (*it)->password_)
+		{
+			setActiveUser(*it);
+			return 1;
+		}
+	}
+	return 0;
+}
+
+void Account::logOut()
+{
+	activeUser = nullptr;
+}
+
+std::string Account::typeToString(Type type)
+{
+	switch (type)
+	{
+	case Type::Student:
+		return "student";
+	case Type::StaffMember:
+		return "staff member";
+	default:
+		return "admin";
+	}
+	return "";
+}
+
 Account::Type Account::stringToType(const std::string &type)
 {
 	std::string typeUpcase;
@@ -67,22 +110,39 @@ Account::Type Account::stringToType(const std::string &type)
 	return Type::Student;
 }
 
-bool Account::signIn(const std::string &username, const std::string &password)
+std::string Account::genderToString(Account::Gender gender)
 {
-	for (auto it = g_accounts.begin(); it != g_accounts.end(); ++it)
+	if (gender == Gender::Male)
 	{
-		if (username == (*it)->username_ && password == (*it)->password_)
-		{
-			setActiveUser(*it);
-			return 1;
-		}
+		return "Male";
 	}
-	return 0;
+	return "Female";
 }
 
-void Account::logOut()
+Account::Gender Account::stringToGender(const std::string &gender)
 {
-	activeUser = nullptr;
+	std::string genderUpcase;
+	for (auto c: gender)
+	{
+		genderUpcase += std::toupper(c);
+	}
+	return genderUpcase == "MALE" ? Gender::Male : Gender::Female;
+}
+
+std::string Account::dateToString(const Date &date)
+{
+	std::string year = std::to_string(date.year);
+	std::string month = (date.month < 10 ? "0" : "") + std::to_string(date.month);
+	std::string day = (date.day < 10 ? "0" : "") + std::to_string(date.day);
+	return day + "/" + month + "/" + year;
+}
+
+Date Account::stringToDate(const std::string &date)
+{
+	int day = date[0]*10 + date[1];
+	int month = date[3]*10 + date[4];
+	int year = date[6]*1000 + date[7]*100 + date[8]*10 + date[9];
+	return Date(year, month, day);
 }
 
 Account::Account(Account::Type nType)
@@ -146,13 +206,7 @@ void Account::setSocialID(const std::string &nSocialID)
 
 void Account::setGender(const std::string &nGender)
 {
-	std::string nGenderUpcase;
-	for (auto c: nGender)
-	{
-		nGenderUpcase += std::toupper(c);
-	}
-
-	gender_ = (nGenderUpcase == "MALE" ? Account::Gender::Male : Account::Gender::Female);
+	setGender(stringToGender(nGender));
 }
 
 void Account::setGender(Gender nGender)
@@ -162,10 +216,7 @@ void Account::setGender(Gender nGender)
 
 void Account::setDateOfBirth(const std::string &nDateOfBirth)
 {
-	int day = nDateOfBirth[0]*10 + nDateOfBirth[1];
-	int month = nDateOfBirth[3]*10 + nDateOfBirth[4];
-	int year = nDateOfBirth[6]*1000 + nDateOfBirth[7]*100 + nDateOfBirth[8]*10 + nDateOfBirth[9];
-	dateOfBirth_ = Date(year, month, day);
+	setDateOfBirth(stringToDate(nDateOfBirth));
 }
 
 void Account::setDateOfBirth(const Date &nDateOfBirth)
