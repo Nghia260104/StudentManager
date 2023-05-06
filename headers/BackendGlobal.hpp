@@ -36,6 +36,7 @@ namespace Backend
 	extern List<Account*> g_accounts;
 
 	bool loadData();
+	void saveData();
 	std::string toString(const std::wstring&);
 
 	void setActiveUser(Account *account);

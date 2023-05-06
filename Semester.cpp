@@ -10,19 +10,32 @@ bool Semester::loadSemesters(const std::filesystem::path &path, SchoolYear *scho
 {
 	if (!std::filesystem::exists(path))
 	{
-		/* std::cerr << "Semesters path does not exist" << std::endl; */
 		return 0;
 	}
 
-	/* std::cerr << "Semesters path exists" << std::endl; */
 	for (auto semesterPath: std::filesystem::directory_iterator(path))
 	{
 		int id = std::stoi(semesterPath.path().filename());
-		/* std::cerr << id << std::endl; */
 		g_semesters.push_back(Semester(id, schoolYear));
 		Course::loadCourses(semesterPath.path(), &g_semesters.back());
 	}
 	return 1;
+}
+
+void Semester::saveSemesters(const std::filesystem::path &path, SchoolYear *schoolYear)
+{
+	if (!std::filesystem::exists(path))
+	{
+		std::filesystem::create_directories(path);
+	}
+	
+	for (auto iSemester = schoolYear->semesters().begin();
+		 iSemester != schoolYear->semesters().end();
+		 ++iSemester)
+	{
+		std::filesystem::path currSemesterPath(path/std::to_string((*iSemester)->getID()));
+		Course::saveCourses(currSemesterPath, *iSemester);
+	}
 }
 
 Semester::Semester()

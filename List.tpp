@@ -227,7 +227,7 @@ typename List<T>::iterator List<T>::find_if(UnaryPredicate predicate) const
 {
 	for (auto it = begin(); it != end(); ++it)
 	{
-		if (!predicate(*it))
+		if (predicate(*it))
 		{
 			return it;
 		}

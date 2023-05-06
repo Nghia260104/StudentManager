@@ -26,15 +26,14 @@ bool Course::loadCourses(const std::filesystem::path &path, Semester *semester)
 void Course::loadOneCourse(const std::filesystem::path &courseFile, Semester *semester)
 {
 	std::string courseFileStem = toString(courseFile.stem());
-	/* std::cerr << courseFileStem << std::endl; */
 	g_courses.push_back(Course(courseFileStem, semester));
 
 	std::ifstream fi(courseFile);
-	loadOneCourseGeneral(fi, semester);
+	loadOneCourseGeneral(fi);
 	loadOneCourseStudents(fi);
 }
 
-void Course::loadOneCourseGeneral(std::ifstream &fi, Semester *semester)
+void Course::loadOneCourseGeneral(std::ifstream &fi)
 {
 	Course &currCourse = g_courses.back();
 	
@@ -48,17 +47,14 @@ void Course::loadOneCourseGeneral(std::ifstream &fi, Semester *semester)
 
 	if (std::getline(fi, line))
 	{
-		/* std::cerr << line << std::endl; */
 		currCourse.setCourseName(line);
 	}
 	if (std::getline(fi, line))
 	{
-		/* std::cerr << line << std::endl; */
 		currCourse.setTeacherName(line);
 	}
 	if (std::getline(fi, line))
 	{
-		/* std::cerr << line << std::endl; */
 		currCourse.setMaxStudents(std::stoi(line));
 	}
 	if (std::getline(fi, line))
@@ -71,10 +67,8 @@ void Course::loadOneCourseGeneral(std::ifstream &fi, Semester *semester)
 	{
 		std::stringstream streamLine(line);
 		std::getline(streamLine, word, ',');
-		/* std::cerr << word << std::endl; */
 		currCourse.session().day = word;
 		std::getline(streamLine, word, ',');
-		/* std::cerr << word << std::endl; */
 		currCourse.session().type = word;
 	}
 }
@@ -88,7 +82,7 @@ void Course::loadOneCourseStudents(std::ifstream &fi)
 	
 	/* Read studentInfos' information
 	 * Each line's content has the form of:
-	 * ID,totalMark,finalMark,midtermMark,otherMark */
+	 * ID,midtermMark,finalMark,otherMark,totalMark */
 	while (std::getline(fi, line))
 	{
 		streamLine.str(line);
@@ -108,18 +102,60 @@ void Course::loadOneCourseStudents(std::ifstream &fi)
 		
 		std::getline(streamLine, word, ',');
 		recentlyAddedStudent.student->setID(word);
-		
-		std::getline(streamLine, word, ',');
-		recentlyAddedStudent.totalMark = std::stof(word);
-
-		std::getline(streamLine, word, ',');
-		recentlyAddedStudent.finalMark = std::stof(word);
 
 		std::getline(streamLine, word, ',');
 		recentlyAddedStudent.midtermMark = std::stof(word);
 		
 		std::getline(streamLine, word, ',');
+		recentlyAddedStudent.finalMark = std::stof(word);
+		
+		std::getline(streamLine, word, ',');
 		recentlyAddedStudent.otherMark = std::stof(word);
+
+		std::getline(streamLine, word, ',');
+		recentlyAddedStudent.totalMark = std::stof(word);
+	}
+}
+
+void Course::saveCourses(const std::filesystem::path &path, Semester *semester)
+{
+	if (!std::filesystem::exists(path))
+	{
+		std::filesystem::create_directories(path);
+	}
+
+	std::ofstream fo;
+	for (auto iCourse = semester->courses().begin();
+		 iCourse != semester->courses().end();
+		 ++iCourse)
+	{
+		fo.open(path/((*iCourse)->getID() + "csv"));
+		saveOneCourseGeneral(fo, *iCourse);
+		saveOneCourseStudents(fo, *iCourse);
+		fo.close();
+	}
+}
+
+void Course::saveOneCourseGeneral(std::ofstream &fo, Course *course)
+{
+	fo << course->getCourseName() << '\n';
+	fo << course->getTeacherName() << '\n';
+	fo << course->getMaxStudents() << '\n';
+	fo << course->getNumberOfCredits() << '\n';
+	fo << course->session().getTime() << '\n';
+}
+
+void Course::saveOneCourseStudents(std::ofstream &fo, Course *course)
+{
+	for (auto iStudentInfo = course->studentInfos().begin();
+		 iStudentInfo != course->studentInfos().end();
+		 ++iStudentInfo)
+	{
+		fo << iStudentInfo->student->getID() << ',';
+		fo << iStudentInfo->midtermMark << ',';
+		fo << iStudentInfo->finalMark << ',';
+		fo << iStudentInfo->otherMark << ',';
+		fo << iStudentInfo->totalMark << '\n';
 	}
 }
 

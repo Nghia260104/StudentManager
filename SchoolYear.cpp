@@ -28,6 +28,23 @@ bool SchoolYear::loadSchoolYears()
 	return 1;
 }
 
+void SchoolYear::saveSchoolYears()
+{
+	std::filesystem::path schoolYearsPath(SCHOOL_YEARS_PATH);
+	
+	if (!std::filesystem::exists(schoolYearsPath))
+	{
+		std::filesystem::create_directories(schoolYearsPath);
+	}
+	
+	for (auto schoolYear: g_schoolYears)
+	{
+		std::filesystem::path currSchoolYearPath(schoolYearsPath/std::to_string(schoolYear.getStartYear()));
+
+		Semester::saveSemesters(currSchoolYearPath, &schoolYear);
+	}
+}
+
 SchoolYear::SchoolYear()
 {}
 
