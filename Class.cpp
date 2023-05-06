@@ -78,6 +78,12 @@ void Class::loadOneClass(const std::filesystem::path &path)
 
 void Class::saveClasses()
 {
+	std::filesystem::path classesPath(CLASSES_PATH);
+	for (auto directory: std::filesystem::directory_iterator(classesPath))
+	{
+		std::filesystem::remove_all(directory.path());
+	}
+	
 	for (auto iClass = g_classes.begin(); iClass != g_classes.end(); ++iClass)
 	{
 		saveOneClass(&*iClass);
