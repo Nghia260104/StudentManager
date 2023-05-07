@@ -100,16 +100,10 @@ bool StaffMember::deleteStudent(const std::string &studentID)
 
 	currStudent->getClass()->removeStudent(&*currStudent);
 
-	/* remove the student from its courses */
-	for (auto iCourseInfo = currStudent->courseInfos().begin();
-		 iCourseInfo != currStudent->courseInfos().end();
-		 ++iCourseInfo)
+	while (!currStudent->courseInfos().empty())
 	{
-		iCourseInfo->course->studentInfos().remove_if(
-			[&](const Course::StudentInfo &studentInfo) -> bool
-			{
-				return studentInfo.student == &*currStudent;
-			});
+		Course *course = currStudent->courseInfos().front().course;
+		course->removeStudent(&*currStudent);
 	}
 
 	g_students.erase(currStudent);
@@ -191,11 +185,12 @@ bool StaffMember::deleteSemester(int id, int schoolStartYear)
 	}
 
     currSemester->schoolYear()->removeSemester(&*currSemester);
-	g_courses.remove_if(
-		[&](const Course &course) -> bool
-		{
-			return course.semester() == &*currSemester;
-		});
+
+	while (!currSemester->courses().empty())
+	{
+		deleteCourse(currSemester->courses().front()->getID());
+	}
+	
 	g_semesters.erase(currSemester);
 
 	return 1;
@@ -241,15 +236,9 @@ bool StaffMember::deleteCourse(const std::string &id)
 
 	currCourse->semester()->removeCourse(&*currCourse);
 	
-	for (auto iStudent = currCourse->studentInfos().begin();
-		 iStudent != currCourse->studentInfos().end();
-		 ++iStudent)
+	while (!currCourse->studentInfos().empty())
 	{
-		iStudent->student->courseInfos().remove_if(
-			[&](const Student::CourseInfo &courseInfo) -> bool
-			{
-				return courseInfo.course == &*currCourse;
-			});
+		currCourse->removeStudent(currCourse->studentInfos().front().student);
 	}
 
 	g_courses.erase(currCourse);
@@ -286,11 +275,9 @@ bool StaffMember::deleteClass(const std::string &id)
 		return 0;
 	}
 	
-	for (auto iStudent = currClass->students().begin();
-		 iStudent != currClass->students().end();
-		 ++iStudent)
+	while (!currClass->students().empty())
 	{
-		(*iStudent)->getClass() = nullptr;
+		currClass->removeStudent(currClass->students().front());
 	}
 
 	g_classes.erase(currClass);
