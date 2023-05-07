@@ -35,12 +35,10 @@ bool Account::loadAccounts()
 			g_accounts.push_back(static_cast<Account*>(&g_admin));
 			break;
 		case Type::StaffMember:
-			g_staffMembers.push_back(StaffMember(username));
-			g_accounts.push_back(static_cast<Account*>(&g_staffMembers.back()));
+			StaffMember::createStaffMember(username);
 			break;
 		default:
-			g_students.push_back(Student(username));
-			g_accounts.push_back(static_cast<Account*>(&g_students.back()));
+			Student::createStudent(username);
 		}
 
 		g_accounts.back()->setPassword(password);

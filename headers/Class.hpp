@@ -15,6 +15,9 @@ namespace Backend
 		static void saveClasses();
 		static void clearClasses();
 		
+		static bool createClass(const std::string &id);
+	    static bool deleteClass(const std::string &id);
+		
 		Class();
 		Class(const std::string &nID);
 

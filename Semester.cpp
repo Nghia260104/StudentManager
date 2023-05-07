@@ -50,9 +50,53 @@ void Semester::clearSemesters(SchoolYear *schoolYear)
 {
 	while (!schoolYear->semesters().empty())
 	{
-		StaffMember::deleteSemester(schoolYear->semesters().front()->getID(),
+		Semester::deleteSemester(schoolYear->semesters().front()->getID(),
 									schoolYear->getStartYear());
 	}
+}
+
+bool Semester::createSemester(int id, int schoolStartYear)
+{
+	auto currSchoolYear = g_schoolYears.find_if(
+		[&](const SchoolYear &schoolYear) -> bool
+		{
+			return schoolYear.getStartYear() == schoolStartYear;
+		});
+
+	if (currSchoolYear == g_schoolYears.end())
+	{
+		return 0;
+	}
+	
+	g_semesters.push_back(Semester(id, &*currSchoolYear));
+	currSchoolYear->addSemester(&g_semesters.back());
+	return 1;
+}
+
+bool Semester::deleteSemester(int id, int schoolStartYear)
+{
+    auto currSemester = g_semesters.find_if(
+		[&](const Semester &semester) -> bool
+		{
+			return semester.schoolYear()->getStartYear() == schoolStartYear
+				&& semester.getID() == id;
+		});
+
+	if (currSemester == g_semesters.end())
+	{
+		return 0;
+	}
+
+    currSemester->schoolYear()->removeSemester(&*currSemester);
+
+	while (!currSemester->courses().empty())
+	{
+		Course::deleteCourse(currSemester->courses().front()->getID());
+	}
+	
+	g_semesters.erase(currSemester);
+
+	return 1;
 }
 
 Semester::Semester()

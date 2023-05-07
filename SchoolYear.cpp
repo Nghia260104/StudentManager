@@ -54,8 +54,49 @@ void SchoolYear::clearSchoolYears()
 {
 	while (!g_schoolYears.empty())
 	{
-		StaffMember::deleteSchoolYear(g_schoolYears.back().getStartYear());
+		SchoolYear::deleteSchoolYear(g_schoolYears.back().getStartYear());
 	}
+}
+
+bool SchoolYear::createSchoolYear(int startYear)
+{
+	if (g_schoolYears.find_if(
+			[=](const SchoolYear &schoolYear) -> bool
+			{
+				return schoolYear.getStartYear() == startYear;
+			})
+		!= g_schoolYears.end())
+	{
+		return 0;
+	}
+
+	g_schoolYears.push_back(SchoolYear(startYear));
+	return 1;
+}
+
+bool SchoolYear::deleteSchoolYear(int startYear)
+{
+	auto currSchoolYear = g_schoolYears.find_if(
+		[&](const SchoolYear &schoolYear) -> bool
+		{
+			return schoolYear.getStartYear() == startYear;
+		});
+
+	if (currSchoolYear == g_schoolYears.end())
+	{
+		return 0;
+	}
+	
+	for (auto iSemester = currSchoolYear->semesters().begin();
+		 iSemester != currSchoolYear->semesters().end();
+		 ++iSemester)
+	{
+		Semester::deleteSemester((*iSemester)->getID(), startYear);
+	}
+
+	g_schoolYears.erase(currSchoolYear);
+
+	return 1;
 }
 
 SchoolYear::SchoolYear()

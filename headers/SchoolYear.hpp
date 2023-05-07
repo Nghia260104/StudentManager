@@ -16,6 +16,9 @@ namespace Backend
 		static void saveSchoolYears();
 		static void clearSchoolYears();
 		
+		static bool createSchoolYear(int startYear);
+	    static bool deleteSchoolYear(int startYear);
+		
 		SchoolYear();
 		SchoolYear(int nStartYear);
 

@@ -170,8 +170,58 @@ void Course::clearCourses(Semester *semester)
 {
 	while (!semester->courses().empty())
 	{
-		StaffMember::deleteCourse(semester->courses().front()->getID());
+		Course::deleteCourse(semester->courses().front()->getID());
 	}
+}
+
+bool Course::createCourse(const std::string &courseID, int semesterID, int schoolStartYear)
+{
+	auto currCourse = g_courses.find_if(
+		[&](const Course &course) -> bool
+		{
+			return course.getID() == courseID;
+		});
+
+	if (currCourse != g_courses.end())
+	{
+		return 0;
+	}
+	
+    auto currSemester = g_semesters.find_if(
+		[&](const Semester &semester) -> bool
+		{
+			return semester.schoolYear()->getStartYear() == schoolStartYear
+				&& semester.getID() == semesterID;
+		});
+	
+	g_courses.push_back(Course(courseID, &*currSemester));
+	
+	return 1;
+}
+
+bool Course::deleteCourse(const std::string &id)
+{
+	auto currCourse = g_courses.find_if(
+		[&](const Course &course) -> bool
+		{
+			return course.getID() == id;
+		});
+
+	if (currCourse == g_courses.end())
+	{
+		return 0;
+	}
+
+	currCourse->semester()->removeCourse(&*currCourse);
+	
+	while (!currCourse->studentInfos().empty())
+	{
+		currCourse->removeStudent(currCourse->studentInfos().front().student);
+	}
+
+	g_courses.erase(currCourse);
+	
+	return 1;
 }
 
 /* struct Session */

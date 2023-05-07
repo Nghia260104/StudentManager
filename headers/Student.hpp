@@ -23,10 +23,11 @@ namespace Backend
 			CourseInfo(Course *nCourse = nullptr, Course::StudentInfo *nStudentInfo = nullptr);
 		};
 		
+		static bool createStudent(const std::string &studentID);
+	    static bool deleteStudent(const std::string &studentID);
+		
 		Student();
 		Student(const std::string &nID);
-		
-		static bool loadStudents();
 		
 		const std::string& getID() const;
 		Class*& getClass();

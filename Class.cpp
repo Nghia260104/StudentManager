@@ -114,8 +114,47 @@ void Class::clearClasses()
 {
 	while (!g_classes.empty())
 	{
-		StaffMember::deleteClass(g_classes.front().getID());
+		Class::deleteClass(g_classes.front().getID());
 	}
+}
+
+bool Class::createClass(const std::string &id)
+{
+	if (g_classes.find_if(
+			[&](const Class &currClass) -> bool
+			{
+				return currClass.getID() == id;
+			})
+		!= g_classes.end())
+	{
+		return 0;
+	}
+
+	g_classes.push_back(Class(id));
+	return 1;
+}
+
+bool Class::deleteClass(const std::string &id)
+{
+	auto currClass = g_classes.find_if(
+		[&](const Class &class_) -> bool
+		{
+			return class_.getID() == id;
+		});
+
+	if (currClass == g_classes.end())
+	{
+		return 0;
+	}
+	
+	while (!currClass->students().empty())
+	{
+		currClass->removeStudent(currClass->students().front());
+	}
+
+	g_classes.erase(currClass);
+	
+	return 1;
 }
 
 Class::Class()

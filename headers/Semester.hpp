@@ -19,6 +19,9 @@ namespace Backend
 		static void saveSemesters(const std::filesystem::path &path, SchoolYear *schoolYear);
 		static void clearSemesters(SchoolYear *schoolYear);
 		
+		static bool createSemester(int id, int schoolYear);
+	    static bool deleteSemester(int id, int schoolYear);
+		
 		int getID() const;
 		SchoolYear*& schoolYear();
 		SchoolYear* const& schoolYear() const;
