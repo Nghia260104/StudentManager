@@ -8,6 +8,7 @@
 #include <Layer.hpp>
 #include <Page.hpp>
 #include <Profile.hpp>
+#include <PersonalScoreboard.hpp>
 
 class StudentWindow : public sf::Drawable
 {
@@ -45,6 +46,7 @@ private:
     sf::Text AccountName;
     int NumPage, TotalPage;
     CoursesTable Courses;
+    PersonalScoreboard Scoreboard;
     PasswordWindow Password;
     Profile profile;
     Page pages;

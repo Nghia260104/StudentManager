@@ -1,6 +1,7 @@
 // #include <SFML/Graphics.hpp>
 #include <StudentManager.hpp>
 #include <FrontendGlobal.hpp>
+#include <BackendGlobal.hpp>
 #include <Password.hpp>
 #include <CoursesTable.hpp>
 #include <StudentWindow.hpp>
@@ -28,11 +29,8 @@ private:
 };
 
 // Windows
-PasswordWindow TestWindow;
-CoursesTable Test12;
-StudentWindow Test20;
-Page pages;
-extern List<Backend::Course *> list;
+// extern List<Backend::Course *> list;
+sf::Image icon;
 
 int main()
 {
@@ -44,20 +42,22 @@ int main()
                   sf::Style::Default ^ sf::Style::Resize);
     window.setPosition(sf::Vector2i(0, 0));
     window.setFramerateLimit(60);
+
     LeftWindowWidth = (window.getSize().x * 4) / 5;
     RightWindowWidth = window.getSize().x - LeftWindowWidth;
     BackgroundColor = sf::Color::White;
+
+    icon.loadFromFile("../resources/Logo/Exe's Logo.png");
+    window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
+
+    // Load Data
+
+    if (!Backend::loadData()) std::cerr << "Fail";
 
     // Load Fonts
     LoadFonts(RegularFont, BoldFont, MediumFont, LightFont, HeavyFont);
 
     // Test
-
-    // for (int i = 0; i < 25; i++)
-    // {
-    //     Backend::Course *Tmp = new Backend::Course;
-    //     list.push_back(Tmp);
-    // }
 
     // LogIn LogInWindow;
     LogInWindow.create();
@@ -68,25 +68,8 @@ int main()
     // Admin Window
     AdminScreen.create();
 
-    // Password Window
-    TestWindow.create();
-
-    List<Backend::Course *> Tmp;
-    Backend::Course *Tmp1;
-    Tmp1 = new Backend::Course;
-    Tmp1->setID("22125066");
-    Tmp1->setMaxStudents(40);
-    Tmp.push_back(Tmp1);
-    // Test12.setFont(RegularFont);
-    Test12.create(RegularFont);
-    Test12.drawTexture(Tmp, 1);
-    Test12.setPosition(100, 100);
-
-    pages.create();
-    pages.setPosition(Test12.getPosition().x + 577, Test12.getPosition().y + Test12.getHeight() + 20);
-    pages.drawTexture();
-
-    // Test20.create();
+    // Staff Window
+    StaffScreen.create();
 
     ///////////////////////////////////////////////////////////////////////////////////////
 
@@ -111,13 +94,9 @@ int main()
                 StudentScreen.processEvent(event);
             if (!AdminScreen.isHidden())
                 AdminScreen.processEvent(event);
-            // TestWindow.processEvent(event);
-            // Test20.processEvent(event);
+            if (!StaffScreen.isHidden())
+                StaffScreen.processEvent(event);
         }
-        // Circle circle;
-
-        // window.clear(sf::Color::Black);
-        // window.draw(circle);
         // if (TestWindow.mouseOn(MousePos))
         // {
         //     cursor.loadFromSystem(sf::Cursor::Text);
@@ -136,9 +115,9 @@ int main()
             window.draw(StudentScreen);
         if (!AdminScreen.isHidden())
             window.draw(AdminScreen);
-        // window.draw(TestWindow);
-        // window.draw(Test12);
-        // window.draw(pages);
+        if (!StaffScreen.isHidden())
+            window.draw(StaffScreen);
         window.display();
     }
+    // Backend::saveData();
 }

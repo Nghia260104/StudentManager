@@ -1,5 +1,6 @@
 #include <LogIn.hpp>
 #include <FrontendGlobal.hpp>
+#include <BackendGlobal.hpp>
 
 // Constructor ///////////////////////////////////////////////////////////////////////////////////////////////////
 
@@ -95,7 +96,6 @@ void LogIn::create()
 
     hidden = 0;
     fail = 0;
-
 }
 
 // Misc //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -110,8 +110,8 @@ void LogIn::processEvent(sf::Event event)
     if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
     {
         const std::string user = Username.getText(), pass = Password.getText();
-        // if (!Backend::activeUser->signIn(user, pass)) fail = 1;
-        if (user != (sf::String)"Admin" || pass != (sf::String)"123") fail = 1;
+        if (!Backend::activeUser->signIn(user, pass))
+            fail = 1;
         else
         {
             fail = 0;
@@ -120,8 +120,21 @@ void LogIn::processEvent(sf::Event event)
             Username.drawTexture();
             Password.drawTexture();
             hide();
-            AdminScreen.Show();
-            // StudentScreen.Show();
+            if (Backend::activeUser->getType() == Backend::Account::Type::Admin)
+            {
+                AdminScreen.Show();
+                std::cerr << 1 << '\n';
+            }
+            if (Backend::activeUser->getType() == Backend::Account::Type::Student)
+            {
+                StudentScreen.Show();
+                std::cerr << 2 << '\n';
+            }
+            if (Backend::activeUser->getType() == Backend::Account::Type::StaffMember)
+            {
+                StaffScreen.Show();
+                std::cerr << 3 << '\n';
+            }
         }
         drawTexture();
     }
@@ -169,7 +182,8 @@ void LogIn::drawTexture()
     Texture.draw(Title1);
     Texture.draw(Username);
     Texture.draw(Title2);
-    if (fail) Texture.draw(Fail);
+    if (fail)
+        Texture.draw(Fail);
     Texture.draw(Password);
     Texture.display();
 }

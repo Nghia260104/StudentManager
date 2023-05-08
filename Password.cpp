@@ -180,8 +180,8 @@ void PasswordWindow::processEvent(sf::Event event)
     if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
     {
         fail = 0;
-        // if (!Backend::activeUser->changePassword(Current.getText(), NewPassword.getText(), confirmPassword.getText()))
-        //     fail = 1;
+        if (!Backend::activeUser->changePassword(Current.getText(), NewPassword.getText(), confirmPassword.getText()))
+            fail = 1;
         if (NewPassword.getText() != confirmPassword.getText())
             fail = 2;
         drawTexture();

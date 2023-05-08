@@ -159,6 +159,14 @@ void AddStaffMember::create()
     Fail2.setString("Failed: Invalid Date!");
     Fail2.setPosition(400, 780);
 
+    // Fail type 3 : Staff member existed
+
+    Fail3.setFont(RegularFont);
+    Fail3.setCharacterSize(20);
+    Fail3.setFillColor(sf::Color(168, 30, 20, 255));
+    Fail3.setString("Failed: Staff member existed!");
+    Fail3.setPosition(400, 780);
+
     // Success
 
     Success.setFont(RegularFont);
@@ -201,6 +209,8 @@ void AddStaffMember::drawTexture()
         Texture.draw(Fail1);
     if (fail == invalid)
         Texture.draw(Fail2);
+    if (fail == existed)
+        Texture.draw(Fail3);
     Texture.display();
 }
 
@@ -260,15 +270,22 @@ void AddStaffMember::processEvent(sf::Event event)
         bool check = 1;
         for (int i = 0; i < numCell; i++)
             check &= (bool)(Cell[i].getText().getSize());
+        Date Tmp(std::stoi(std::string(Cell[6].getText())),
+                 std::stoi(std::string(Cell[5].getText())),
+                 std::stoi(std::string(Cell[4].getText())));
         if (!check)
             fail = empty;
+        else if (!Tmp.isValidDate())
+            fail = invalid;
+        else if (!Backend::StaffMember::createStaffMember(Cell[0].getText()))
+            fail = existed;
         else
         {
-            Date Tmp(std::stoi(std::string(Cell[6].getText())),
-                     std::stoi(std::string(Cell[5].getText())),
-                     std::stoi(std::string(Cell[4].getText())));
-            if (!Tmp.isValidDate())
-                fail = invalid;
+            auto Staff = Backend::g_staffMembers.back();
+            Staff.setDateOfBirth(Tmp);
+            Staff.setFirstName(Cell[1].getText());
+            Staff.setLastName(Cell[2].getText());
+            Staff.setGender(Cell[3].getText());
         }
         drawTexture();
     }

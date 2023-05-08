@@ -120,6 +120,11 @@ void Button::setCoverColor(sf::Color color)
     Cover = color;
 }
 
+sf::String Button::getText() const
+{
+    return Text.getString();
+}
+
 // Draw ///////////////////////////////////////////////////////////////////////////////////////////////
 
 void Button::draw(sf::RenderTarget &target, sf::RenderStates states) const

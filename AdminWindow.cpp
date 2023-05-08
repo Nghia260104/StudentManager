@@ -48,7 +48,7 @@ void AdminWindow::create()
     DeleteStaff.setFillColor(sf::Color(9, 66, 55, 255));
     DeleteStaff.setTextColor(sf::Color::White);
     DeleteStaff.setCoverColor(sf::Color(30, 100, 70, 200));
-    
+
     ////// Delete Staff Window
 
     DeleteWindow.create();
@@ -117,7 +117,8 @@ void AdminWindow::FirstDraw()
 void AdminWindow::drawTexture()
 {
     Texture.draw(Background);
-    Texture.draw(Back);
+    if (layer.lvl)
+        Texture.draw(Back);
     if (layer.lvl == Home)
     {
         Texture.draw(AddStaff);
@@ -151,6 +152,7 @@ void AdminWindow::processEvent(sf::Event event)
         layer.type = 0;
         drawTexture();
         Hide();
+        Backend::activeUser->logOut();
         LogInWindow.show();
     }
     if (changePassword.isPressed(event))

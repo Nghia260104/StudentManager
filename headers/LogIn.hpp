@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <BackendGlobal.hpp>
 #include <TextBox.hpp>
 #include <Button.hpp>
 

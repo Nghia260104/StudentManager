@@ -10,7 +10,6 @@ bool Account::loadAccounts()
 {
 	std::ifstream fi;
 	fi.open(ACCOUNTS_PATH);
-	std::cerr << ACCOUNTS_PATH << '\n';
 	
 	if (!fi.is_open())
 	{
@@ -42,6 +41,10 @@ bool Account::loadAccounts()
 		}
 
 		g_accounts.back()->setPassword(password);
+	}
+	for (auto it = g_accounts.begin(); it != g_accounts.end(); ++it)
+	{
+		std::cerr << typeToString((*it)->getType()) << ' ' << (*it)->getUsername() << ' ' << (*it)->getPassword() << std::endl;
 	}
 	return 1;
 }

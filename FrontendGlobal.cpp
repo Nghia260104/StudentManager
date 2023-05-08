@@ -2,6 +2,7 @@
 #include <LogIn.hpp>
 #include <StudentWindow.hpp>
 #include <AdminWindow.hpp>
+#include <StaffWindow.hpp>
 
 sf::RenderWindow window;
 sf::Clock Clock;
@@ -11,4 +12,5 @@ sf::Cursor cursor;
 LogIn LogInWindow;
 StudentWindow StudentScreen;
 AdminWindow AdminScreen;
+StaffWindow StaffScreen;
 int LeftWindowWidth, RightWindowWidth;

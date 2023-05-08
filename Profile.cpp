@@ -73,16 +73,16 @@ void Profile::draw(sf::RenderTarget &target, sf::RenderStates state) const
 
 void Profile::drawTexture()
 {
-    Content[0].setText("22125066");         // reinterpret_cast<Backend::Student*>(Backend::activeUser)->getID()
-    Content[1].setText("Pham Trung Nghia"); // Backend::activeUser->getName()
-    // if (Backend::activeUser->getGender() == Backend::Account::Gender::Male)
-    //     Content[2].setText("Male");
-    // else
-    //     Content[2].setText("Female");
-    // Date Tmp = Backend::activeUser->getDateOfBirth();
-    // Content[3].setText(std::to_string(Tmp.day) + '/' + std::to_string(Tmp.month) + '/' + std::to_string(Tmp.year));
-    Content[4].setText("064204003494"); // Backend::activeUser->getSocialID()
-    for (int i = 0; i < numRow; i++)
+    Content[0].setText(dynamic_cast<Backend::Student*>(Backend::activeUser)->getID());         // reinterpret_cast<Backend::Student*>(Backend::activeUser)->getID()
+    Content[1].setText(Backend::activeUser->getName()); // Backend::activeUser->getName()
+    if (Backend::activeUser->getGender() == Backend::Account::Gender::Male)
+        Content[2].setText("Male");
+    else
+        Content[2].setText("Female");
+    Date Tmp = Backend::activeUser->getDateOfBirth();
+    Content[3].setText(std::to_string(Tmp.day) + '/' + std::to_string(Tmp.month) + '/' + std::to_string(Tmp.year));
+    Content[4].setText(Backend::activeUser->getSocialID()); // Backend::activeUser->getSocialID()
+    for (int i = (Backend::activeUser->getType() == Backend::Account::Type::Student ? 0 : 1); i < numRow; i++)
     {
         Content[i].drawTexture();
         Texture.draw(Content[i]);

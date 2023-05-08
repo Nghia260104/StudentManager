@@ -119,6 +119,8 @@ void DeleteStaffMember::processEvent(sf::Event event)
     if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
     {
         fail = 0;
+        if (!Backend::StaffMember::deleteStaffMember(Username.getText()))
+            fail = invalid;
         drawTexture();
     }
 }

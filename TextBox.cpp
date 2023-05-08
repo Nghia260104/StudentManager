@@ -9,6 +9,7 @@ extern sf::RenderWindow window;
 TextBox::TextBox()
 {
     setPosition(0, 0);
+    // setGlobalPosition(0, 0);
     setSize(50.0f, 50.0f);
     setOutlineColor();
     setFontSize();
@@ -19,6 +20,7 @@ TextBox::TextBox()
     HasLimit = 0;
     isTyping = 0;
     OnlyNumber = 0;
+    FloatNumber = 0;
     // Texture.create(1000.0f, 500.0f);
     FKey = 0;
     Type = 0;
@@ -32,6 +34,7 @@ TextBox::TextBox()
 TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::Vector2f pos)
 {
     setPosition(a, b);
+    // setGlobalPosition(0, 0);
     setSize(w, h);
     setFontSize(fontsize);
     setOutlineColor();
@@ -41,6 +44,7 @@ TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::
     HasCaret = 0;
     HasLimit = 0;
     OnlyNumber = 0;
+    FloatNumber = 0;
     isTyping = 0;
     Texture.create(w, h);
     Rec.setPosition(0, 0);
@@ -56,6 +60,7 @@ TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::
 void TextBox::create(float a, float b, float w, float h, unsigned int fontsize, sf::Vector2f pos)
 {
     setPosition(a, b);
+    // setGlobalPosition(0, 0);
     setSize(w, h);
     setFontSize(fontsize);
     setOutlineColor();
@@ -65,6 +70,7 @@ void TextBox::create(float a, float b, float w, float h, unsigned int fontsize, 
     HasCaret = 0;
     HasLimit = 0;
     OnlyNumber = 0;
+    FloatNumber = 0;
     isTyping = 0;
     Texture.create(w, h);
     Rec.setPosition(0, 0);
@@ -89,6 +95,12 @@ void TextBox::setPosition(float a, float b)
     x = a;
     y = b;
 }
+
+// void TextBox::setGlobalPosition(float a, float b)
+// {
+//     g_x = x + a;
+//     g_y = y + b;
+// }
 
 void TextBox::setSize(float w, float h)
 {
@@ -158,6 +170,7 @@ void TextBox::erase()
     if (password)
         Pass.clear();
     id = 0;
+    drawTexture();
 }
 
 void TextBox::setPassword()
@@ -359,6 +372,11 @@ void TextBox::setNumber()
     OnlyNumber = 1;
 }
 
+void TextBox::setFloatNumber()
+{
+    FloatNumber = 1;
+}
+
 // Draw //////////////////////////////////////////////////////////////////////////////////////////////////
 
 void TextBox::draw(sf::RenderTarget &target, sf::RenderStates state) const
@@ -485,19 +503,37 @@ void TextBox::updateText()
         if (OnlyNumber && Type == TextEntered)
         {
             if ('0' <= Key && Key <= '9')
-            if (Text.getString().getSize() < limit)
-            {
-                sf::String S = Text.getString();
-                if (!password)
-                    S.insert(id, (sf::String) static_cast<char>(Key));
-                else
+                if (Text.getString().getSize() < limit)
                 {
-                    S.insert(id, '*');
-                    Pass.insert(id, (sf::String) static_cast<char>(Key));
+                    sf::String S = Text.getString();
+                    if (!password)
+                        S.insert(id, (sf::String) static_cast<char>(Key));
+                    else
+                    {
+                        S.insert(id, '*');
+                        Pass.insert(id, (sf::String) static_cast<char>(Key));
+                    }
+                    Text.setString(S);
+                    id++;
                 }
-                Text.setString(S);
-                id++;
-            }
+            return;
+        }
+        if (FloatNumber && Type == TextEntered)
+        {
+            if (('0' <= Key && Key <= '9') || Key == '.')
+                if (Text.getString().getSize() < limit)
+                {
+                    sf::String S = Text.getString();
+                    if (!password)
+                        S.insert(id, (sf::String) static_cast<char>(Key));
+                    else
+                    {
+                        S.insert(id, '*');
+                        Pass.insert(id, (sf::String) static_cast<char>(Key));
+                    }
+                    Text.setString(S);
+                    id++;
+                }
             return;
         }
         if (Type == TextEntered && Key < 128 && Key != '\b' && Key != '\n' && Key != '\r')

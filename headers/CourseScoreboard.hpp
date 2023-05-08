@@ -2,13 +2,14 @@
 #include <SFML/Graphics.hpp>
 #include <TextBox.hpp>
 #include <Student.hpp>
+#include <Course.hpp>
 
-class PersonalScoreboard : public sf::Drawable
+class CourseScoreboard : public sf::Drawable
 {
 public:
     // Constructor
 
-    PersonalScoreboard();
+    CourseScoreboard();
     void create(sf::Font &font);
 
     // Text
@@ -27,7 +28,7 @@ public:
 
     // Destructor
 
-    ~PersonalScoreboard();
+    ~CourseScoreboard();
 
 protected:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates state) const;
@@ -35,7 +36,7 @@ protected:
 private:
     float x, y;
     int size, *width, *pos, height, numRow;
-    const int numCell = 6, MAX_ROW = 15, Offset_x = 100, Offset_y = 75;
+    const int numCell = 8, MAX_ROW = 15, Offset_x = 100, Offset_y = 75;
     TextBox *Cell;
     sf::RectangleShape Background;
     sf::Text Title;

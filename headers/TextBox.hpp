@@ -14,6 +14,7 @@ public:
     // Box
 
     void setPosition(float a, float b);
+    // void setGlobalPosition(float a, float b);
     void setSize(float w, float h);
     void setOutlineColor(sf::Color c1 = sf::Color::Black, sf::Color c2 = sf::Color::Black);
     void setFillColor(sf::Color color = sf::Color::White, float ratio = 0);
@@ -42,6 +43,7 @@ public:
     bool mouseOn(const sf::Vector2i &MousePos);
     void setLimit(unsigned int lim);
     void setNumber();
+    void setFloatNumber();
 
     // Draw
 
@@ -51,14 +53,14 @@ protected:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates states) const;
 
 private:
-    float x, y;
+    float x, y, g_x, g_y;
     sf::Vector2f posText, RecSize;
     sf::Text Text;
     sf::RectangleShape Rec;
     sf::RenderTexture Texture;
     sf::Color color1, color2, fill;
     sf::String Pass;
-    bool isTyping, HasCaret, AllowTyping, HasLimit, password, OnlyNumber;
+    bool isTyping, HasCaret, AllowTyping, HasLimit, password, OnlyNumber, FloatNumber;
     unsigned int EdgeOpacity;
     int FKey, Key, limit;
     const int Backspace = sf::Keyboard::Backspace,

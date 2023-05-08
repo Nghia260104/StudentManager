@@ -32,6 +32,7 @@ public:
     bool isPressed(sf::Event event);
     void setCoverColor(sf::Color color = sf::Color::Transparent);
     bool mouseOn(const sf::Vector2i &MousePos) const;
+    sf::String getText() const;
 
     // Draw
 

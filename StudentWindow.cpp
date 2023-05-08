@@ -3,6 +3,7 @@
 #include <BackendGlobal.hpp>
 
 List<Backend::Course *> list;
+List<Backend::Student::CourseInfo> list1;
 
 // Constructor ///////////////////////////////////////////////////////////////////////////////
 
@@ -82,6 +83,11 @@ void StudentWindow::create()
     Courses.create(RegularFont);
     Courses.setPosition(100, 75);
 
+    // View Scoreboard Window
+
+    Scoreboard.create(RegularFont);
+    Scoreboard.setPosition(100, 75);
+
     // Change Password Window
 
     Password.create();
@@ -96,7 +102,7 @@ void StudentWindow::create()
 
     // First Draw
 
-    FirstDraw();
+    // FirstDraw();
 
     // Setup
 
@@ -131,6 +137,8 @@ void StudentWindow::FirstDraw()
 void StudentWindow::drawTexture()
 {
     Texture.draw(Background);
+    if (layer.lvl)
+        Texture.draw(Back);
     if (layer.lvl == Home)
     {
         Texture.draw(viewCourse);
@@ -140,6 +148,10 @@ void StudentWindow::drawTexture()
     {
         Texture.draw(Courses);
         // Texture.draw(pages);
+    }
+    if (layer.lvl == Function && layer.type == Scb)
+    {
+        Texture.draw(Scoreboard);
     }
     if (layer.lvl == Function && layer.type == Pass)
     {
@@ -168,6 +180,7 @@ void StudentWindow::processEvent(sf::Event event)
         layer.lvl = 0;
         layer.type = 0;
         drawTexture();
+        Backend::activeUser->logOut();
         Hide();
         LogInWindow.show();
     }
@@ -210,10 +223,22 @@ void StudentWindow::processEvent(sf::Event event)
             layer.type = Crs;
             NumPage = 1;
             TotalPage = ((list.size()) ? (list.size() / MAX_ROW + (bool)(list.size() % MAX_ROW)) : 1);
-            std::cerr << list.size() << " " << MAX_ROW << '\n' << TotalPage;
+            // std::cerr << list.size() << " " << MAX_ROW << '\n'
+            //           << TotalPage;
             Courses.drawTexture(list, 1);
             pages.setPage(NumPage, TotalPage);
-            pages.setPosition(577 + Courses.getPosition().x, Courses.getPosition().y + Courses.getHeight() + 20);
+            pages.setPosition(607 + Courses.getPosition().x, Courses.getPosition().y + Courses.getHeight() + 20);
+            drawTexture();
+        }
+        if (viewScoreboard.isPressed(event))
+        {
+            layer.lvl = Function;
+            layer.type = Scb;
+            NumPage = 1;
+            TotalPage = ((list1.size()) ? (list1.size() / MAX_ROW + (bool)(list1.size() % MAX_ROW)) : 1);
+            Scoreboard.drawTexture(list1, 1);
+            pages.setPage(NumPage, TotalPage);
+            pages.setPosition(520 + Scoreboard.getPosition().x, Scoreboard.getPosition().y + Scoreboard.getHeight() + 20);
             drawTexture();
         }
     }
@@ -225,6 +250,18 @@ void StudentWindow::processEvent(sf::Event event)
         if (Check)
         {
             Courses.drawTexture(list, NumPage);
+            drawTexture();
+        }
+        Texture.draw(pages);
+    }
+    if (layer.lvl == Function && layer.type == Scb)
+    {
+        bool Check = 0;
+        pages.processEvent(event, NumPage, TotalPage, Check);
+        // if (pages.isPressed(event, NumPage, TotalPage))
+        if (Check)
+        {
+            Scoreboard.drawTexture(list1, NumPage);
             drawTexture();
         }
         Texture.draw(pages);
@@ -243,6 +280,8 @@ bool StudentWindow::mouseOn(const sf::Vector2i &MousePos)
 
 void StudentWindow::Show()
 {
+    AccountName.setString(Backend::activeUser->getName());
+    FirstDraw();
     hidden = 0;
 }
 

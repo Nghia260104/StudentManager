@@ -31,12 +31,13 @@ protected:
 private:
     sf::RectangleShape Background;
     sf::RenderTexture Texture;
-    sf::Text Title, *Subtitle, Success, Fail1, Fail2, DOB;
+    sf::Text Title, *Subtitle, Success, Fail1, Fail2, Fail3, DOB;
     TextBox *Cell;
     Button Confirm, Male, Female;
     int fail;
     const int empty = 1,
               invalid = 2,
+              existed = 3,
               Clear = INT_MAX,
               numCell = 7;
 };
