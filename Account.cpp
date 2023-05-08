@@ -32,6 +32,7 @@ bool Account::loadAccounts()
 		case Type::Admin:
 			/* std::cerr << "admin" << std::endl; */
 			g_admin.setUsername(username);
+			g_admin.setPassword(password);
 			g_accounts.push_back(static_cast<Account*>(&g_admin));
 			break;
 		case Type::StaffMember:
@@ -51,7 +52,15 @@ bool Account::loadAccounts()
 
 void Account::saveAccounts()
 {
-	std::ofstream fo(ACCOUNTS_PATH);
+	std::ofstream fo;
+	fo.open(ACCOUNTS_PATH);
+	
+	if (!fo.is_open())
+	{
+		return;
+	}
+	std::cerr << "accounts.csv exists" << std::endl;
+	
 	for (auto iAccount = g_accounts.begin(); iAccount != g_accounts.end(); ++iAccount)
 	{
 		fo << typeToString((*iAccount)->getType()) << ',';
