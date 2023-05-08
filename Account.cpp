@@ -30,22 +30,22 @@ bool Account::loadAccounts()
 		switch (stringToType(type))
 		{
 		case Type::Admin:
+			/* std::cerr << "admin" << std::endl; */
 			g_admin.setUsername(username);
 			g_accounts.push_back(static_cast<Account*>(&g_admin));
 			break;
 		case Type::StaffMember:
+			/* std::cerr << "staff member" << std::endl; */
 			StaffMember::createStaffMember(username);
 			break;
 		default:
+			/* std::cerr << "student" << std::endl; */
 			Student::createStudent(username);
 		}
 
 		g_accounts.back()->setPassword(password);
 	}
-	for (auto it = g_accounts.begin(); it != g_accounts.end(); ++it)
-	{
-		std::cerr << typeToString((*it)->getType()) << ' ' << (*it)->getUsername() << ' ' << (*it)->getPassword() << std::endl;
-	}
+
 	return 1;
 }
 

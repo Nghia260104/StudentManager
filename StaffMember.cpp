@@ -61,7 +61,7 @@ bool StaffMember::createStaffMember(const std::string &socialID)
 			{
 				return socialID == staffMember.getSocialID();
 			})
-		== g_staffMembers.end())
+		!= g_staffMembers.end())
 	{
 		return 0;
 	}
@@ -81,9 +81,11 @@ bool StaffMember::deleteStaffMember(const std::string &socialID)
 }
 
 StaffMember::StaffMember()
+	: Account(Type::StaffMember)
 {}
 
 StaffMember::StaffMember(const std::string &nSocialID)
+	: StaffMember()
 {
 	setSocialID(nSocialID);
 }
