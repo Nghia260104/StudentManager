@@ -21,57 +21,67 @@ bool Class::loadClasses()
 	
 	for (auto file: std::filesystem::directory_iterator(path))
 	{
-		g_classes.push_back(Class(toString(file.path().stem())));
+		
 		loadOneClass(file.path());
 	}
+	
 	return 1;
 }
 
 void Class::loadOneClass(const std::filesystem::path &path)
 {
+	createClass(path.stem().string());
 	Class &currClass = g_classes.back();
 	
-	std::ifstream fi(path);
-	std::string line;
-	std::stringstream streamLine;
-	while (!std::getline(fi, line))
+	std::ifstream fi;
+	fi.open(path);
+	
+	if (!fi.is_open())
 	{
-		streamLine.str(line);
-
+		return;
+	}
+	
+	std::string line;
+	while (std::getline(fi, line))
+	{
+		std::stringstream streamLine(line);
 		std::string no, studentID, firstName, lastName, gender, dateOfBirth, socialID;
+
+		std::getline(streamLine, no, ',');
 		
-		std::getline(streamLine, no);
-		
-		if (!std::getline(streamLine, studentID))
+		if (!std::getline(streamLine, studentID, ','))
 		{
 			continue;
 		}
-		
-		auto currStudent = g_students.find_if(
-			[&](const Student &student)
-			{
-				return student.getID() == studentID;
-			});
 
-		if (currStudent == g_students.end())
+		List<Student>::iterator currStudent;
+		if (Student::createStudent(studentID))
 		{
-			g_students.push_back(Student(studentID));
+			currStudent = g_students.end()-1;
 		}
-		currStudent = g_students.end()-1;
+		else
+		{
+			currStudent = g_students.find_if(
+				[&](const Student &student) -> bool
+				{
+					return student.getID() == studentID;
+				});
+		}
+		currClass.addStudent(&*currStudent);
 
-		std::getline(streamLine, firstName);
+		std::getline(streamLine, firstName, ',');
 		currStudent->setFirstName(firstName);
 
-		std::getline(streamLine, lastName);
+		std::getline(streamLine, lastName, ',');
 		currStudent->setLastName(lastName);
 
-		std::getline(streamLine, gender);
+		std::getline(streamLine, gender, ',');
 		currStudent->setGender(gender);
 
-		std::getline(streamLine, dateOfBirth);
+		std::getline(streamLine, dateOfBirth, ',');
 		currStudent->setDateOfBirth(dateOfBirth);
 
-		std::getline(streamLine, socialID);
+		std::getline(streamLine, socialID, ',');
 		currStudent->setSocialID(socialID);
 	}
 }
@@ -79,10 +89,8 @@ void Class::loadOneClass(const std::filesystem::path &path)
 void Class::saveClasses()
 {
 	std::filesystem::path classesPath(CLASSES_PATH);
-	for (auto directory: std::filesystem::directory_iterator(classesPath))
-	{
-		std::filesystem::remove_all(directory.path());
-	}
+	std::filesystem::remove_all(classesPath);
+	std::filesystem::create_directories(classesPath);
 	
 	for (auto iClass = g_classes.begin(); iClass != g_classes.end(); ++iClass)
 	{
@@ -92,7 +100,7 @@ void Class::saveClasses()
 
 void Class::saveOneClass(Class *currClass)
 {
-	std::filesystem::path path(CLASSES_PATH + currClass->getID() + ".csv");
+	std::filesystem::path path(CLASSES_PATH + "/"  + currClass->getID() + ".csv");
 	std::ofstream fo(path);
 	
 	int no = 0;
@@ -100,7 +108,7 @@ void Class::saveOneClass(Class *currClass)
 		 iStudent != currClass->students().end();
 		 ++iStudent)
 	{
-		fo << ++no;
+		fo << ++no << ',';
 		fo << (*iStudent)->getID() << ',';
 		fo << (*iStudent)->getFirstName() << ',';
 		fo << (*iStudent)->getLastName() << ',';
@@ -180,6 +188,16 @@ const List<Student*>& Class::students() const
 	return students_;
 }
 
+List<Course*>& Class::courses()
+{
+	return courses_;
+}
+
+const List<Course*>& Class::courses() const
+{
+	return courses_;
+}
+
 void Class::setID(const std::string &nID)
 {
 	id_ = nID;
@@ -187,27 +205,58 @@ void Class::setID(const std::string &nID)
 
 bool Class::addStudent(Student *nStudent)
 {
-	if (students_.find(nStudent) == students_.end())
+	if (students().find(nStudent) != students().end())
 	{
 		return 0;
 	}
 	
-	students_.push_back(nStudent);
-	nStudent->class_ = this;
+	students().push_back(nStudent);
+	nStudent->getClass() = this;
+	
 	return 1;
 }
 
 bool Class::removeStudent(Student *student)
 {
-	auto currStudent = students_.find(student);
+	auto currStudent = students().find(student);
 
-	if (currStudent == students_.end())
+	if (currStudent == students().end())
 	{
 		return 0;
 	}
 
-	student->class_ = nullptr;
-	students_.erase(currStudent);
+	student->getClass() = nullptr;
+	students().erase(currStudent);
+
+	return 1;
+}
+
+bool Class::addCourse(Course *course)
+{
+	auto currCourse = courses().find(course);
+
+	if (currCourse != courses().end())
+	{
+		return 0;
+	}
+
+	course->getClass() = this;
+	courses().push_back(course);
+
+	return 1;
+}
+
+bool Class::removeCourse(Course *course)
+{
+	auto currCourse = courses().find(course);
+
+	if (currCourse == courses().end())
+	{
+		return 0;
+	}
+
+	course->getClass() = nullptr;
+	courses().erase(currCourse);
 
 	return 1;
 }

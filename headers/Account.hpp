@@ -40,6 +40,8 @@ namespace Backend
 		Account(Type nType = Type::Admin);
 
 		Type getType() const;
+		const std::string& getUsername() const;
+		const std::string& getPassword() const;
 		const std::string& getFirstName() const;
 		const std::string& getLastName() const;
 		std::string getName() const;
@@ -62,6 +64,7 @@ namespace Backend
 		bool changePassword(const std::string &oldPassword,
 							const std::string &newPassword,
 							const std::string &confirmNewPassword);
+		void setUsername(const std::string &nUsername);
 		
 	protected:
 		Type type_;
@@ -69,9 +72,7 @@ namespace Backend
 		Gender gender_;
 		Date dateOfBirth_;
 
-		const std::string& getUsername() const;
-		void setUsername(const std::string &nUsername);
-		const std::string& getPassword() const;
+
 		void setPassword(const std::string &nPassword);
 	};
 }

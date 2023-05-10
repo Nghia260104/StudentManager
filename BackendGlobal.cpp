@@ -26,20 +26,10 @@ List<Account*> Backend::g_accounts;
 
 bool Backend::loadData()
 {
-	if (!Account::loadAccounts())
-	{
-		return 0;
-	}
-
-	if (!Class::loadClasses())
-	{
-		return 0;
-	}
-	
-	if (!SchoolYear::loadSchoolYears())
-	{
-		return 0;
-	}
+    bool isLoadable = 
+		Account::loadAccounts() &&
+		Class::loadClasses() &&
+		SchoolYear::loadSchoolYears();
 
 	g_schoolYears.sort(
 		[](const SchoolYear &s1, const SchoolYear &s2) -> bool
@@ -49,27 +39,20 @@ bool Backend::loadData()
 	g_semesters.sort(
 		[](const Semester &s1, const Semester &s2) -> bool
 		{
-			int startYear1 = s1.schoolYear()->getStartYear();
-			int startYear2 = s2.schoolYear()->getStartYear();
-			return startYear1 < startYear2
-				|| (startYear1 == startYear2 && s1.getID() < s2.getID());
+			int startYear1 = s1.schoolYear()->getStartYear(),
+				startYear2 = s2.schoolYear()->getStartYear(),
+				id1 = s1.getID(), id2 = s2.getID();
+			return startYear1 < startYear2 || (startYear1 == startYear2 && id1 < id2);
 		});
-	setActiveSemester(&g_semesters.back());
-
-	return 1;
+	
+	return isLoadable;
 }
 
 void Backend::saveData()
 {
-	Account::saveAccounts(); 
+	Account::saveAccounts();
 	Class::saveClasses();
 	SchoolYear::saveSchoolYears();
-}
-
-std::string Backend::toString(const std::wstring &wstring)
-{
-	std::wstring_convert<std::codecvt_utf8<wchar_t>> convert;
-	return convert.to_bytes(wstring);
 }
 
 void Backend::setActiveUser(Account *account)
