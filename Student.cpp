@@ -8,7 +8,7 @@ using namespace Backend;
 bool Student::createStudent(const std::string &studentID)
 {
 	if (g_students.find_if(
-			[&studentID](const Student &student) -> bool
+			[&](const Student &student) -> bool
 			{
 				return student.getID() == studentID;
 			})

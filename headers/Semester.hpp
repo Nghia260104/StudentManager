@@ -16,7 +16,7 @@ namespace Backend
 		Semester(int nID, SchoolYear *schoolYear);
 
 		static bool loadSemesters(const std::filesystem::path &path, SchoolYear *schoolYear);
-		static void saveSemesters(const std::filesystem::path &path, SchoolYear *schoolYear);
+		static void saveSemesters(const std::filesystem::path &path, const SchoolYear *schoolYear);
 		static void clearSemesters(SchoolYear *schoolYear);
 		
 		static bool createSemester(int id, int schoolYear);
@@ -37,8 +37,5 @@ namespace Backend
 		int id_;
 		SchoolYear *schoolYear_;
 		List<Course*> courses_;
-		/* std::filesystem::path path_; */
-		
-		friend class SchoolYear;
 	};
 }

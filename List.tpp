@@ -36,6 +36,7 @@ List<T>::~List()
 template <class T>
 List<T>& List<T>::operator=(const List<T> &Other)
 {
+	clear();
 	for (auto it = Other.begin(); it != Other.end(); ++it)
 	{
 		push_back(*it);

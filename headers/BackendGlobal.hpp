@@ -37,7 +37,6 @@ namespace Backend
 
 	bool loadData();
 	void saveData();
-	std::string toString(const std::wstring&);
 
 	void setActiveUser(Account *account);
 	void setActiveSchoolYear(SchoolYear *schoolYear);

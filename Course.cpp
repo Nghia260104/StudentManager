@@ -1,13 +1,13 @@
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 
 #include "Course.hpp"
 #include "Student.hpp"
+#include "Class.hpp"
 #include "BackendGlobal.hpp"
 
 using namespace Backend;
-
-/* static functions */
 
 bool Course::loadCourses(const std::filesystem::path &path, Semester *semester)
 {
@@ -27,8 +27,8 @@ bool Course::loadCourses(const std::filesystem::path &path, Semester *semester)
 
 void Course::loadOneCourse(const std::filesystem::path &courseFile, Semester *semester)
 {
-	std::string courseFileStem = toString(courseFile.stem());
-	g_courses.push_back(Course(courseFileStem, semester));
+	std::string courseFileStem = courseFile.stem().string();
+	createCourse(courseFileStem, semester->getID(), semester->schoolYear()->getStartYear());
 
 	std::ifstream fi(courseFile);
 	loadOneCourseGeneral(fi);
@@ -43,7 +43,7 @@ void Course::loadOneCourseGeneral(std::ifstream &fi)
 
 	/* course name
 	 * teacher name
-	 * max number of studentInfos
+	 * max number of students
 	 * number of credits
 	 * MON,S1 */
 
@@ -79,90 +79,105 @@ void Course::loadOneCourseStudents(std::ifstream &fi)
 {
 	Course &currCourse = g_courses.back();
 	
-	std::stringstream streamLine;
-	std::string line, word;
+	std::string line;
 	
-	/* Read studentInfos' information
-	 * Each line's content has the form of:
-	 * ID,midtermMark,finalMark,otherMark,totalMark */
+	// Read studentInfos' information
+	// Each line's content has the form of:
+	// no,ID,midtermMark,finalMark,otherMark,totalMark
 	while (std::getline(fi, line))
 	{
-		streamLine.str(line);
-		
-		std::getline(streamLine, word, ','); // read student ID
-		/* find the student whose ID is word */
-		for (auto it = g_students.begin(); it != g_students.end(); ++it)
+		std::stringstream streamLine(line);
+		std::string no, id, midtermMark, finalMark, otherMark, totalMark;
+
+		if (!std::getline(streamLine, no, ','))
 		{
-			if (it->getID() == word)
-			{
-				currCourse.addStudent(&*it);
-				break;
-			}
+			continue;
 		}
 		
-		StudentInfo &recentlyAddedStudent = currCourse.studentInfos().back();
-		
-		std::getline(streamLine, word, ',');
-		recentlyAddedStudent.student->setID(word);
+		if (!std::getline(streamLine, id, ','))
+		{
+			continue;
+		}
+		auto currStudent = g_students.find_if(
+			[&](const Student &student) -> bool
+			{
+				return student.getID() == id;
+			});
+		if (currStudent == g_students.end())
+		{
+			Student::createStudent(id);
+			currStudent = g_students.end()-1;
+		}
+		currCourse.addStudent(&*currStudent);
 
-		std::getline(streamLine, word, ',');
-		recentlyAddedStudent.midtermMark = std::stof(word);
-		
-		std::getline(streamLine, word, ',');
-		recentlyAddedStudent.finalMark = std::stof(word);
-		
-		std::getline(streamLine, word, ',');
-		recentlyAddedStudent.otherMark = std::stof(word);
+	    StudentInfo &currStudentInfo = currCourse.studentInfos().back();
 
-		std::getline(streamLine, word, ',');
-		recentlyAddedStudent.totalMark = std::stof(word);
+		if (!std::getline(streamLine, midtermMark, ','))
+		{
+			continue;
+		}
+		currStudentInfo.midtermMark = std::stof(midtermMark);
+		
+		if (!std::getline(streamLine, finalMark, ','))
+		{
+			continue;
+		}
+		currStudentInfo.finalMark = std::stof(finalMark);
+		
+		if (!std::getline(streamLine, otherMark, ','))
+		{
+			continue;
+		}
+		currStudentInfo.otherMark = std::stof(otherMark);
+		
+		if (!std::getline(streamLine, totalMark, ','))
+		{
+			continue;
+		}
+		currStudentInfo.totalMark = std::stof(totalMark);
 	}
 }
 
-void Course::saveCourses(const std::filesystem::path &path, Semester *semester)
+void Course::saveCourses(const std::filesystem::path &path, const Semester *semester)
 {
-	if (!std::filesystem::exists(path))
-	{
-		std::filesystem::create_directories(path);
-	}
-	
-	for (auto directory: std::filesystem::directory_iterator(path))
-	{
-		std::filesystem::remove_all(directory.path());
-	}
+	std::filesystem::remove_all(path);
+	std::filesystem::create_directories(path);
 	
 	std::ofstream fo;
-	for (auto iCourse = semester->courses().begin();
-		 iCourse != semester->courses().end();
-		 ++iCourse)
+	for (const Course *course: semester->courses())
 	{
-		fo.open(path/((*iCourse)->getID() + ".csv"));
-		saveOneCourseGeneral(fo, *iCourse);
-		saveOneCourseStudents(fo, *iCourse);
+		if (!course)
+		{
+			continue;
+		}
+		fo.open(path/(course->getID() + ".csv"));
+		saveOneCourseGeneral(fo, course);
+		saveOneCourseStudents(fo, course);
 		fo.close();
 	}
 }
 
-void Course::saveOneCourseGeneral(std::ofstream &fo, Course *course)
+void Course::saveOneCourseGeneral(std::ofstream &fo, const Course *course)
 {
 	fo << course->getCourseName() << '\n';
 	fo << course->getTeacherName() << '\n';
 	fo << course->getMaxStudents() << '\n';
 	fo << course->getNumberOfCredits() << '\n';
-	fo << course->session().getTime() << '\n';
+	fo << course->session().day << ','
+	   << course->session().type << '\n';
 }
 
-void Course::saveOneCourseStudents(std::ofstream &fo, Course *course)
+void Course::saveOneCourseStudents(std::ofstream &fo, const Course *course)
 {
-	for (auto iStudentInfo = course->studentInfos().begin();
-		 iStudentInfo != course->studentInfos().end();
-		 ++iStudentInfo)
+	int no = 0;
+	for (const StudentInfo &studentInfo: course->studentInfos())
 	{
-		fo << iStudentInfo->student->getID() << ',';
-		fo << iStudentInfo->midtermMark << ',';
-		fo << iStudentInfo->finalMark << ',';
-		fo << iStudentInfo->otherMark << ',';
-		fo << iStudentInfo->totalMark << '\n';
+		fo << ++no << ',';
+		fo << studentInfo.student->getID() << ',';
+		fo << studentInfo.midtermMark << ',';
+		fo << studentInfo.finalMark << ',';
+		fo << studentInfo.otherMark << ',';
+		fo << studentInfo.totalMark << '\n';
 	}
 }
 
@@ -176,13 +191,12 @@ void Course::clearCourses(Semester *semester)
 
 bool Course::createCourse(const std::string &courseID, int semesterID, int schoolStartYear)
 {
-	auto currCourse = g_courses.find_if(
-		[&](const Course &course) -> bool
-		{
-			return course.getID() == courseID;
-		});
-
-	if (currCourse != g_courses.end())
+	if (g_courses.find_if(
+			[&](const Course &course) -> bool
+			{
+				return course.getID() == courseID;
+			})
+		!= g_courses.end())
 	{
 		return 0;
 	}
@@ -193,9 +207,30 @@ bool Course::createCourse(const std::string &courseID, int semesterID, int schoo
 			return semester.schoolYear()->getStartYear() == schoolStartYear
 				&& semester.getID() == semesterID;
 		});
+
+	if (currSemester == g_semesters.end())
+	{
+		return 0;
+	}
+
+	std::string classID = courseID_to_classID(courseID);
+	
+	auto currClass = g_classes.find_if(
+		[&](const Class &class_) -> bool
+		{
+			return class_.getID() == classID;
+		});
+
+	if (currClass == g_classes.end())
+	{
+		Class::createClass(classID);
+		currClass = g_classes.end()-1;
+	}
 	
 	g_courses.push_back(Course(courseID, &*currSemester));
-	
+	currSemester->addCourse(&g_courses.back());
+	currClass->addCourse(&g_courses.back());
+
 	return 1;
 }
 
@@ -213,6 +248,7 @@ bool Course::deleteCourse(const std::string &id)
 	}
 
 	currCourse->semester()->removeCourse(&*currCourse);
+	currCourse->getClass()->removeCourse(&*currCourse);
 	
 	while (!currCourse->studentInfos().empty())
 	{
@@ -224,7 +260,21 @@ bool Course::deleteCourse(const std::string &id)
 	return 1;
 }
 
-/* struct Session */
+std::string Course::courseID_to_classID(const std::string &courseID)
+{
+	std::string classID;
+	for (auto iCourseID = courseID.rbegin(); iCourseID != courseID.rend(); ++iCourseID)
+	{
+		if (*iCourseID == '_')
+		{
+			break;
+		}
+
+		classID += (*iCourseID);
+	}
+	std::reverse(classID.begin(), classID.end());
+	return classID;
+}
 
 std::string Course::Session::getTime() const
 {
@@ -249,7 +299,18 @@ std::string Course::Session::getTime() const
 	return res += "(" + time + ")";
 }
 
-/* constructors */
+Course::StudentInfo::StudentInfo(Student *nStudent,
+								 float nMidtermMark,
+								 float nFinalMark,
+								 float nOtherMark,
+								 float nTotalMark)
+{
+	student = nStudent;
+	midtermMark = nMidtermMark;
+	finalMark = nFinalMark;
+	otherMark = nOtherMark;
+	totalMark = nTotalMark;
+}
 
 Course::Course()
 	: semester_(nullptr), maxStudents_(DEFAULT_MAX_STUDENTS)
@@ -261,11 +322,8 @@ Course::Course(const std::string &nID, Semester *semester)
 	: Course()
 {
 	setID(nID);
-	/* filePath_ = semester_->getDirectoryPath() + id_ + ".csv"; */
-	semester->addCourse(this);
+	
 }
-
-/* getters */
 
 const std::string& Course::getID() const
 {
@@ -302,8 +360,6 @@ int Course::getNumberOfCredits() const
 	return numberOfCredits_;
 }
 
-/* setters */
-
 void Course::setID(const std::string &nID)
 {
 	id_ = nID;
@@ -329,8 +385,6 @@ void Course::setNumberOfCredits(int nNumberOfCredits)
 	numberOfCredits_ = nNumberOfCredits;
 }
 
-/* struct accessors */
-
 List<Course::StudentInfo>& Course::studentInfos()
 {
 	return studentInfos_;
@@ -351,24 +405,32 @@ const Course::Session& Course::session() const
 	return session_;
 }
 
-/* student list modifiers */
-
-bool Course::addStudent(Student *nStudent)
+Class*& Course::getClass()
 {
-	if (studentInfos_.size() == maxStudents_ ||
-		studentInfos_.find_if(
-			[=](const StudentInfo &studentInfo) -> bool
+	return class_;
+}
+
+Class* const& Course::getClass() const 
+{
+	return class_;
+}
+
+bool Course::addStudent(Student *student)
+{
+	if (studentInfos().find_if(
+			[&](const StudentInfo &studentInfo) -> bool
 			{
-				return nStudent == studentInfo.student;
-			}) != studentInfos_.end())
+				return studentInfo.student == student;
+			})
+		!= studentInfos().end())
 	{
 		return 0;
 	}
 
-	StudentInfo nStudentInfo;
-	nStudentInfo.student = nStudent;
-	studentInfos_.push_back(nStudentInfo);
-	nStudent->courseInfos().push_back({this, &nStudentInfo});
+	studentInfos().push_back(StudentInfo(student));
+	student->courseInfos().push_back(Student::CourseInfo(this,
+														 &studentInfos().back()));
+	
 	return 1;
 }
 
@@ -395,12 +457,3 @@ bool Course::removeStudent(Student *student)
 
 	return 1;
 }
-
-// bool Course::removeStudent(const std::string &studentID)
-// {
-// 	return studentInfos_.remove_if(
-// 		[&](const StudentInfo &studentInfo) -> bool
-// 		{
-// 			return studentInfo.student->getID() == studentID;
-// 		});
-// }

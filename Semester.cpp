@@ -17,32 +17,22 @@ bool Semester::loadSemesters(const std::filesystem::path &path, SchoolYear *scho
 	
 	for (auto semesterPath: std::filesystem::directory_iterator(path))
 	{
-		int id = std::stoi(semesterPath.path().filename());
-		g_semesters.push_back(Semester(id, schoolYear));
+		int id = std::stoi(semesterPath.path().stem());
+		createSemester(id, schoolYear->getStartYear());
 		Course::loadCourses(semesterPath.path(), &g_semesters.back());
 	}
 	return 1;
 }
 
-void Semester::saveSemesters(const std::filesystem::path &path, SchoolYear *schoolYear)
+void Semester::saveSemesters(const std::filesystem::path &path, const SchoolYear *schoolYear)
 {
-	if (!std::filesystem::exists(path))
-	{
-		std::filesystem::create_directories(path);
-	}
+	std::filesystem::remove_all(path);
+	std::filesystem::create_directories(path);
 	
-	for (auto directory: std::filesystem::directory_iterator(path))
+	for (const Semester *semester: schoolYear->semesters())
 	{
-		std::filesystem::remove_all(directory.path());
-	}
-	
-	for (auto iSemester = schoolYear->semesters().begin();
-		 iSemester != schoolYear->semesters().end();
-		 ++iSemester)
-	{
-		std::filesystem::path currSemesterPath(path/std::to_string((*iSemester)->getID()));
-		std::filesystem::create_directories(currSemesterPath);
-		Course::saveCourses(currSemesterPath, *iSemester);
+		std::filesystem::path currSemesterPath(path/std::to_string(semester->getID()));
+		Course::saveCourses(currSemesterPath, semester);
 	}
 }
 
@@ -50,8 +40,8 @@ void Semester::clearSemesters(SchoolYear *schoolYear)
 {
 	while (!schoolYear->semesters().empty())
 	{
-		Semester::deleteSemester(schoolYear->semesters().front()->getID(),
-									schoolYear->getStartYear());
+		deleteSemester(schoolYear->semesters().front()->getID(),
+					   schoolYear->getStartYear());
 	}
 }
 
@@ -67,9 +57,21 @@ bool Semester::createSemester(int id, int schoolStartYear)
 	{
 		return 0;
 	}
-	
+
+	if (currSchoolYear->semesters().find_if(
+			[&](Semester *semester) -> bool
+			{
+				return semester->getID() == id;
+			})
+		!= currSchoolYear->semesters().end())
+	{
+		return 0;
+	}
+
 	g_semesters.push_back(Semester(id, &*currSchoolYear));
 	currSchoolYear->addSemester(&g_semesters.back());
+	setActiveSemester(&g_semesters.back());
+	
 	return 1;
 }
 
@@ -107,8 +109,6 @@ Semester::Semester(int nID, SchoolYear *schoolYear)
 	: Semester()
 {
 	setID(nID);
-	/* directoryPath_ = schoolYear_->getDirectoryPath() + std::to_string(id_) + "/"; */
-	schoolYear->addSemester(this);
 }
 
 int Semester::getID() const
@@ -136,11 +136,6 @@ const List<Course*>& Semester::courses() const
 	return courses_;
 }
 
-/* const std::string& Semester::getPath() const
- * {
- * 	return path_;
- * } */
-
 void Semester::setID(int nID)
 {
 	id_ = nID;
@@ -148,14 +143,13 @@ void Semester::setID(int nID)
 
 bool Semester::addCourse(Course *nCourse)
 {
-	if (courses_.find(nCourse) != courses_.end())
+	if (courses().find(nCourse) != courses().end())
 	{
 		return 0;
 	}
 	
-	courses_.push_back(nCourse);
+	courses().push_back(nCourse);
 	nCourse->semester() = this;
-	/* nCourse->filePath_ = directoryPath_ + nCourse->getID() + ".csv"; */
 	return 1;
 }
 

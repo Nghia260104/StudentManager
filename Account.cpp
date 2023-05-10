@@ -30,17 +30,14 @@ bool Account::loadAccounts()
 		switch (stringToType(type))
 		{
 		case Type::Admin:
-			/* std::cerr << "admin" << std::endl; */
 			g_admin.setUsername(username);
 			g_admin.setPassword(password);
 			g_accounts.push_back(static_cast<Account*>(&g_admin));
 			break;
 		case Type::StaffMember:
-			/* std::cerr << "staff member" << std::endl; */
 			StaffMember::createStaffMember(username);
 			break;
 		default:
-			/* std::cerr << "student" << std::endl; */
 			Student::createStudent(username);
 		}
 
@@ -59,13 +56,12 @@ void Account::saveAccounts()
 	{
 		return;
 	}
-	std::cerr << "accounts.csv exists" << std::endl;
-	
-	for (auto iAccount = g_accounts.begin(); iAccount != g_accounts.end(); ++iAccount)
+
+	for (const Account *account: g_accounts)
 	{
-		fo << typeToString((*iAccount)->getType()) << ',';
-		fo << (*iAccount)->getUsername() << ',';
-		fo << (*iAccount)->getPassword() << '\n';
+		fo << typeToString(account->getType()) << ',';
+		fo << account->getUsername() << ',';
+		fo << account->getPassword() << '\n';
 	}
 }
 
@@ -73,7 +69,7 @@ bool Account::signIn(const std::string &username, const std::string &password)
 {
 	for (auto it = g_accounts.begin(); it != g_accounts.end(); ++it)
 	{
-		if (username == (*it)->username_ && password == (*it)->password_)
+		if (username == (*it)->getUsername() && password == (*it)->getPassword())
 		{
 			setActiveUser(*it);
 			return 1;
@@ -149,9 +145,9 @@ std::string Account::dateToString(const Date &date)
 
 Date Account::stringToDate(const std::string &date)
 {
-	int day = date[0]*10 + date[1];
-	int month = date[3]*10 + date[4];
-	int year = date[6]*1000 + date[7]*100 + date[8]*10 + date[9];
+	int day = (date[0]-'0')*10 + (date[1]-'0');
+	int month = (date[3]-'0')*10 + (date[4]-'0');
+	int year = (date[6]-'0')*1000 + (date[7]-'0')*100 + (date[8]-'0')*10 + (date[9]-'0');
 	return Date(year, month, day);
 }
 
@@ -176,7 +172,7 @@ const std::string& Account::getLastName() const
 
 std::string Account::getName() const
 {
-	return firstName_ + lastName_;
+	return firstName_ + " " + lastName_;
 }
 
 const std::string& Account::getSocialID() const

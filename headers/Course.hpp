@@ -9,21 +9,30 @@ namespace Backend
 {
 	class Semester;
 	class Student;
+	class Class;
 	
 	class Course
 	{
 	public:
 		static bool loadCourses(const std::filesystem::path &path, Semester *semester);
-		static void saveCourses(const std::filesystem::path &path, Semester *semester);
+		static void saveCourses(const std::filesystem::path &path, const Semester *semester);
 		static void clearCourses(Semester *semester);
 		
 		static bool createCourse(const std::string &id, int semesterID, int startYear);
 	    static bool deleteCourse(const std::string &id);
 
+		static std::string courseID_to_classID(const std::string &courseID);
+
 		struct StudentInfo
 		{
 			Student *student;
-			float totalMark, finalMark, midtermMark, otherMark;
+			float midtermMark, finalMark, otherMark, totalMark;
+
+			StudentInfo(Student *nStudent = nullptr,
+						float nMidtermMark = 0,
+						float nFinalMark = 0,
+						float nOtherMark = 0,
+						float nTotalMark = 0);
 		};
 
 		struct Session
@@ -56,6 +65,8 @@ namespace Backend
 		const List<StudentInfo>& studentInfos() const;
 		Session& session();
 		const Session& session() const;
+		Class*& getClass();
+		Class* const& getClass() const;
 
 		/* student list modifiers */
 		bool addStudent(Student *nStudent);
@@ -65,17 +76,16 @@ namespace Backend
 		static void loadOneCourse(const std::filesystem::path &courseFile, Semester *semester);
 		static void loadOneCourseGeneral(std::ifstream &fi);
 		static void loadOneCourseStudents(std::ifstream &fi);
-		static void saveOneCourseGeneral(std::ofstream &fo, Course *course);
-		static void saveOneCourseStudents(std::ofstream &fo, Course *course);
+		static void saveOneCourseGeneral(std::ofstream &fo, const Course *course);
+		static void saveOneCourseStudents(std::ofstream &fo, const Course *course);
 		
 		const int DEFAULT_MAX_STUDENTS = 50;
 		
 		std::string id_, courseName_, teacherName_;
 		int maxStudents_, numberOfCredits_;
-		Semester *semester_;
-		List<StudentInfo> studentInfos_;
 		Session session_;
-
-		friend class Semester;
+		Semester *semester_;
+		Class *class_;
+		List<StudentInfo> studentInfos_;
 	};
 }

@@ -8,6 +8,7 @@
 namespace Backend
 {
 	class Student;
+	class Course;
 	
 	class Class
 	{
@@ -25,17 +26,23 @@ namespace Backend
 		const std::string& getID() const;
 		List<Student*>& students();
 		const List<Student*>& students() const;
+		List<Course*>& courses();
+		const List<Course*>& courses() const;
 
 		void setID(const std::string &nID);
 		
 		bool addStudent(Student *nStudent);
 		bool removeStudent(Student *student);
 
+		bool addCourse(Course *course);
+		bool removeCourse(Course *course);
+		
 	private:
 		static void loadOneClass(const std::filesystem::path &path);
 		static void saveOneClass(Class *currClass);
 	
 		std::string id_;
 		List<Student*> students_;
+		List<Course*> courses_;
 	};
 }

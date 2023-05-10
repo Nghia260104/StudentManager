@@ -43,9 +43,5 @@ namespace Backend
 		std::string id_;
 		Class *class_;
 		List<CourseInfo> courseInfos_;
-
-		friend StaffMember;
-		friend class Class;
-		friend class Course;
 	};
 }
