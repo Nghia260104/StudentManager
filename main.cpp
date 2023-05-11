@@ -2,9 +2,6 @@
 #include <StudentManager.hpp>
 #include <FrontendGlobal.hpp>
 #include <BackendGlobal.hpp>
-#include <Password.hpp>
-#include <CoursesTable.hpp>
-#include <StudentWindow.hpp>
 
 // Windows
 sf::Image icon;
@@ -24,14 +21,13 @@ int main()
 
     icon.loadFromFile("../resources/Logo/Exe's Logo.png");
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());
-	
 
     // Load Data
 
     if (!Backend::loadData())
-	{
-		std::cerr << "Fail";
-	}
+    {
+        std::cerr << "Fail";
+    }
 
     // Load Fonts
     LoadFonts(RegularFont, BoldFont, MediumFont, LightFont, HeavyFont);
@@ -40,13 +36,13 @@ int main()
 
     // LogIn LogInWindow;
     LogInWindow.create();
-	
+
     // Student Window
     StudentScreen.create();
-	
+
     // Admin Window
     AdminScreen.create();
-	
+
     // Staff Window
     StaffScreen.create();
 
@@ -76,9 +72,15 @@ int main()
             if (!StaffScreen.isHidden())
                 StaffScreen.processEvent(event);
         }
-		
+        if (LogInWindow.mouseOn(MousePos) ||
+            AdminScreen.mouseOn(MousePos) ||
+            StudentScreen.mouseOn(MousePos) ||
+            StaffScreen.mouseOn(MousePos))
+            cursor.loadFromSystem(sf::Cursor::Text);
+        else
+            cursor.loadFromSystem(sf::Cursor::Arrow);
+        window.setMouseCursor(cursor);
         window.clear(BackgroundColor);
-        window.clear(sf::Color::Yellow);
         if (!LogInWindow.isHidden())
             window.draw(LogInWindow);
         if (!StudentScreen.isHidden())

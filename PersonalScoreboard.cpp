@@ -30,8 +30,8 @@ void PersonalScoreboard::create(sf::Font &font)
 
     // First Row
 
-    for (int i = 0; i < numCell; i++)
-        Cell[i].setFontSize(18);
+    // for (int i = 0; i < numCell; i++)
+    //     Cell[i].setFontSize(18);
     width[0] = 150;
     width[1] = 450;
     width[2] = 120;
@@ -44,7 +44,7 @@ void PersonalScoreboard::create(sf::Font &font)
     for (int i = 0; i < numCell; i++)
     {
         // Cell[i].setFillColor(BackgroundColor);
-        Cell[i].setFontSize(15);
+        Cell[i].setFontSize(16);
         Cell[i].createTexture(width[i], height);
         Cell[i].setSize(width[i], height);
         Cell[i].setPosition(pos[i] + Offset_x, Offset_y);
@@ -74,6 +74,8 @@ void PersonalScoreboard::create(sf::Font &font)
         Cell[i].drawTexture();
         Texture.draw(Cell[i]);
     }
+    for (int i = 0; i < numCell; i++)
+        Cell[i].setFontSize(15);
     Texture.display();
 }
 
@@ -125,6 +127,11 @@ int PersonalScoreboard::getHeight() const
     return Offset_y + height * (MAX_ROW + 1);
 }
 
+int PersonalScoreboard::getWidth() const
+{
+    return pos[5] + width[5] + Offset_x;
+}
+
 sf::Vector2f PersonalScoreboard::getPosition() const
 {
     return sf::Vector2f(x, y);
@@ -143,6 +150,11 @@ void PersonalScoreboard::setPosition(float a, float b)
     y = b;
 }
 
+void PersonalScoreboard::setTitle(sf::String S)
+{
+    Title.setString(S);
+}
+
 // Destructor ////////////////////////////////////////////////////////////////////////////////////
 
 PersonalScoreboard::~PersonalScoreboard()
@@ -151,4 +163,3 @@ PersonalScoreboard::~PersonalScoreboard()
     delete[] width;
     delete[] pos;
 }
-

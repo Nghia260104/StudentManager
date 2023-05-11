@@ -22,8 +22,10 @@ public:
     // Misc
 
     int getHeight() const;
+    int getWidth() const;
     sf::Vector2f getPosition() const;
     void setPosition(float x, float y);
+    void setTitle(sf::String S);
 
     // Destructor
 

@@ -19,10 +19,12 @@ public:
     // Draw
 
     void drawTexture(const List<Backend::Student::CourseInfo> &list, int page);
+    void drawTexture(const List<Backend::Course::StudentInfo> &list, int page);
 
     // Misc
 
     int getHeight() const;
+    int getWidth() const;
     sf::Vector2f getPosition() const;
     void setPosition(float x, float y);
 

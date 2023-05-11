@@ -1,6 +1,7 @@
 #pragma once
 #include <Button.hpp>
 #include <Class.hpp>
+#include <Course.hpp>
 
 class ButtonTable : public sf::Drawable
 {
@@ -16,6 +17,9 @@ public:
     // Draw
 
     void drawTexture(const List<Backend::Class> &list, int page);
+    void drawTexture(const List<Backend::Course *> &list, int page);
+    void drawTexture(const List<Backend::Course> &list, int page);
+    void drawTexture(const int &size, int page);
 
     // Misc
 
@@ -24,6 +28,7 @@ public:
     void setPosition(float a, float b);
     bool isPressed(sf::Event event);
     sf::String getText();
+    unsigned int getRow();
     void setColString(unsigned int col, sf::String s);
     void setFillColor(sf::Color color);
     void setTextColor(sf::Color color);
@@ -35,10 +40,11 @@ public:
 
 protected:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates state) const;
+
 private:
     float x, y;
     Button *Table = nullptr;
-    unsigned int MAX_ROW, MAX_COL, MAX_CELL, numCell, width, height, Offset_x, Offset_y;
+    unsigned int MAX_ROW, MAX_COL, MAX_CELL, numCell, width, height, Offset_x, Offset_y, Row;
     sf::RenderTexture Texture;
     sf::RectangleShape Background;
     sf::String Choice, *Col = nullptr;

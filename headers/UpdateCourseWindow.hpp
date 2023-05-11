@@ -2,19 +2,20 @@
 #include <TextBox.hpp>
 #include <Button.hpp>
 #include <Layer.hpp>
+#include <Course.hpp>
 
-class AddCourseWindow : public sf::Drawable
+class UpdateCourseWindow : public sf::Drawable
 {
 public:
     // Constructor
 
-    AddCourseWindow();
+    UpdateCourseWindow();
     void create();
 
     // Draw
 
     void Prepare();
-    void FirstDraw();
+    void FirstDraw(Backend::Course &course);
     void drawTexture();
 
     // Misc
@@ -25,7 +26,7 @@ public:
 
     // Destructor
 
-    ~AddCourseWindow();
+    ~UpdateCourseWindow();
 
 protected:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates state) const;
@@ -40,8 +41,9 @@ private:
     Button Confirm;
     Button *DoW;
     Button *Session;
+    Backend::Course *CurCourse;
     int fail;
     const int numCell = 8, numDoW = 6, numSes = 4,
               empty = 1, ClassNotFound = 2, existed = 3, zero = 4, Clear = INT_MAX;
-    const Layer ACrs = Layer(1,0);
+    const Layer UpdCrs = Layer(3, 150);
 };

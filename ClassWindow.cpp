@@ -78,13 +78,21 @@ void ClassWindow::create()
     ClassName.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
     ClassName.setPosition(350, 235);
 
-    // Not found class
+    // Empty class
 
     Empty.setFont(RegularFont);
     Empty.setCharacterSize(20);
     Empty.setFillColor(sf::Color(168, 30, 20, 255));
     Empty.setString("Failed: Class name can not be empty!");
     Empty.setPosition(250, 315);
+
+    // Existed class
+
+    Exist.setFont(RegularFont);
+    Exist.setCharacterSize(20);
+    Exist.setFillColor(sf::Color(168, 30, 20, 255));
+    Exist.setString("Failed: Class existed!");
+    Exist.setPosition(250, 315);
 
     // Not found class
 
@@ -144,6 +152,8 @@ void ClassWindow::FirstDraw()
 void ClassWindow::drawTexture(Layer &layer)
 {
     Texture.draw(Background);
+    if (layer == Cls)
+        Texture.draw(Title);
     if (layer == ACls)
     {
         Texture.draw(Add);
@@ -151,6 +161,8 @@ void ClassWindow::drawTexture(Layer &layer)
         Texture.draw(ClassName);
         if (fail == emptyname)
             Texture.draw(Empty);
+        if (fail == existed)
+            Texture.draw(Exist);
         if (!fail)
             Texture.draw(ASuccess);
     }
@@ -203,11 +215,10 @@ void ClassWindow::processEvent(sf::Event event, Layer &layer)
         if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
         {
             fail = 0;
-            if (ClassName.getText() == "") fail = emptyname;
-            if (!fail)
-            {
-                
-            }
+            if (ClassName.getText() == "")
+                fail = emptyname;
+            else if (!Backend::Class::createClass(ClassName.getText()))
+                fail = existed;
             drawTexture(layer);
         }
     }
@@ -219,10 +230,8 @@ void ClassWindow::processEvent(sf::Event event, Layer &layer)
         if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
         {
             fail = 0;
-            if (!fail)
-            {
-                
-            }
+            if (!Backend::Class::deleteClass(ClassName.getText()))
+                fail = notFound;
             drawTexture(layer);
         }
     }

@@ -142,8 +142,11 @@ void LogIn::processEvent(sf::Event event)
 
 bool LogIn::mouseOn(const sf::Vector2i &MousePos)
 {
-    if (Username.mouseOn(MousePos) || Password.mouseOn(MousePos))
-        return true;
+    if (!hidden)
+    {
+        if (Username.mouseOn(MousePos) || Password.mouseOn(MousePos))
+            return true;
+    }
     return false;
 }
 

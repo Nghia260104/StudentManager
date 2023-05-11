@@ -32,9 +32,9 @@ private:
     TextBox ClassName;
     sf::RenderTexture Texture;
     sf::RectangleShape Background;
-    sf::Text Title, Add, Delete, Name, ASuccess, DSuccess, Fail, Empty;
+    sf::Text Title, Add, Delete, Name, ASuccess, DSuccess, Fail, Empty, Exist;
     int fail;
-    const int notFound = 1, emptyname = 2, Clear = INT_MAX;
+    const int notFound = 1, emptyname = 2, existed = 3, Clear = INT_MAX;
     const Layer Cls = Layer(1,5),
                 ACls = Layer(2,5),
                 DCls = Layer(2,10);

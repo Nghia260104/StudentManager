@@ -1,5 +1,4 @@
 #include <TextBox.hpp>
-#include <iostream>
 #include <string>
 
 extern sf::RenderWindow window;
@@ -21,6 +20,7 @@ TextBox::TextBox()
     isTyping = 0;
     OnlyNumber = 0;
     FloatNumber = 0;
+    dot = 0;
     // Texture.create(1000.0f, 500.0f);
     FKey = 0;
     Type = 0;
@@ -45,6 +45,7 @@ TextBox::TextBox(float a, float b, float w, float h, unsigned int fontsize, sf::
     HasLimit = 0;
     OnlyNumber = 0;
     FloatNumber = 0;
+    dot = 0;
     isTyping = 0;
     Texture.create(w, h);
     Rec.setPosition(0, 0);
@@ -71,6 +72,7 @@ void TextBox::create(float a, float b, float w, float h, unsigned int fontsize, 
     HasLimit = 0;
     OnlyNumber = 0;
     FloatNumber = 0;
+    dot = 0;
     isTyping = 0;
     Texture.create(w, h);
     Rec.setPosition(0, 0);
@@ -135,6 +137,12 @@ void TextBox::setFontSize(unsigned int fontsize)
 {
     Text.setCharacterSize(fontsize);
     Text.setOrigin(sf::Vector2f(0, 1.0f * fontsize / 2));
+}
+
+void TextBox::setCenter()
+{
+    Text.setOrigin(Text.getGlobalBounds().width / 2, 1.0f * Text.getCharacterSize() / 2);
+    Text.setPosition(RecSize.x / 2, RecSize.y / 2);
 }
 
 void TextBox::setTextPos(float x)
@@ -521,6 +529,9 @@ void TextBox::updateText()
         if (FloatNumber && Type == TextEntered)
         {
             if (('0' <= Key && Key <= '9') || Key == '.')
+            {
+                if (Key == '.' && dot)
+                    return;
                 if (Text.getString().getSize() < limit)
                 {
                     sf::String S = Text.getString();
@@ -534,6 +545,9 @@ void TextBox::updateText()
                     Text.setString(S);
                     id++;
                 }
+                if (Key == '.')
+                    dot = 1;
+            }
             return;
         }
         if (Type == TextEntered && Key < 128 && Key != '\b' && Key != '\n' && Key != '\r')

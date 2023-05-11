@@ -79,9 +79,9 @@ bool SchoolYear::deleteSchoolYear(int startYear)
 	}
 	
 
-	for (Semester *semester: currSchoolYear->semesters())
+	while (!currSchoolYear->semesters().empty())
 	{
-		Semester::deleteSemester(semester->getID(), startYear);
+		Semester::deleteSemester(currSchoolYear->semesters().front()->getID(), startYear);
 	}
 
 	g_schoolYears.erase(currSchoolYear);

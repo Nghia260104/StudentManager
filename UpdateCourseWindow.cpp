@@ -1,12 +1,12 @@
-#include <AddCourseWindow.hpp>
+#include <UpdateCourseWindow.hpp>
 #include <FrontendGlobal.hpp>
 #include <BackendGlobal.hpp>
 
-AddCourseWindow::AddCourseWindow()
+UpdateCourseWindow::UpdateCourseWindow()
 {
 }
 
-void AddCourseWindow::create()
+void UpdateCourseWindow::create()
 {
     // Background
 
@@ -17,7 +17,7 @@ void AddCourseWindow::create()
 
     // Title
 
-    Title.setString("Add course");
+    Title.setString("Update course info");
     Title.setFillColor(sf::Color::Black);
     Title.setFont(LightFont);
     Title.setCharacterSize(40);
@@ -46,7 +46,7 @@ void AddCourseWindow::create()
             Smt.setString("Semester:");
             Smt.setPosition(300, 200);
 
-            Semester.create(400, 195, 30, 30, RegularFont, 18, "");
+            Semester.create(410, 185, 50, 50, RegularFont, 18, "");
             Semester.setTextColor(sf::Color::Black);
         }
 
@@ -58,7 +58,7 @@ void AddCourseWindow::create()
             ScY.setString("School year:");
             ScY.setPosition(550, 200);
 
-            SchoolYear.create(660, 195, 150, 50, RegularFont, 18, "");
+            SchoolYear.create(700, 185, 150, 50, RegularFont, 18, "");
             SchoolYear.setTextColor(sf::Color::Black);
         }
 
@@ -74,37 +74,37 @@ void AddCourseWindow::create()
         // Course Name
         {
             Subtitle[1].setString("Course name:");
-            Subtitle[1].setPosition(300, 400);
+            Subtitle[1].setPosition(300, 370);
 
-            Cell[1].create(0, 0, 800, 50, 18, sf::Vector2f(8, 25));
-            Cell[1].setPosition(300, 435);
+            Cell[1].create(0, 0, 700, 50, 18, sf::Vector2f(8, 25));
+            Cell[1].setPosition(300, 405);
         }
 
         // Class Name
         {
             Subtitle[2].setString("Class name:");
-            Subtitle[2].setPosition(300, 500);
+            Subtitle[2].setPosition(300, 470);
 
             Cell[2].create(0, 0, 250, 50, 18, sf::Vector2f(8, 25));
-            Cell[2].setPosition(300, 535);
+            Cell[2].setPosition(300, 505);
         }
 
         // Teacher Name
         {
             Subtitle[3].setString("Teacher name:");
-            Subtitle[3].setPosition(650, 500);
+            Subtitle[3].setPosition(650, 470);
 
             Cell[3].create(0, 0, 750, 50, 18, sf::Vector2f(8, 25));
-            Cell[3].setPosition(650, 535);
+            Cell[3].setPosition(650, 505);
         }
 
         // Number of Credits
         {
             Subtitle[4].setString("No. Credits:");
-            Subtitle[4].setPosition(300, 600);
+            Subtitle[4].setPosition(300, 580);
 
-            Cell[4].create(0, 0, 50, 50, 18, sf::Vector2f(8, 25));
-            Cell[4].setPosition(400, 590);
+            Cell[4].create(0, 0, 42, 35, 18, sf::Vector2f(8, 17));
+            Cell[4].setPosition(450, 578);
             Cell[4].setNumber();
             Cell[4].setLimit(2);
         }
@@ -112,10 +112,10 @@ void AddCourseWindow::create()
         // Number of Students
         {
             Subtitle[5].setString("No. Students:");
-            Subtitle[5].setPosition(550, 600);
+            Subtitle[5].setPosition(600, 580);
 
-            Cell[5].create(0, 0, 50, 50, 18, sf::Vector2f(8, 25));
-            Cell[5].setPosition(670, 590);
+            Cell[5].create(0, 0, 42, 35, 18, sf::Vector2f(8, 17));
+            Cell[5].setPosition(780, 578);
             Cell[5].setNumber();
             Cell[5].setLimit(2);
             Cell[5].setText("50");
@@ -124,10 +124,10 @@ void AddCourseWindow::create()
         // Day of Week
         {
             Subtitle[6].setString("Day of week:");
-            Subtitle[6].setPosition(300, 700);
+            Subtitle[6].setPosition(300, 640);
 
-            Cell[6].create(0, 0, 60, 30, 18, sf::Vector2f(8, 25));
-            Cell[6].setPosition(450, 698);
+            Cell[6].create(0, 0, 60, 30, 16, sf::Vector2f(15, 15));
+            Cell[6].setPosition(450, 638);
 
             // Button
             {
@@ -142,7 +142,7 @@ void AddCourseWindow::create()
                 DoW = new Button[numDoW];
                 for (int i = 0; i < numDoW; i++)
                 {
-                    DoW[i].create(550 + 90 * i, 698, 60, 30, RegularFont, 16, Tmp[i]);
+                    DoW[i].create(550 + 90 * i, 638, 60, 30, RegularFont, 16, Tmp[i]);
                     DoW[i].setFillColor(sf::Color(25, 89, 34, 255));
                     DoW[i].setTextColor(sf::Color::White);
                     DoW[i].setCoverColor(sf::Color(20, 85, 30, 200));
@@ -153,11 +153,11 @@ void AddCourseWindow::create()
 
         // Session
         {
-            Subtitle[7].setString("Day of week:");
-            Subtitle[7].setPosition(300, 770);
+            Subtitle[7].setString("Session:");
+            Subtitle[7].setPosition(300, 700);
 
-            Cell[7].create(0, 0, 30, 30, 18, sf::Vector2f(8, 25));
-            Cell[7].setPosition(450, 768);
+            Cell[7].create(0, 0, 30, 30, 16, sf::Vector2f(4, 15));
+            Cell[7].setPosition(450, 698);
 
             // Button
             {
@@ -170,7 +170,7 @@ void AddCourseWindow::create()
                 Session = new Button[numSes];
                 for (int i = 0; i < numSes; i++)
                 {
-                    Session[i].create(550 + 60 * i, 768, 30, 30, RegularFont, 16, Tmp[i]);
+                    Session[i].create(550 + 60 * i, 698, 30, 30, RegularFont, 16, Tmp[i]);
                     Session[i].setFillColor(sf::Color(25, 89, 34, 255));
                     Session[i].setTextColor(sf::Color::White);
                     Session[i].setCoverColor(sf::Color(20, 85, 30, 200));
@@ -202,15 +202,15 @@ void AddCourseWindow::create()
     EmptyFail.setCharacterSize(20);
     EmptyFail.setFillColor(sf::Color(168, 30, 20, 255));
     EmptyFail.setString("Failed: Cells can not be empty!");
-    EmptyFail.setPosition(400, 800);
+    EmptyFail.setPosition(400, 750);
 
     // Fail : Class not found
 
     ClassFail.setFont(RegularFont);
     ClassFail.setCharacterSize(20);
     ClassFail.setFillColor(sf::Color(168, 30, 20, 255));
-    ClassFail.setString("Class not found. Class created!");
-    ClassFail.setPosition(400, 800);
+    ClassFail.setString("Failed: Class not found!");
+    ClassFail.setPosition(400, 750);
 
     // Fail : Course existed
 
@@ -218,7 +218,7 @@ void AddCourseWindow::create()
     ExistFail.setCharacterSize(20);
     ExistFail.setFillColor(sf::Color(168, 30, 20, 255));
     ExistFail.setString("Failed: Course existed!");
-    ExistFail.setPosition(400, 800);
+    ExistFail.setPosition(400, 750);
 
     // Fail : Number can not be zero
 
@@ -226,19 +226,19 @@ void AddCourseWindow::create()
     ZeroFail.setCharacterSize(20);
     ZeroFail.setFillColor(sf::Color(168, 30, 20, 255));
     ZeroFail.setString("Failed: Number of students and credits can not be zero!");
-    ZeroFail.setPosition(400, 800);
+    ZeroFail.setPosition(400, 750);
 
     // Success
 
     Success.setFont(RegularFont);
     Success.setCharacterSize(20);
-    Success.setFillColor(sf::Color(144, 212, 58, 255));
-    Success.setString("Add course successfully!");
-    Success.setPosition(400, 800);
+    Success.setFillColor(sf::Color(168, 30, 20, 255));
+    Success.setString("Update course successfully!");
+    Success.setPosition(400, 750);
 
     // Confirm Button
 
-    Confirm.create(700, 850, 150, 50, BoldFont, 24, "Confirm");
+    Confirm.create(700, 790, 150, 50, BoldFont, 24, "Confirm");
     Confirm.setFillColor(sf::Color(25, 89, 34, 255));
     Confirm.setTextColor(sf::Color::White);
     Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
@@ -254,7 +254,7 @@ void AddCourseWindow::create()
 
 // Draw //////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-void AddCourseWindow::Prepare()
+void UpdateCourseWindow::Prepare()
 {
     Semester.drawTexture();
     SchoolYear.drawTexture();
@@ -285,7 +285,7 @@ void AddCourseWindow::Prepare()
     Texture.display();
 }
 
-void AddCourseWindow::FirstDraw()
+void UpdateCourseWindow::FirstDraw(Backend::Course &course)
 {
     Semester.setText(std::to_string(Backend::activeSemester->getID()));
     Semester.setTextPos();
@@ -295,12 +295,34 @@ void AddCourseWindow::FirstDraw()
     SchoolYear.setText(std::to_string(Start) + '-' + std::to_string(End));
     SchoolYear.setTextPos();
     SchoolYear.drawTexture();
+    CurCourse = &course;
+    std::string Tmp = course.getID();
+    std::string ID = "";
+    for (int i = 0; i < Tmp.size(); i++)
+    {
+        if (Tmp[i] == '_')
+            break;
+        ID += Tmp[i];
+    }
+    Cell[0].setText(ID);
+    Cell[1].setText(course.getCourseName());
+    Cell[2].setText(Backend::Course::courseID_to_classID(course.getID()));
+    Cell[3].setText(course.getTeacherName());
+    Cell[4].setText(std::to_string(course.getNumberOfCredits()));
+    Cell[5].setText(std::to_string(course.getMaxStudents()));
+    Cell[6].setText(course.session().day);
+    Cell[7].setText(course.session().type);
+    for (int i = 0; i < numCell; i++)
+    {
+        Cell[i].drawTexture();
+        Texture.draw(Cell[i]);
+    }
     Texture.draw(Semester);
     Texture.draw(SchoolYear);
     Texture.display();
 }
 
-void AddCourseWindow::drawTexture()
+void UpdateCourseWindow::drawTexture()
 {
     Texture.draw(Background);
     Texture.draw(Title);
@@ -331,7 +353,7 @@ void AddCourseWindow::drawTexture()
     Texture.display();
 }
 
-void AddCourseWindow::draw(sf::RenderTarget &target, sf::RenderStates state) const
+void UpdateCourseWindow::draw(sf::RenderTarget &target, sf::RenderStates state) const
 {
     sf::Sprite sprite(Texture.getTexture());
     target.draw(sprite);
@@ -339,7 +361,7 @@ void AddCourseWindow::draw(sf::RenderTarget &target, sf::RenderStates state) con
 
 // Misc ////////////////////////////////////////////////////////////////////////////////////////////
 
-void AddCourseWindow::processEvent(sf::Event event)
+void UpdateCourseWindow::processEvent(sf::Event event)
 {
     for (int i = 0; i < numCell; i++)
         if (Cell[i].checkEvent(event))
@@ -375,31 +397,35 @@ void AddCourseWindow::processEvent(sf::Event event)
             fail = empty;
         else if (!((std::stoi(std::string(Cell[4].getText())) * (std::stoi((std::string)Cell[5].getText())))))
             fail = zero;
-        else if (Backend::g_classes.find_if(
-                     [&](const Backend::Class &a) -> bool
-                     {
-                         return a.getID() == Cell[2].getText();
-                     }) == Backend::g_classes.end())
+        else if ((Backend::g_classes.find_if(
+                      [&](const Backend::Class &a) -> bool
+                      {
+                          return a.getID() == Cell[2].getText();
+                      }) == Backend::g_classes.end()))
             fail = ClassNotFound;
-        else if (Backend::g_courses.find_if(
-                     [&](const Backend::Course &a) -> bool
-                     {
-                         return a.getID() == (std::string)(Cell[0].getText() + "_" + Cell[2].getText());
-                     }) != Backend::g_courses.end())
+        else if (!(Backend::g_courses.find_if(
+                       [&](const Backend::Course &a) -> bool
+                       {
+                           return a.getID() == Cell[0].getText() + "_" + Cell[2].getText();
+                       }) == Backend::g_courses.end()))
             fail = existed;
-        if (!fail || fail == ClassNotFound)
+        else
         {
-            Backend::Course::createCourse((std::string)(Cell[0].getText() + "_" + Cell[2].getText()),
-                                          Backend::activeSemester->getID(),
-                                          Backend::activeSemester->schoolYear()->getStartYear());
+            (*CurCourse).setID(Cell[0].getText() + "_" + Cell[2].getText());
+            (*CurCourse).setCourseName(Cell[1].getText());
+            (*CurCourse).setTeacherName(Cell[3].getText());
+            (*CurCourse).setNumberOfCredits(std::stoi((std::string)Cell[4].getText()));
+            (*CurCourse).setMaxStudents(std::stoi((std::string)Cell[5].getText()));
+            (*CurCourse).session().day = Cell[6].getText();
+            (*CurCourse).session().type = Cell[7].getText();
         }
         drawTexture();
     }
 }
 
-bool AddCourseWindow::mouseOn(const sf::Vector2i &MousePos, const Layer &layer)
+bool UpdateCourseWindow::mouseOn(const sf::Vector2i &MousePos, const Layer &layer)
 {
-    if (layer == ACrs)
+    if (layer == UpdCrs)
     {
         bool check = 0;
         for (int i = 0; i < 6; i++)
@@ -409,7 +435,7 @@ bool AddCourseWindow::mouseOn(const sf::Vector2i &MousePos, const Layer &layer)
     return false;
 }
 
-void AddCourseWindow::clearLine()
+void UpdateCourseWindow::clearLine()
 {
     for (int i = 0; i < numCell; i++)
         Cell[i].erase();
@@ -418,7 +444,7 @@ void AddCourseWindow::clearLine()
 
 // Destructor ////////////////////////////////////////////////////////////////////////////////////////////
 
-AddCourseWindow::~AddCourseWindow()
+UpdateCourseWindow::~UpdateCourseWindow()
 {
     delete[] Cell;
     delete[] DoW;

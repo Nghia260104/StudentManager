@@ -88,6 +88,14 @@ void SchoolYearWindow::create()
     Fail.setString("Failed: Invalid school year!");
     Fail.setPosition(235, 315);
 
+    // School year existed
+
+    Fail2.setFont(RegularFont);
+    Fail2.setCharacterSize(20);
+    Fail2.setFillColor(sf::Color(168, 30, 20, 255));
+    Fail2.setString("Failed: School year existed!");
+    Fail2.setPosition(235, 315);
+
     // Not found school year
 
     Fail1.setFont(RegularFont);
@@ -155,6 +163,8 @@ void SchoolYearWindow::drawTexture(const Layer &layer)
         Texture.draw(Start);
         if (check == fail)
             Texture.draw(Fail);
+        if (check == existed)
+            Texture.draw(Fail2);
         if (check == done)
             Texture.draw(ASuccess);
     }
@@ -211,10 +221,10 @@ void SchoolYearWindow::processEvent(sf::Event event, Layer &layer)
             check = done;
             if (Start.getText() == "")
                 check = fail;
-            if (check == done)
-            {
-                
-            }
+            else if (!Backend::SchoolYear::createSchoolYear(std::stoi((std::string)Start.getText())))
+                check = existed;
+            else
+                Backend::setActiveSchoolYear(&(Backend::g_schoolYears.back()));
             drawTexture(layer);
         }
     }
@@ -228,10 +238,12 @@ void SchoolYearWindow::processEvent(sf::Event event, Layer &layer)
             check = done;
             if (Start.getText() == "")
                 check = fail;
-            if (check == done)
-            {
-                
-            }
+            else if (!Backend::SchoolYear::deleteSchoolYear(std::stoi((std::string)Start.getText())))
+                check = notFound;
+            else if (Backend::g_schoolYears.empty())
+                Backend::activeSchoolYear = nullptr;
+            else
+                Backend::activeSchoolYear = &Backend::g_schoolYears.back();
             drawTexture(layer);
         }
     }

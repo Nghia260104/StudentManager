@@ -62,9 +62,13 @@ void StudentTable::create(sf::Font &font)
 
     // Background
 
+    Background.setSize(sf::Vector2f(pos[5] + width[5], Offset + (MAX_ROW + 1) * height));
+    Background.setFillColor(BackgroundColor);
+    Texture.draw(Background);
+    Texture.draw(Title);
+
     Background.setSize(sf::Vector2f(pos[5] + width[5], height * MAX_ROW));
     Background.setPosition(0, height + Offset);
-    Background.setFillColor(BackgroundColor);
 
     // Texture
 
@@ -89,7 +93,7 @@ void StudentTable::setFont(sf::Font &font)
 
 // Draw /////////////////////////////////////////////////////////////////////////////////
 
-void StudentTable::drawTexture(const List<Backend::Student*> &list, int page)
+void StudentTable::drawTexture(const List<Backend::Student *> &list, int page)
 {
     int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
     numRow = steps + 1;
@@ -103,8 +107,36 @@ void StudentTable::drawTexture(const List<Backend::Student*> &list, int page)
         Cell[2].setText((*Tmp)->getName());
         Cell[3].setText(((*Tmp)->getGender() == Backend::Student::Gender::Male ? "Male" : "Female"));
         Date DOB = (*Tmp)->getDateOfBirth();
+        Cell[3].setCenter();
         Cell[4].setText(std::to_string(DOB.day) + "/" + std::to_string(DOB.month) + "/" + std::to_string(DOB.year));
         Cell[5].setText((*Tmp)->getSocialID());
+        for (int j = 0; j < numCell; j++)
+        {
+            Cell[j].setPosition(pos[j], Offset + (i + 1) * height);
+            Cell[j].drawTexture();
+            Texture.draw(Cell[j]);
+        }
+    }
+    Texture.display();
+}
+
+void StudentTable::drawTexture(const List<Backend::Course::StudentInfo> &list, int page)
+{
+    int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
+    numRow = steps + 1;
+    auto start = list.begin() + (page - 1) * MAX_ROW;
+    Texture.draw(Background);
+    for (int i = 0; i < steps; ++i)
+    {
+        auto Tmp = start + i;
+        Cell[0].setText((*Tmp).student->getID());
+        Cell[1].setText((*Tmp).student->getClass()->getID());
+        Cell[2].setText((*Tmp).student->getName());
+        Cell[3].setText(((*Tmp).student->getGender() == Backend::Student::Gender::Male ? "Male" : "Female"));
+        Date DOB = (*Tmp).student->getDateOfBirth();
+        Cell[3].setCenter();
+        Cell[4].setText(std::to_string(DOB.day) + "/" + std::to_string(DOB.month) + "/" + std::to_string(DOB.year));
+        Cell[5].setText((*Tmp).student->getSocialID());
         for (int j = 0; j < numCell; j++)
         {
             Cell[j].setPosition(pos[j], Offset + (i + 1) * height);
@@ -130,6 +162,11 @@ int StudentTable::getHeight() const
     return Offset + height * (MAX_ROW + 1);
 }
 
+int StudentTable::getWidth() const
+{
+    return pos[5] + width[5];
+}
+
 sf::Vector2f StudentTable::getPosition() const
 {
     return sf::Vector2f(x, y);
@@ -146,6 +183,11 @@ void StudentTable::setPosition(float a, float b)
 {
     x = a;
     y = b;
+}
+
+void StudentTable::setTitle(sf::String S)
+{
+    Title.setString(S);
 }
 
 // Destructor ////////////////////////////////////////////////////////////////////////////////////

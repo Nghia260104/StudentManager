@@ -49,7 +49,7 @@ private:
         InputClass, Class, FoundFail, EmptyClassFail,
         FileAdd, FailFile, Tutorial,
         ManualAdd, EmptyFail, DateFail, ExistFail, DOB;
-    Iterator <Backend::Class> CurClass;
+    List<Backend::Class>::iterator CurClass;
     sf::Text *Subtitle;
     TextBox *Cell;
     Button Male, Female;

@@ -273,8 +273,11 @@ void StudentWindow::processEvent(sf::Event event)
 
 bool StudentWindow::mouseOn(const sf::Vector2i &MousePos)
 {
-    if (layer.lvl == Function && layer.type == Pass)
-        return Password.mouseOn(MousePos);
+    if (!hidden)
+    {
+        if (layer.lvl == Function && layer.type == Pass)
+            return Password.mouseOn(MousePos);
+    }
     return false;
 }
 

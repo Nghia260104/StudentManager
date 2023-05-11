@@ -22,6 +22,7 @@ public:
     // Text
 
     void setFontSize(unsigned int fontsize = 30);
+    void setCenter();
     void setTextPos(float x = 8.0f);
     void setTextPos(sf::Vector2f pos);
     void setTextColor(sf::Color color = sf::Color::Black);
@@ -60,7 +61,7 @@ private:
     sf::RenderTexture Texture;
     sf::Color color1, color2, fill;
     sf::String Pass;
-    bool isTyping, HasCaret, AllowTyping, HasLimit, password, OnlyNumber, FloatNumber;
+    bool isTyping, HasCaret, AllowTyping, HasLimit, password, OnlyNumber, FloatNumber, dot;
     unsigned int EdgeOpacity;
     int FKey, Key, limit;
     const int Backspace = sf::Keyboard::Backspace,

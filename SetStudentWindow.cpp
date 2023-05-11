@@ -90,9 +90,9 @@ void SetStudentWindow::create()
 
     InputClass.setString("Class name: ");
     InputClass.setFillColor(sf::Color::Black);
-    InputClass.setFont(LightFont);
+    InputClass.setFont(RegularFont);
     InputClass.setCharacterSize(18);
-    InputClass.setStyle(sf::Text::Bold);
+    // InputClass.setStyle(sf::Text::Bold);
     InputClass.setPosition(200, 200);
 
     ClassName.create(0, 0, 250, 50, 18, sf::Vector2f(8, 25));
@@ -109,6 +109,22 @@ void SetStudentWindow::create()
     ClassConfirm.setFillColor(sf::Color(60, 60, 60, 255));
     ClassConfirm.setTextColor(sf::Color::White);
     ClassConfirm.setCoverColor(sf::Color(55, 55, 55, 200));
+
+    // Fail : Empty class
+
+    EmptyClassFail.setFont(RegularFont);
+    EmptyClassFail.setCharacterSize(20);
+    EmptyClassFail.setFillColor(sf::Color(168, 30, 20, 255));
+    EmptyClassFail.setString("Failed: Class name can not be empty!");
+    EmptyClassFail.setPosition(250, 265);
+
+    // Fail : Class not found
+
+    FoundFail.setFont(RegularFont);
+    FoundFail.setCharacterSize(20);
+    FoundFail.setFillColor(sf::Color(168, 30, 20, 255));
+    FoundFail.setString("Failed: Class not found!");
+    FoundFail.setPosition(250, 265);
 
     // Button class
 
@@ -499,9 +515,18 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
             Texture.draw(ClassName);
         if (ClassList.isPressed(event))
         {
-            ClassName.setText(ClassList.getText());
-            ClassName.drawTexture();
-            Texture.draw(ClassName);
+            CurClass = Backend::g_classes.find_if(
+                [&](const Backend::Class &a) -> bool
+                {
+                    return a.getID() == ClassList.getText();
+                });
+            Class.setString(ClassList.getText());
+            if (type == add)
+                layer = AStdM;
+            if (type == remove)
+                layer = RStd;
+            clearLine();
+            drawTexture(layer);
         }
         Texture.draw(ClassList);
         Texture.draw(pages);
@@ -556,10 +581,16 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
                 fail = empty;
             else if (!Tmp.isValidDate())
                 fail = date;
+            else if (!Backend::Student::createStudent(Cell[0].getText()))
+                fail = existed;
             else
             {
-                
-                
+                auto Std = Backend::g_students.back();
+                Std.setSocialID(Cell[1].getText());
+                Std.setFirstName(Cell[2].getText());
+                Std.setLastName(Cell[3].getText());
+                Std.setGender(Cell[4].getText());
+                Std.setDateOfBirth(Tmp);
             }
             drawTexture(layer);
         }
@@ -574,6 +605,9 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
             fail = 0;
             if (!Cell[0].getText().getSize())
                 fail = emptyremove;
+            else if (!Backend::Student::deleteStudent(Cell[0].getText()));
+                fail = notFoundStd;
+            drawTexture(layer);
         }
     }
 }

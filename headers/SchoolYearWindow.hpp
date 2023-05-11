@@ -32,9 +32,9 @@ private:
     TextBox Start;
     sf::RenderTexture Texture;
     sf::RectangleShape Background;
-    sf::Text Title, Add, Delete, FirstYear, ASuccess, DSuccess, Fail, Fail1;
+    sf::Text Title, Add, Delete, FirstYear, ASuccess, DSuccess, Fail, Fail1, Fail2;
     int check = 0;
-    const int fail = 1, done = 0, notFound = 2, Clear = INT_MAX;
+    const int fail = 1, done = 0, notFound = 2, existed = 3, Clear = INT_MAX;
     const Layer ScY = Layer(1, 1),
                 AScY = Layer(2, 1),
                 DScY = Layer(2, 2);

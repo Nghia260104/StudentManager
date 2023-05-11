@@ -22,6 +22,7 @@ void ButtonTable::create(unsigned int row, unsigned int col,
     Offset_x = d_x;
     Offset_y = d_y;
     numCell = 0;
+    Row = 0;
     Fill = sf::Color::White;
     Cover = sf::Color(40, 40, 40, 255);
     Text = sf::Color::Black;
@@ -58,6 +59,52 @@ void ButtonTable::drawTexture(const List<Backend::Class> &list, int page)
     {
         auto Tmp = start + i;
         Table[i].setText((*Tmp).getID());
+        Table[i].setTextPos();
+        Table[i].drawTexture();
+        Texture.draw(Table[i]);
+    }
+    Texture.display();
+}
+
+void ButtonTable::drawTexture(const List<Backend::Course *> &list, int page)
+{
+    numCell = min(list.size() - (page - 1) * MAX_CELL, MAX_CELL);
+    auto start = list.begin() + (page - 1) * MAX_CELL;
+    Texture.draw(Background);
+    for (int i = 0; i < numCell; ++i)
+    {
+        auto Tmp = start + i;
+        Table[i].setText((*Tmp)->getID());
+        Table[i].setTextPos();
+        Table[i].drawTexture();
+        Texture.draw(Table[i]);
+    }
+    Texture.display();
+}
+
+void ButtonTable::drawTexture(const List<Backend::Course> &list, int page)
+{
+    numCell = min(list.size() - (page - 1) * MAX_CELL, MAX_CELL);
+    auto start = list.begin() + (page - 1) * MAX_CELL;
+    Texture.draw(Background);
+    for (int i = 0; i < numCell; ++i)
+    {
+        auto Tmp = start + i;
+        Table[i].setText((*Tmp).getID());
+        Table[i].setTextPos();
+        Table[i].drawTexture();
+        Texture.draw(Table[i]);
+    }
+    Texture.display();
+}
+
+void ButtonTable::drawTexture(const int &size, int page)
+{
+    numCell = min(size - (page - 1) * MAX_CELL, MAX_CELL);
+    Texture.draw(Background);
+    for (int i = 0; i < numCell; i++)
+    {
+        Table[i].setText((Col ? Col[i % MAX_COL] : ""));
         Table[i].setTextPos();
         Table[i].drawTexture();
         Texture.draw(Table[i]);
@@ -103,6 +150,7 @@ bool ButtonTable::isPressed(sf::Event event)
             if (Table[i].isPressed(event))
             {
                 Choice = Table[i].getText();
+                Row = i / MAX_COL;
                 return true;
             }
     }
@@ -114,11 +162,17 @@ sf::String ButtonTable::getText()
     return Choice;
 }
 
+unsigned int ButtonTable::getRow()
+{
+    return Row;
+}
+
 void ButtonTable::setColString(unsigned int col, sf::String s)
 {
     if (!Col)
         Col = new sf::String[MAX_COL];
-    Col[col] = s;
+    if (col < MAX_COL)
+        Col[col] = s;
 }
 
 void ButtonTable::setFillColor(sf::Color color)
@@ -160,4 +214,5 @@ int ButtonTable::min(int x, int y)
 ButtonTable::~ButtonTable()
 {
     delete[] Table;
+    delete[] Col;
 }

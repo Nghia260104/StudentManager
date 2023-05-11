@@ -18,13 +18,13 @@ bool Class::loadClasses()
 	}
 
 	clearClasses();
-	
-	for (auto file: std::filesystem::directory_iterator(path))
+
+	for (auto file : std::filesystem::directory_iterator(path))
 	{
-		
+
 		loadOneClass(file.path());
 	}
-	
+
 	return 1;
 }
 
@@ -32,15 +32,15 @@ void Class::loadOneClass(const std::filesystem::path &path)
 {
 	createClass(path.stem().string());
 	Class &currClass = g_classes.back();
-	
+
 	std::ifstream fi;
 	fi.open(path);
-	
+
 	if (!fi.is_open())
 	{
 		return;
 	}
-	
+
 	std::string line;
 	while (std::getline(fi, line))
 	{
@@ -48,7 +48,7 @@ void Class::loadOneClass(const std::filesystem::path &path)
 		std::string no, studentID, firstName, lastName, gender, dateOfBirth, socialID;
 
 		std::getline(streamLine, no, ',');
-		
+
 		if (!std::getline(streamLine, studentID, ','))
 		{
 			continue;
@@ -57,7 +57,7 @@ void Class::loadOneClass(const std::filesystem::path &path)
 		List<Student>::iterator currStudent;
 		if (Student::createStudent(studentID))
 		{
-			currStudent = g_students.end()-1;
+			currStudent = g_students.end() - 1;
 		}
 		else
 		{
@@ -91,7 +91,7 @@ void Class::saveClasses()
 	std::filesystem::path classesPath(CLASSES_PATH);
 	std::filesystem::remove_all(classesPath);
 	std::filesystem::create_directories(classesPath);
-	
+
 	for (auto iClass = g_classes.begin(); iClass != g_classes.end(); ++iClass)
 	{
 		saveOneClass(&*iClass);
@@ -100,9 +100,9 @@ void Class::saveClasses()
 
 void Class::saveOneClass(Class *currClass)
 {
-	std::filesystem::path path(CLASSES_PATH + "/"  + currClass->getID() + ".csv");
+	std::filesystem::path path(CLASSES_PATH + "/" + currClass->getID() + ".csv");
 	std::ofstream fo(path);
-	
+
 	int no = 0;
 	for (auto iStudent = currClass->students().begin();
 		 iStudent != currClass->students().end();
@@ -132,8 +132,7 @@ bool Class::createClass(const std::string &id)
 			[&](const Class &currClass) -> bool
 			{
 				return currClass.getID() == id;
-			})
-		!= g_classes.end())
+			}) != g_classes.end())
 	{
 		return 0;
 	}
@@ -154,46 +153,52 @@ bool Class::deleteClass(const std::string &id)
 	{
 		return 0;
 	}
-	
+
 	while (!currClass->students().empty())
 	{
 		currClass->removeStudent(currClass->students().front());
 	}
 
+	while (!currClass->courses().empty())
+	{
+		Course::deleteCourse(currClass->courses().front()->getID());
+	}
+
 	g_classes.erase(currClass);
-	
+
 	return 1;
 }
 
 Class::Class()
-{}
+{
+}
 
 Class::Class(const std::string &nID)
 {
 	setID(nID);
 }
 
-const std::string& Class::getID() const
+const std::string &Class::getID() const
 {
 	return id_;
 }
 
-List<Student*>& Class::students()
+List<Student *> &Class::students()
 {
 	return students_;
 }
 
-const List<Student*>& Class::students() const
+const List<Student *> &Class::students() const
 {
 	return students_;
 }
 
-List<Course*>& Class::courses()
+List<Course *> &Class::courses()
 {
 	return courses_;
 }
 
-const List<Course*>& Class::courses() const
+const List<Course *> &Class::courses() const
 {
 	return courses_;
 }
@@ -209,10 +214,10 @@ bool Class::addStudent(Student *nStudent)
 	{
 		return 0;
 	}
-	
+
 	students().push_back(nStudent);
 	nStudent->getClass() = this;
-	
+
 	return 1;
 }
 

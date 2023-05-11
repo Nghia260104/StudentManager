@@ -91,7 +91,7 @@ void StaffWindow::create()
 
     AccountName.setPosition(LeftWindowWidth + 25, 50);
     AccountName.setFillColor(sf::Color(248, 117, 26, 255));
-    AccountName.setString("Temp"); // Backend::activeUser->getName();
+    AccountName.setString("Staff member"); // Backend::activeUser->getName();
     AccountName.setFont(RegularFont);
 
     //// View Profile
@@ -129,6 +129,35 @@ void StaffWindow::create()
     LogOut.setCoverColor(sf::Color(240, 110, 20, 200));
     LogOut.setTextColor(sf::Color(9, 66, 55, 255));
 
+    // View class
+    {
+        // Button
+
+        viewClass.create(LeftWindowWidth + 72, 450, 250, 50, MediumFont, 24, "View classes");
+        viewClass.setFillColor(sf::Color(248, 117, 26, 255));
+        viewClass.setCoverColor(sf::Color(240, 110, 20, 200));
+        viewClass.setTextColor(sf::Color(9, 66, 55, 255));
+
+        // View Class window
+
+        ViewClassScreen.create();
+    }
+
+    // View Course
+    {
+        // Button
+        {
+            viewCourse.create(LeftWindowWidth + 72, 525, 250, 50, MediumFont, 24, "View courses");
+            viewCourse.setFillColor(sf::Color(248, 117, 26, 255));
+            viewCourse.setCoverColor(sf::Color(240, 110, 20, 200));
+            viewCourse.setTextColor(sf::Color(9, 66, 55, 255));
+        }
+
+        // View Course Window
+
+        ViewCourseScreen.create();
+    }
+
     // First Draw
 
     FirstDraw();
@@ -153,8 +182,14 @@ void StaffWindow::FirstDraw()
     Texture.draw(AccountName);
     changePassword.drawTexture();
     Texture.draw(changePassword);
+    viewProfile.drawTexture();
+    Texture.draw(viewProfile);
     LogOut.drawTexture();
     Texture.draw(LogOut);
+    viewClass.drawTexture();
+    Texture.draw(viewClass);
+    viewCourse.drawTexture();
+    Texture.draw(viewCourse);
     Texture.display();
 }
 
@@ -168,13 +203,13 @@ void StaffWindow::drawTexture()
     if (layer == Home)
     {
         Texture.draw(SchoolYear);
-        // if (Backend::activeSchoolYear)
-        //     Texture.draw(Semester);
-        // if (Backend::activeSemester)
-        //     Texture.draw(addCourse);
+        if (Backend::activeSchoolYear)
+            Texture.draw(Semester);
+        if (Backend::activeSemester)
+            Texture.draw(addCourse);
         Texture.draw(Class);
-        // if (!Backend::g_classes.empty())
-        //     Texture.draw(Student);
+        if (!Backend::g_classes.empty())
+            Texture.draw(Student);
     }
     if (layer == ScY || layer == AScY || layer == DScY)
         Texture.draw(SchoolYearScreen);
@@ -186,6 +221,14 @@ void StaffWindow::drawTexture()
         Texture.draw(SetStudentScreen);
     if (layer == ACrs)
         Texture.draw(AddCourseScreen);
+    if (layer == Crs || layer == CrsF || layer == UpdCrs ||
+        layer == CrsAStd || layer == CrsRStd || layer == CrsVStd ||
+        layer == CrsScb || layer == CrsUpdScb)
+        Texture.draw(ViewCourseScreen);
+    if (layer == VCls || layer == ClsStd || layer == ClsUpd || layer == ClsScb)
+        Texture.draw(ViewClassScreen);
+    if (layer == Pass)
+        Texture.draw(Password);
     Texture.display();
 }
 
@@ -207,32 +250,57 @@ void StaffWindow::processEvent(sf::Event event)
         Hide();
         LogInWindow.show();
     }
+    if (changePassword.isPressed(event))
+    {
+        layer = Pass;
+        Password.clearLine();
+        Password.drawTexture();
+        drawTexture();
+    }
+    if (viewProfile.isPressed(event))
+    {
+        layer = Prf;
+        profile.drawTexture();
+        drawTexture();
+    }
+    if (viewCourse.isPressed(event))
+    {
+        layer = Crs;
+        ViewCourseScreen.FirstDraw();
+        drawTexture();
+    }
+    if (viewClass.isPressed(event))
+    {
+        layer = VCls;
+        ViewClassScreen.FirstDraw(Backend::g_classes);
+        drawTexture();
+    }
     if (layer == Home)
     {
         Texture.draw(SchoolYear);
         Texture.draw(Class);
-        // if (Backend::activeSchoolYear)
-        // {
-        //     Texture.draw(Semester);
-        //     if (Semester.isPressed(event))
-        //     {
-        //         layer = Smt;
-        //         SemesterScreen.clearLine();
-        //         SemesterScreen.drawTexture(layer);
-        //         drawTexture();
-        //     }
-        // }
-        // if (!Backend::g_classes.empty())
-        // {
-        //     Texture.draw(Student);
-        //     if (Student.isPressed(event))
-        //     {
-        //         layer = AStd;
-        //         SetStudentScreen.clearLine();
-        //         SetStudentScreen.FirstDraw();
-        //         drawTexture();
-        //     }
-        // }
+        if (Backend::activeSchoolYear)
+        {
+            Texture.draw(Semester);
+            if (Semester.isPressed(event))
+            {
+                layer = Smt;
+                SemesterScreen.clearLine();
+                SemesterScreen.drawTexture(layer);
+                drawTexture();
+            }
+        }
+        if (!Backend::g_classes.empty())
+        {
+            Texture.draw(Student);
+            if (Student.isPressed(event))
+            {
+                layer = Std;
+                SetStudentScreen.clearLine();
+                SetStudentScreen.FirstDraw();
+                drawTexture();
+            }
+        }
         if (Backend::activeSemester)
         {
             Texture.draw(addCourse);
@@ -284,16 +352,35 @@ void StaffWindow::processEvent(sf::Event event)
         AddCourseScreen.processEvent(event);
         Texture.draw(AddCourseScreen);
     }
+    if (layer == Pass)
+    {
+        Password.processEvent(event);
+        Texture.draw(Password);
+    }
+    if (layer == Crs || layer == CrsF || layer == UpdCrs ||
+        layer == CrsAStd || layer == CrsRStd || layer == CrsVStd ||
+        layer == CrsScb || layer == CrsUpdScb)
+    {
+        ViewCourseScreen.processEvent(event, layer);
+        Texture.draw(ViewCourseScreen);
+    }
+    if (layer == VCls || layer == ClsStd || layer == ClsUpd || layer == ClsScb)
+    {
+        ViewClassScreen.processEvent(event, layer);
+        Texture.draw(ViewClassScreen);
+    }
+    if (layer == Prf)
+        Texture.draw(profile);
 
     if (layer != Home)
     {
         Texture.draw(Back);
         if (Back.isPressed(event))
         {
-            if (layer == ScY || layer == Cls || layer == Smt || layer == Std || layer == ACrs)
+            if (layer == ScY || layer == Cls || layer == Smt || layer == Std ||
+                layer == ACrs || layer == Crs || layer == Pass || layer == VCls || layer == Prf)
             {
                 layer = Home;
-                SetStudentScreen.clearLine();
             }
             if (layer == AScY || layer == DScY)
                 layer = ScY;
@@ -308,6 +395,36 @@ void StaffWindow::processEvent(sf::Event event)
             }
             if (layer == LStd)
                 layer = Std;
+            if (layer == CrsF)
+            {
+                ViewCourseScreen.clearLine();
+                ViewCourseScreen.resetFail();
+                layer = Crs;
+                ViewCourseScreen.drawTexture(layer);
+            }
+            if (layer == UpdCrs || layer == CrsAStd || layer == CrsRStd || layer == CrsVStd || layer == CrsScb)
+            {
+                layer = CrsF;
+                ViewCourseScreen.resetFail();
+                ViewCourseScreen.drawTexture(layer);
+            }
+            if (layer == CrsUpdScb)
+            {
+                layer = CrsScb;
+                ViewCourseScreen.drawTexture(layer);
+            }
+            if (layer == ClsStd)
+            {
+                ViewClassScreen.clearLine();
+                layer = VCls;
+                ViewClassScreen.drawTexture(layer);
+            }
+            if (layer == ClsUpd || layer == ClsScb)
+            {
+                layer = ClsStd;
+                ViewClassScreen.drawTexture(layer);
+            }
+
             drawTexture();
         }
     }
@@ -315,15 +432,25 @@ void StaffWindow::processEvent(sf::Event event)
     Texture.draw(viewProfile);
     Texture.draw(changePassword);
     Texture.draw(LogOut);
+    Texture.draw(viewClass);
+    Texture.draw(viewCourse);
 }
 
 bool StaffWindow::mouseOn(const sf::Vector2i &MousePos)
 {
-    return (SchoolYearScreen.mouseOn(MousePos, layer) ||
-            ClassScreen.mouseOn(MousePos, layer) ||
-            SemesterScreen.mouseOn(MousePos, layer) ||
-            SetStudentScreen.mouseOn(MousePos, layer) ||
-            AddCourseScreen.mouseOn(MousePos, layer));
+    if (!hidden)
+    {
+        if (layer == Pass)
+            return Password.mouseOn(MousePos);
+        return (SchoolYearScreen.mouseOn(MousePos, layer) ||
+                ClassScreen.mouseOn(MousePos, layer) ||
+                SemesterScreen.mouseOn(MousePos, layer) ||
+                SetStudentScreen.mouseOn(MousePos, layer) ||
+                AddCourseScreen.mouseOn(MousePos, layer) ||
+                ViewCourseScreen.mouseOn(MousePos, layer) ||
+                ViewClassScreen.mouseOn(MousePos, layer));
+    }
+    return false;
 }
 
 void StaffWindow::Show()

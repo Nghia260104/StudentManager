@@ -132,6 +132,10 @@ void AdminWindow::drawTexture()
     {
         Texture.draw(Password);
     }
+    if (layer.lvl == Function && layer.type == Delete)
+    {
+        Texture.draw(DeleteWindow);
+    }
     Texture.draw(RightSide);
     Texture.draw(AccountName);
 }
@@ -209,10 +213,15 @@ void AdminWindow::processEvent(sf::Event event)
 
 bool AdminWindow::mouseOn(const sf::Vector2i &MousePos)
 {
-    if (layer.lvl == Function && layer.type == Add)
-        return AddWindow.mouseOn(MousePos);
-    if (layer.lvl == Function && layer.type == Pass)
-        return Password.mouseOn(MousePos);
+    if (!hidden)
+    {
+        if (layer.lvl == Function && layer.type == Add)
+            return AddWindow.mouseOn(MousePos);
+        if (layer.lvl == Function && layer.type == Pass)
+            return Password.mouseOn(MousePos);
+        if (layer.lvl == Function && layer.type == Delete)
+            return DeleteWindow.mouseOn(MousePos);
+    }
     return false;
 }
 
