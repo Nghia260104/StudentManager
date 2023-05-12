@@ -9,6 +9,7 @@
 #include <Page.hpp>
 #include <Profile.hpp>
 #include <PersonalScoreboard.hpp>
+#include <Student.hpp>
 
 class StudentWindow : public sf::Drawable
 {
@@ -52,6 +53,7 @@ private:
     Page pages;
     sf::RenderTexture Texture;
     Layer layer;
+    const List<Backend::Student::CourseInfo> *courseInfos = nullptr;
     int page;
     const int Home = 0,
               Function = 1,

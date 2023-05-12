@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <TextBox.hpp>
 #include <Course.hpp>
+#include <Student.hpp>
 
 class CoursesTable : public sf::Drawable
 {
@@ -18,6 +19,7 @@ public:
     // Draw
 
     void drawTexture(const List<Backend::Course *> &list, int page);
+    void drawTexture(const List<Backend::Student::CourseInfo> &list, int page);
 
     // Misc
 

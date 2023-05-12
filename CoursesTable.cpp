@@ -93,11 +93,10 @@ void CoursesTable::drawTexture(const List<Backend::Course *> &list, int page)
 {
     int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
     numRow = steps + 1;
-    auto start = list.begin() + (page - 1) * MAX_ROW;
+    auto Tmp = list.begin() + (page - 1) * MAX_ROW;
     Texture.draw(Background);
     for (int i = 0; i < steps; ++i)
     {
-        auto Tmp = start + i;
         Cell[0].setText((*Tmp)->getID());
         Cell[1].setText((*Tmp)->getCourseName()); //(*Tmp)->getCourseName()
         Cell[2].setText("");
@@ -111,6 +110,42 @@ void CoursesTable::drawTexture(const List<Backend::Course *> &list, int page)
             Cell[j].drawTexture();
             Texture.draw(Cell[j]);
         }
+
+        ++Tmp;
+    }
+    Texture.display();
+}
+
+void CoursesTable::drawTexture(const List<Backend::Student::CourseInfo> &list, int page)
+{
+    int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
+    numRow = steps + 1;
+    auto Tmp = list.begin() + (page - 1) * MAX_ROW;
+    Texture.draw(Background);
+    for (int i = 0; i < steps; ++i)
+    {
+        std::string ID = "";
+        for (int id = 0; id < (*Tmp).course->getID().size(); ++id)
+        {
+            if ((*Tmp).course->getID()[id] == '_')
+                break;
+            ID +=(*Tmp).course->getID()[id];
+        }
+        Cell[0].setText(ID);
+        Cell[1].setText((*Tmp).course->getCourseName()); //(*Tmp).course->getCourseName()
+        Cell[2].setText(Backend::Course::courseID_to_classID((*Tmp).course->getID()));
+        Cell[3].setText((*Tmp).course->getTeacherName()); //(*Tmp).course->getTeacherName()
+        Cell[4].setText(std::to_string((*Tmp).course->getNumberOfCredits())); //(*Tmp).course->getNumberOfCredits()
+        Cell[5].setText(std::to_string((*Tmp).course->getMaxStudents()));
+        Cell[6].setText((*Tmp).course->session().getTime());
+        for (int j = 0; j < numCell; j++)
+        {
+            Cell[j].setPosition(pos[j], Offset + (i + 1) * height);
+            Cell[j].drawTexture();
+            Texture.draw(Cell[j]);
+        }
+        
+        ++Tmp;
     }
     Texture.display();
 }

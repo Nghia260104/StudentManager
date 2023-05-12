@@ -1,6 +1,7 @@
 #include <SetStudentWindow.hpp>
 #include <FrontendGlobal.hpp>
 #include <BackendGlobal.hpp>
+#include <string>
 
 SetStudentWindow::SetStudentWindow()
 {
@@ -10,9 +11,9 @@ void SetStudentWindow::create()
 {
     // Background
 
-    Texture.create(window.getSize().x, window.getSize().y);
+    Texture.create(LeftWindowWidth, window.getSize().y);
     Texture.setSmooth(true);
-    Background.setSize(sf::Vector2f(window.getSize()));
+    Background.setSize(sf::Vector2f(Texture.getSize()));
     Background.setFillColor(BackgroundColor);
 
     // Title
@@ -38,7 +39,7 @@ void SetStudentWindow::create()
     FromFile.setTextColor(sf::Color::White);
     FromFile.setCoverColor(sf::Color(55, 55, 55, 200));
 
-    Tutorial.setString("(Press this button to load info from all <Classname>.csv");
+    Tutorial.setString("(Press this button to load info from all <Classname>.csv)");
     Tutorial.setFillColor(sf::Color(16, 63, 145, 255));
     Tutorial.setFont(LightFont);
     Tutorial.setCharacterSize(20);
@@ -103,9 +104,9 @@ void SetStudentWindow::create()
     ClassName.setFillColor(BackgroundColor);
     ClassName.setTextColor();
     ClassName.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
-    ClassName.setPosition(300, 195);
+    ClassName.setPosition(400, 195);
 
-    ClassConfirm.create(500, 195, 150, 50, RegularFont, 18, "Confirm");
+    ClassConfirm.create(700, 195, 150, 50, RegularFont, 18, "Confirm");
     ClassConfirm.setFillColor(sf::Color(60, 60, 60, 255));
     ClassConfirm.setTextColor(sf::Color::White);
     ClassConfirm.setCoverColor(sf::Color(55, 55, 55, 200));
@@ -341,7 +342,7 @@ void SetStudentWindow::create()
         RemoveSuccess.setFont(RegularFont);
         RemoveSuccess.setCharacterSize(20);
         RemoveSuccess.setFillColor(sf::Color(144, 212, 58, 255));
-        RemoveSuccess.setString("Add Student successfully!");
+        RemoveSuccess.setString("Remove Student successfully!");
         RemoveSuccess.setPosition(300, 310);
 
         // Confirm Button
@@ -444,6 +445,7 @@ void SetStudentWindow::drawTexture(const Layer &layer)
         }
         Texture.draw(Male);
         Texture.draw(Female);
+        Texture.draw(DOB);
         Texture.draw(StudentConfirm);
         if (fail == empty)
             Texture.draw(EmptyFail);
@@ -498,6 +500,7 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
             type = add;
             Temp = &AddTitle;
             drawTexture(layer);
+            return;
         }
         if (Remove.isPressed(event))
         {
@@ -506,11 +509,12 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
             type = remove;
             Temp = &RemoveTitle;
             drawTexture(layer);
+            return;
         }
     }
     if (layer == LStd)
     {
-        Texture.draw(Background);
+        // Texture.draw(Background);
         if (ClassName.checkEvent(event))
             Texture.draw(ClassName);
         if (ClassList.isPressed(event))
@@ -527,6 +531,7 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
                 layer = RStd;
             clearLine();
             drawTexture(layer);
+            return;
         }
         Texture.draw(ClassList);
         Texture.draw(pages);
@@ -560,6 +565,7 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
                 clearLine();
             }
             drawTexture(layer);
+            return;
         }
     }
     if (layer == AStdM)
@@ -567,6 +573,20 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
         for (int i = 0; i < numCell; i++)
             if (Cell[i].checkEvent(event))
                 Texture.draw(Cell[i]);
+        Texture.draw(Male);
+        Texture.draw(Female);
+        if (Male.isPressed(event))
+        {
+            Cell[4].setText(Male.getText());
+            Cell[4].drawTexture();
+            Texture.draw(Cell[4]);
+        }
+        if (Female.isPressed(event))
+        {
+            Cell[4].setText(Female.getText());
+            Cell[4].drawTexture();
+            Texture.draw(Cell[4]);
+        }
         Texture.draw(StudentConfirm);
         if (StudentConfirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
         {
@@ -574,25 +594,36 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
             bool check = 1;
             for (int i = 0; i < numCell; i++)
                 check &= (bool)(Cell[i].getText().getSize());
-            Date Tmp(std::stoi(std::string(Cell[6].getText())),
-                     std::stoi(std::string(Cell[5].getText())),
-                     std::stoi(std::string(Cell[4].getText())));
+            Date Tmp(std::stoi(Cell[7].getText().getSize() ? std::string(Cell[7].getText()) : "0"),
+                     std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
+                     std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"));
             if (!check)
+            {
                 fail = empty;
+                std::cerr << 1;
+            }
             else if (!Tmp.isValidDate())
+            {
                 fail = date;
+                std::cerr << 2;
+            }
             else if (!Backend::Student::createStudent(Cell[0].getText()))
+            {
                 fail = existed;
+                std::cerr << 3;
+            }
             else
             {
-                auto Std = Backend::g_students.back();
+                Backend::Student &Std = Backend::g_students.back();
                 Std.setSocialID(Cell[1].getText());
                 Std.setFirstName(Cell[2].getText());
                 Std.setLastName(Cell[3].getText());
                 Std.setGender(Cell[4].getText());
                 Std.setDateOfBirth(Tmp);
+                CurClass->addStudent(&Std);
             }
             drawTexture(layer);
+            return;
         }
     }
     if (layer == RStd)
@@ -605,7 +636,7 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
             fail = 0;
             if (!Cell[0].getText().getSize())
                 fail = emptyremove;
-            else if (!Backend::Student::deleteStudent(Cell[0].getText()));
+            else if (!Backend::Student::deleteStudent(Cell[0].getText()))
                 fail = notFoundStd;
             drawTexture(layer);
         }

@@ -42,7 +42,7 @@ private:
         Add, Delete,
         SCY, StartDate, EndDate,
         // Day1, Day2, Month1, Month2, Year1, Year2,
-        EmptyFail, DateFail, ExistFail, FoundFail;
+        EmptyFail, DateFail, ExistFail, FoundFail, ASuccess, DSuccess;
     sf::Text *Subtitle;
     TextBox *Cell;
     const Layer Smt = Layer(1, 20),

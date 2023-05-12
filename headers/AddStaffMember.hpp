@@ -22,22 +22,17 @@ public:
     void setMouseCursor(const sf::Vector2i &MousePos);
     void clearLine();
 
-    // Destructor
-    ~AddStaffMember();
-
 protected:
     virtual void draw(sf::RenderTarget &target, sf::RenderStates state) const;
 
 private:
     sf::RectangleShape Background;
     sf::RenderTexture Texture;
-    sf::Text Title, *Subtitle, Success, Fail1, Fail2, Fail3, DOB;
-    TextBox *Cell;
-    Button Confirm, Male, Female;
+    sf::Text Title, Subtitle, Success, Fail1, Fail2;
+    TextBox Username;
+    Button Confirm;
     int fail;
     const int empty = 1,
-              invalid = 2,
-              existed = 3,
-              Clear = INT_MAX,
-              numCell = 7;
+              existed = 2,
+              Clear = INT_MAX;
 };

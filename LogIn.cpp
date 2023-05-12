@@ -123,17 +123,14 @@ void LogIn::processEvent(sf::Event event)
             if (Backend::activeUser->getType() == Backend::Account::Type::Admin)
             {
                 AdminScreen.Show();
-                std::cerr << 1 << '\n';
             }
             if (Backend::activeUser->getType() == Backend::Account::Type::Student)
             {
                 StudentScreen.Show();
-                std::cerr << 2 << '\n';
             }
             if (Backend::activeUser->getType() == Backend::Account::Type::StaffMember)
             {
                 StaffScreen.Show();
-                std::cerr << 3 << '\n';
             }
         }
         drawTexture();
@@ -173,6 +170,7 @@ void LogIn::hide()
 void LogIn::show()
 {
     hidden = 0;
+    drawTexture();
 }
 
 // Draw //////////////////////////////////////////////////////////////////////////////////////////////////
@@ -188,6 +186,7 @@ void LogIn::drawTexture()
     if (fail)
         Texture.draw(Fail);
     Texture.draw(Password);
+    Texture.draw(Confirm);
     Texture.display();
 }
 

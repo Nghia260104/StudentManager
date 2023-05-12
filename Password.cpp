@@ -132,7 +132,7 @@ void PasswordWindow::drawTexture()
     Texture.draw(NewPassword);
     Texture.draw(Subtitle3);
     Texture.draw(confirmPassword);
-    // Texture.draw(Confirm);
+    Texture.draw(Confirm);
     if (fail == 0)
         Texture.draw(Success);
     if (fail == 1)

@@ -12,7 +12,7 @@ void AdminWindow::create()
 
     Texture.create(window.getSize().x, window.getSize().y);
     Texture.setSmooth(true);
-    Background.setSize(sf::Vector2f(window.getSize()));
+    Background.setSize(sf::Vector2f(LeftWindowWidth, window.getSize().y));
     Background.setFillColor(BackgroundColor);
 
     // Back Button
@@ -117,8 +117,8 @@ void AdminWindow::FirstDraw()
 void AdminWindow::drawTexture()
 {
     Texture.draw(Background);
-    if (layer.lvl)
-        Texture.draw(Back);
+    Texture.draw(changePassword);
+    Texture.draw(LogOut);
     if (layer.lvl == Home)
     {
         Texture.draw(AddStaff);
@@ -136,8 +136,8 @@ void AdminWindow::drawTexture()
     {
         Texture.draw(DeleteWindow);
     }
-    Texture.draw(RightSide);
-    Texture.draw(AccountName);
+    if (layer.lvl)
+        Texture.draw(Back);
 }
 
 void AdminWindow::draw(sf::RenderTarget &target, sf::RenderStates state) const
@@ -150,6 +150,10 @@ void AdminWindow::draw(sf::RenderTarget &target, sf::RenderStates state) const
 
 void AdminWindow::processEvent(sf::Event event)
 {
+    if (layer.lvl)
+        Texture.draw(Back);
+    Texture.draw(changePassword);
+    Texture.draw(LogOut);
     if (LogOut.isPressed(event))
     {
         layer.lvl = 0;
@@ -186,8 +190,6 @@ void AdminWindow::processEvent(sf::Event event)
         DeleteWindow.processEvent(event);
         Texture.draw(DeleteWindow);
     }
-    if (layer.lvl)
-        Texture.draw(Back);
     if (layer.lvl == Home)
     {
         Texture.draw(AddStaff);
@@ -207,8 +209,8 @@ void AdminWindow::processEvent(sf::Event event)
             drawTexture();
         }
     }
-    Texture.draw(changePassword);
-    Texture.draw(LogOut);
+    if (layer.lvl)
+        Texture.draw(Back);
 }
 
 bool AdminWindow::mouseOn(const sf::Vector2i &MousePos)

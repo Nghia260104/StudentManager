@@ -33,12 +33,12 @@ void StudentTable::create(sf::Font &font)
 
     for (int i = 0; i < numCell; i++)
         Cell[i].setFontSize(18);
-    width[0] = 150;
+    width[0] = 120;
     width[1] = 100;
-    width[2] = 450;
-    width[3] = 100;
-    width[4] = 250;
-    width[5] = 250;
+    width[2] = 350;
+    width[3] = 70;
+    width[4] = 180;
+    width[5] = 200;
     pos[0] = 0;
     for (int i = 1; i < numCell; i++)
         pos[i] = pos[i - 1] + width[i - 1];
@@ -97,18 +97,18 @@ void StudentTable::drawTexture(const List<Backend::Student *> &list, int page)
 {
     int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
     numRow = steps + 1;
-    auto start = list.begin() + (page - 1) * MAX_ROW;
+    auto Tmp = list.begin() + (page - 1) * MAX_ROW;
     Texture.draw(Background);
+
     for (int i = 0; i < steps; ++i)
     {
-        auto Tmp = start + i;
         Cell[0].setText((*Tmp)->getID());
         Cell[1].setText((*Tmp)->getClass()->getID());
         Cell[2].setText((*Tmp)->getName());
         Cell[3].setText(((*Tmp)->getGender() == Backend::Student::Gender::Male ? "Male" : "Female"));
         Date DOB = (*Tmp)->getDateOfBirth();
         Cell[3].setCenter();
-        Cell[4].setText(std::to_string(DOB.day) + "/" + std::to_string(DOB.month) + "/" + std::to_string(DOB.year));
+        Cell[4].setText(Backend::Student::dateToString(DOB));
         Cell[5].setText((*Tmp)->getSocialID());
         for (int j = 0; j < numCell; j++)
         {
@@ -116,6 +116,8 @@ void StudentTable::drawTexture(const List<Backend::Student *> &list, int page)
             Cell[j].drawTexture();
             Texture.draw(Cell[j]);
         }
+
+        ++Tmp;
     }
     Texture.display();
 }
@@ -124,18 +126,18 @@ void StudentTable::drawTexture(const List<Backend::Course::StudentInfo> &list, i
 {
     int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
     numRow = steps + 1;
-    auto start = list.begin() + (page - 1) * MAX_ROW;
+    auto Tmp = list.begin() + (page - 1) * MAX_ROW;
     Texture.draw(Background);
     for (int i = 0; i < steps; ++i)
     {
-        auto Tmp = start + i;
         Cell[0].setText((*Tmp).student->getID());
         Cell[1].setText((*Tmp).student->getClass()->getID());
         Cell[2].setText((*Tmp).student->getName());
-        Cell[3].setText(((*Tmp).student->getGender() == Backend::Student::Gender::Male ? "Male" : "Female"));
-        Date DOB = (*Tmp).student->getDateOfBirth();
+        Cell[3].setText(Backend::Student::genderToString((*Tmp).student->getGender()));
         Cell[3].setCenter();
-        Cell[4].setText(std::to_string(DOB.day) + "/" + std::to_string(DOB.month) + "/" + std::to_string(DOB.year));
+        Date DOB = (*Tmp).student->getDateOfBirth();
+        // Cell[4].setText(std::to_string(DOB.day) + "/" + std::to_string(DOB.month) + "/" + std::to_string(DOB.year));
+        Cell[4].setText(Backend::Student::dateToString(DOB));
         Cell[5].setText((*Tmp).student->getSocialID());
         for (int j = 0; j < numCell; j++)
         {
@@ -143,6 +145,8 @@ void StudentTable::drawTexture(const List<Backend::Course::StudentInfo> &list, i
             Cell[j].drawTexture();
             Texture.draw(Cell[j]);
         }
+
+        ++Tmp;
     }
     Texture.display();
 }

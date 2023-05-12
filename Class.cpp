@@ -210,12 +210,31 @@ void Class::setID(const std::string &nID)
 
 bool Class::addStudent(Student *nStudent)
 {
+	// std::cerr << "BACKEND ADD STUDENT" << std::endl;
+	// std::cerr << nStudent << std::endl;
+	if (g_students.find_if(
+			[&](const Student &student) -> bool
+			{
+				// std::cerr << &student << std::endl;
+				return &student == nStudent;
+			})
+		== g_students.end())
+	{
+		return 0;
+	}
+
 	if (students().find(nStudent) != students().end())
 	{
 		return 0;
 	}
 
 	students().push_back(nStudent);
+
+	if (nStudent->getClass())
+	{
+		nStudent->getClass()->removeStudent(nStudent);
+	}
+
 	nStudent->getClass() = this;
 
 	return 1;

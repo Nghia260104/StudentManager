@@ -80,8 +80,8 @@ void SemesterWindow::create()
                 Subtitle[0].setString("Semester:");
                 Subtitle[0].setPosition(300, 200);
 
-                Cell[0].create(0, 0, 30, 30, 18, sf::Vector2f(8, 25));
-                Cell[0].setPosition(400,198);
+                Cell[0].create(0, 0, 30, 30, 18, sf::Vector2f(8, 15));
+                Cell[0].setPosition(420, 198);
 
                 // S1
                 {
@@ -152,7 +152,7 @@ void SemesterWindow::create()
                     Subtitle[3].setPosition(750, 430);
 
                     Cell[3].create(0, 0, 100, 40, 18, sf::Vector2f(8, 20));
-                    Cell[3].setPosition(820, 425);
+                    Cell[3].setPosition(850, 425);
                     Cell[3].setLimit(4);
                     Cell[3].setNumber();
                 }
@@ -192,7 +192,7 @@ void SemesterWindow::create()
                     Subtitle[6].setPosition(750, 545);
 
                     Cell[6].create(0, 0, 100, 40, 18, sf::Vector2f(8, 20));
-                    Cell[6].setPosition(820, 540);
+                    Cell[6].setPosition(850, 540);
                     Cell[6].setLimit(4);
                     Cell[6].setNumber();
                 }
@@ -228,7 +228,7 @@ void SemesterWindow::create()
         ExistFail.setFont(RegularFont);
         ExistFail.setCharacterSize(20);
         ExistFail.setFillColor(sf::Color(168, 30, 20, 255));
-        ExistFail.setString("Failed: Cells can not be empty!");
+        ExistFail.setString("Failed: Semester existed!");
         ExistFail.setPosition(400, 610);
 
         // Fail type 3 : Invalid Date type
@@ -239,9 +239,17 @@ void SemesterWindow::create()
         DateFail.setString("Failed: Invalid Date!");
         DateFail.setPosition(400, 610);
 
+        // Add success
+
+        ASuccess.setFont(RegularFont);
+        ASuccess.setCharacterSize(20);
+        ASuccess.setFillColor(sf::Color(144, 212, 58, 255));
+        ASuccess.setString("Add semester successfully!");
+        ASuccess.setPosition(400, 610);
+
         // Confirm Button
 
-        AddConfirm.create(580, 630, 150, 50, BoldFont, 24, "Confirm");
+        AddConfirm.create(580, 650, 150, 50, BoldFont, 24, "Confirm");
         AddConfirm.setFillColor(sf::Color(25, 89, 34, 255));
         AddConfirm.setTextColor(sf::Color::White);
         AddConfirm.setCoverColor(sf::Color(20, 85, 30, 200));
@@ -254,6 +262,14 @@ void SemesterWindow::create()
     FoundFail.setFillColor(sf::Color(168, 30, 20, 255));
     FoundFail.setString("Failed: Semester not found!");
     FoundFail.setPosition(350, 370);
+
+    // Delete Success
+
+    DSuccess.setFont(RegularFont);
+    DSuccess.setCharacterSize(20);
+    DSuccess.setFillColor(sf::Color(144, 212, 58, 255));
+    DSuccess.setString("Delete semester successfully!");
+    DSuccess.setPosition(350, 370);
 
     // Delete confirm button
 
@@ -295,7 +311,11 @@ void SemesterWindow::drawTexture(const Layer &layer)
 {
     Texture.draw(Background);
     if (layer == Smt)
+    {
         Texture.draw(Title);
+        Texture.draw(AddSemester);
+        Texture.draw(DeleteSemester);
+    }
     if (layer == ASmt)
     {
         Texture.draw(Add);
@@ -304,28 +324,40 @@ void SemesterWindow::drawTexture(const Layer &layer)
             Texture.draw(Subtitle[i]);
             Texture.draw(Cell[i]);
         }
+        Texture.draw(s1);
+        Texture.draw(s2);
+        Texture.draw(s3);
         Texture.draw(SCY);
         Texture.draw(SchoolYear);
         Texture.draw(StartDate);
         Texture.draw(EndDate);
+        Texture.draw(AddConfirm);
         if (fail == empty)
             Texture.draw(EmptyFail);
         if (fail == date)
             Texture.draw(DateFail);
         if (fail == existed)
             Texture.draw(ExistFail);
+        if (!fail)
+            Texture.draw(ASuccess);
     }
     if (layer == DSmt)
     {
         Texture.draw(Delete);
         Texture.draw(Subtitle[0]);
         Texture.draw(Cell[0]);
+        Texture.draw(s1);
+        Texture.draw(s2);
+        Texture.draw(s3);
         Texture.draw(SCY);
         Texture.draw(SchoolYear);
+        Texture.draw(DeleteConfirm);
         if (fail == empty)
             Texture.draw(EmptyFail);
         if (fail == notFound)
             Texture.draw(FoundFail);
+        if (!fail)
+            Texture.draw(DSuccess);
     }
     Texture.display();
 }
@@ -342,8 +374,8 @@ void SemesterWindow::processEvent(sf::Event event, Layer &layer)
 {
     if (layer == Smt)
     {
-        // drawTexture(layer);
-        Texture.draw(Background);
+        drawTexture(layer);
+        // Texture.draw(Background);
         Texture.draw(AddSemester);
         Texture.draw(DeleteSemester);
         if (AddSemester.isPressed(event))
@@ -354,6 +386,7 @@ void SemesterWindow::processEvent(sf::Event event, Layer &layer)
             SchoolYear.setTextPos();
             SchoolYear.drawTexture();
             drawTexture(layer);
+            return;
         }
         if (DeleteSemester.isPressed(event))
         {
@@ -363,6 +396,7 @@ void SemesterWindow::processEvent(sf::Event event, Layer &layer)
             SchoolYear.setTextPos();
             SchoolYear.drawTexture();
             drawTexture(layer);
+            return;
         }
     }
     if (layer == ASmt)
@@ -398,15 +432,20 @@ void SemesterWindow::processEvent(sf::Event event, Layer &layer)
             bool Check = 1;
             for (int i = 0; i < numCell; i++)
                 Check &= (bool)Cell[i].getText().getSize();
-            Date TmpStart(std::stoi(std::string(Cell[3].getText())),
-                          std::stoi(std::string(Cell[2].getText())),
-                          std::stoi(std::string(Cell[1].getText())));
-            Date TmpEnd(std::stoi(std::string(Cell[6].getText())),
-                        std::stoi(std::string(Cell[5].getText())),
-                        std::stoi(std::string(Cell[4].getText())));
+            Date TmpStart(std::stoi(Cell[3].getText().getSize() ? std::string(Cell[3].getText()) : "0"),
+                          std::stoi(Cell[2].getText().getSize() ? std::string(Cell[2].getText()) : "0"),
+                          std::stoi(Cell[1].getText().getSize() ? std::string(Cell[1].getText()) : "0"));
+            Date TmpEnd(std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
+                        std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"),
+                        std::stoi(Cell[4].getText().getSize() ? std::string(Cell[4].getText()) : "0"));
             if (!Check)
                 fail = empty;
-            else if (!TmpStart.isValidDate() || !TmpEnd.isValidDate() || TmpEnd.year - TmpStart.year != 1)
+            else if (!TmpStart.isValidDate() || !TmpEnd.isValidDate() ||
+                     !(TmpStart.year - Backend::activeSchoolYear->getStartYear() == 0 ||
+                       TmpStart.year - Backend::activeSchoolYear->getStartYear() == 1) ||
+                     !(TmpEnd.year - Backend::activeSchoolYear->getStartYear() == 0 ||
+                       TmpEnd.year - Backend::activeSchoolYear->getStartYear() == 1) ||
+                     (TmpStart > TmpEnd))
                 fail = date;
             else if (!Backend::Semester::createSemester(std::stoi(std::string(Cell[0].getText())),
                                                         Backend::activeSchoolYear->getStartYear()))

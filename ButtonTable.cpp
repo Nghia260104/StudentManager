@@ -53,15 +53,16 @@ void ButtonTable::create(unsigned int row, unsigned int col,
 void ButtonTable::drawTexture(const List<Backend::Class> &list, int page)
 {
     numCell = min(list.size() - (page - 1) * MAX_CELL, MAX_CELL);
-    auto start = list.begin() + (page - 1) * MAX_CELL;
+    auto Tmp = list.begin() + (page - 1) * MAX_CELL;
     Texture.draw(Background);
     for (int i = 0; i < numCell; ++i)
     {
-        auto Tmp = start + i;
         Table[i].setText((*Tmp).getID());
         Table[i].setTextPos();
         Table[i].drawTexture();
         Texture.draw(Table[i]);
+
+        ++Tmp;
     }
     Texture.display();
 }
@@ -69,15 +70,16 @@ void ButtonTable::drawTexture(const List<Backend::Class> &list, int page)
 void ButtonTable::drawTexture(const List<Backend::Course *> &list, int page)
 {
     numCell = min(list.size() - (page - 1) * MAX_CELL, MAX_CELL);
-    auto start = list.begin() + (page - 1) * MAX_CELL;
+    auto Tmp = list.begin() + (page - 1) * MAX_CELL;
     Texture.draw(Background);
     for (int i = 0; i < numCell; ++i)
     {
-        auto Tmp = start + i;
         Table[i].setText((*Tmp)->getID());
         Table[i].setTextPos();
         Table[i].drawTexture();
         Texture.draw(Table[i]);
+
+        ++Tmp;
     }
     Texture.display();
 }
@@ -85,22 +87,22 @@ void ButtonTable::drawTexture(const List<Backend::Course *> &list, int page)
 void ButtonTable::drawTexture(const List<Backend::Course> &list, int page)
 {
     numCell = min(list.size() - (page - 1) * MAX_CELL, MAX_CELL);
-    auto start = list.begin() + (page - 1) * MAX_CELL;
+    auto Tmp = list.begin() + (page - 1) * MAX_CELL;
     Texture.draw(Background);
     for (int i = 0; i < numCell; ++i)
     {
-        auto Tmp = start + i;
         Table[i].setText((*Tmp).getID());
         Table[i].setTextPos();
         Table[i].drawTexture();
         Texture.draw(Table[i]);
+        ++Tmp;
     }
     Texture.display();
 }
 
 void ButtonTable::drawTexture(const int &size, int page)
 {
-    numCell = min(size - (page - 1) * MAX_CELL, MAX_CELL);
+    numCell = MAX_COL * min(size - (page - 1) * MAX_ROW, MAX_ROW);
     Texture.draw(Background);
     for (int i = 0; i < numCell; i++)
     {

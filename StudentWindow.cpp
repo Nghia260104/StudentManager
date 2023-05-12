@@ -2,9 +2,6 @@
 #include <FrontendGlobal.hpp>
 #include <BackendGlobal.hpp>
 
-List<Backend::Course *> list;
-List<Backend::Student::CourseInfo> list1;
-
 // Constructor ///////////////////////////////////////////////////////////////////////////////
 
 StudentWindow::StudentWindow()
@@ -17,7 +14,7 @@ void StudentWindow::create()
 
     Texture.create(window.getSize().x, window.getSize().y);
     Texture.setSmooth(true);
-    Background.setSize(sf::Vector2f(window.getSize()));
+    Background.setSize(sf::Vector2f(LeftWindowWidth, window.getSize().y));
     Background.setFillColor(BackgroundColor);
 
     // Back Button
@@ -137,8 +134,9 @@ void StudentWindow::FirstDraw()
 void StudentWindow::drawTexture()
 {
     Texture.draw(Background);
-    if (layer.lvl)
-        Texture.draw(Back);
+    Texture.draw(viewProfile);
+    Texture.draw(changePassword);
+    Texture.draw(LogOut);
     if (layer.lvl == Home)
     {
         Texture.draw(viewCourse);
@@ -147,7 +145,7 @@ void StudentWindow::drawTexture()
     if (layer.lvl == Function && layer.type == Crs)
     {
         Texture.draw(Courses);
-        // Texture.draw(pages);
+        Texture.draw(pages);
     }
     if (layer.lvl == Function && layer.type == Scb)
     {
@@ -161,8 +159,8 @@ void StudentWindow::drawTexture()
     {
         Texture.draw(profile);
     }
-    Texture.draw(RightSide);
-    Texture.draw(AccountName);
+    if (layer.lvl)
+        Texture.draw(Back);
 }
 
 void StudentWindow::draw(sf::RenderTarget &target, sf::RenderStates state) const
@@ -222,10 +220,10 @@ void StudentWindow::processEvent(sf::Event event)
             layer.lvl = Function;
             layer.type = Crs;
             NumPage = 1;
-            TotalPage = ((list.size()) ? (list.size() / MAX_ROW + (bool)(list.size() % MAX_ROW)) : 1);
-            // std::cerr << list.size() << " " << MAX_ROW << '\n'
+            TotalPage = ((courseInfos->size()) ? (courseInfos->size() / MAX_ROW + (bool)(courseInfos->size() % MAX_ROW)) : 1);
+            // std::cerr << courseInfoList.size() << " " << MAX_ROW << '\n'
             //           << TotalPage;
-            Courses.drawTexture(list, 1);
+            Courses.drawTexture(*courseInfos, 1);
             pages.setPage(NumPage, TotalPage);
             pages.setPosition(607 + Courses.getPosition().x, Courses.getPosition().y + Courses.getHeight() + 20);
             drawTexture();
@@ -235,8 +233,8 @@ void StudentWindow::processEvent(sf::Event event)
             layer.lvl = Function;
             layer.type = Scb;
             NumPage = 1;
-            TotalPage = ((list1.size()) ? (list1.size() / MAX_ROW + (bool)(list1.size() % MAX_ROW)) : 1);
-            Scoreboard.drawTexture(list1, 1);
+            TotalPage = ((courseInfos->size()) ? (courseInfos->size() / MAX_ROW + (bool)(courseInfos->size() % MAX_ROW)) : 1);
+            Scoreboard.drawTexture(*courseInfos, 1);
             pages.setPage(NumPage, TotalPage);
             pages.setPosition(520 + Scoreboard.getPosition().x, Scoreboard.getPosition().y + Scoreboard.getHeight() + 20);
             drawTexture();
@@ -249,7 +247,7 @@ void StudentWindow::processEvent(sf::Event event)
         // if (pages.isPressed(event, NumPage, TotalPage))
         if (Check)
         {
-            Courses.drawTexture(list, NumPage);
+            Courses.drawTexture(*courseInfos, NumPage);
             drawTexture();
         }
         Texture.draw(pages);
@@ -261,7 +259,7 @@ void StudentWindow::processEvent(sf::Event event)
         // if (pages.isPressed(event, NumPage, TotalPage))
         if (Check)
         {
-            Scoreboard.drawTexture(list1, NumPage);
+            Scoreboard.drawTexture(*courseInfos, NumPage);
             drawTexture();
         }
         Texture.draw(pages);
@@ -284,6 +282,7 @@ bool StudentWindow::mouseOn(const sf::Vector2i &MousePos)
 void StudentWindow::Show()
 {
     AccountName.setString(Backend::activeUser->getName());
+    courseInfos = &dynamic_cast<Backend::Student *>(Backend::activeUser)->courseInfos();
     FirstDraw();
     hidden = 0;
 }

@@ -1,6 +1,8 @@
 #include <CourseScoreboard.hpp>
 #include <FrontendGlobal.hpp>
 #include <string>
+#include <sstream>
+#include <iomanip>
 
 // Constructor
 
@@ -101,27 +103,43 @@ void CourseScoreboard::drawTexture(const List<Backend::Student::CourseInfo> &lis
 {
     int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
     numRow = steps + 1;
-    auto start = list.begin() + (page - 1) * MAX_ROW;
+    auto Tmp = list.begin() + (page - 1) * MAX_ROW;
     Texture.draw(Background);
+    std::stringstream s;
     for (int i = 0; i < steps; ++i)
     {
-        auto Tmp = start + i;
         Cell[0].setText(std::to_string((page - 1) * MAX_ROW + i + 1));
         Cell[1].setText((*Tmp).studentInfo->student->getClass()->getID());
         Cell[2].setText((*Tmp).studentInfo->student->getID());
         Cell[3].setText((*Tmp).studentInfo->student->getName());
-        Cell[4].setText(std::to_string((*Tmp).studentInfo->midtermMark));
-        Cell[5].setText(std::to_string((*Tmp).studentInfo->finalMark));
-        Cell[6].setText(std::to_string((*Tmp).studentInfo->otherMark));
-        Cell[7].setText(std::to_string((*Tmp).studentInfo->totalMark));
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).studentInfo->midtermMark;
+        Cell[4].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).studentInfo->finalMark;
+        Cell[5].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).studentInfo->otherMark;
+        Cell[6].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).studentInfo->totalMark;
+        Cell[7].setText(s.str());
+        // Cell[4].setText(std::to_string((*Tmp).studentInfo->midtermMark));
+        // Cell[5].setText(std::to_string((*Tmp).studentInfo->finalMark));
+        // Cell[6].setText(std::to_string((*Tmp).studentInfo->otherMark));
+        // Cell[7].setText(std::to_string((*Tmp).studentInfo->totalMark));
         for (int j = 0; j < numCell; j++)
         {
             if (j > 3)
                 Cell[j].setCenter();
+            else
+                Cell[j].setTextPos();
             Cell[j].setPosition(pos[j] + Offset_x, Offset_y + (i + 1) * height);
             Cell[j].drawTexture();
             Texture.draw(Cell[j]);
         }
+
+        ++Tmp;
     }
     Texture.display();
 }
@@ -130,27 +148,43 @@ void CourseScoreboard::drawTexture(const List<Backend::Course::StudentInfo> &lis
 {
     int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
     numRow = steps + 1;
-    auto start = list.begin() + (page - 1) * MAX_ROW;
+    auto Tmp = list.begin() + (page - 1) * MAX_ROW;
     Texture.draw(Background);
+    std::stringstream s;
     for (int i = 0; i < steps; ++i)
     {
-        auto Tmp = start + i;
         Cell[0].setText(std::to_string((page - 1) * MAX_ROW + i + 1));
         Cell[1].setText((*Tmp).student->getClass()->getID());
         Cell[2].setText((*Tmp).student->getID());
         Cell[3].setText((*Tmp).student->getName());
-        Cell[4].setText(std::to_string((*Tmp).midtermMark));
-        Cell[5].setText(std::to_string((*Tmp).finalMark));
-        Cell[6].setText(std::to_string((*Tmp).otherMark));
-        Cell[7].setText(std::to_string((*Tmp).totalMark));
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).midtermMark;
+        Cell[4].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).finalMark;
+        Cell[5].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).otherMark;
+        Cell[6].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).totalMark;
+        Cell[7].setText(s.str());
+        // Cell[4].setText(std::to_string((*Tmp).midtermMark));
+        // Cell[5].setText(std::to_string((*Tmp).finalMark));
+        // Cell[6].setText(std::to_string((*Tmp).otherMark));
+        // Cell[7].setText(std::to_string((*Tmp).totalMark));
         for (int j = 0; j < numCell; j++)
         {
             if (j > 3)
                 Cell[j].setCenter();
+            else
+                Cell[j].setTextPos();
             Cell[j].setPosition(pos[j] + Offset_x, Offset_y + (i + 1) * height);
             Cell[j].drawTexture();
             Texture.draw(Cell[j]);
         }
+
+        ++Tmp;
     }
     Texture.display();
 }

@@ -67,7 +67,7 @@ void ViewCourseWindow::create()
     // Button Course
 
     CourseList.create(6, 5, 180, 50, 30, 30, RegularFont, 18);
-    CourseList.setPosition(200, 400);
+    CourseList.setPosition(200, 300);
     CourseList.setFillColor(sf::Color(25, 89, 34, 255));
     CourseList.setTextColor(sf::Color::White);
     CourseList.setCoverColor(sf::Color(50, 120, 60, 255));
@@ -230,7 +230,7 @@ void ViewCourseWindow::create()
         StdID.setFillColor(BackgroundColor);
         StdID.setTextColor();
         StdID.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
-        StdID.setPosition(300, 188);
+        StdID.setPosition(375, 188);
         StdID.setNumber();
 
         // Confirm
@@ -244,10 +244,11 @@ void ViewCourseWindow::create()
     // List of students
 
     StudentList.create(RegularFont);
-    StudentList.setPosition(100, 100);
+    StudentList.setPosition(250, 100);
 
     StdPages.create();
-    StdPages.setPosition(StudentList.getPosition().x + 560, StudentList.getPosition().y + StudentList.getHeight() + 30);
+    StdPages.setPosition(StudentList.getPosition().x + StudentList.getWidth() / 2 - 90,
+                         StudentList.getPosition().y + StudentList.getHeight() + 30);
 
     // Scoreboard
 
@@ -255,7 +256,8 @@ void ViewCourseWindow::create()
     CourseScoreboardTable.setPosition(100, 100);
 
     ScbPages.create();
-    ScbPages.setPosition(CourseScoreboardTable.getPosition().x + 480, CourseScoreboardTable.getPosition().y + CourseScoreboardTable.getHeight() + 30);
+    ScbPages.setPosition(CourseScoreboardTable.getPosition().x + CourseScoreboardTable.getWidth() / 2 - 40,
+                         CourseScoreboardTable.getPosition().y + CourseScoreboardTable.getHeight() + 30);
 
     UpdateScb.create(15, 1, 100, 35, 0, 0, RegularFont, 16);
     UpdateScb.setPosition(100 + CourseScoreboardTable.getWidth(), 210);
@@ -458,7 +460,7 @@ void ViewCourseWindow::drawTexture(const Layer &layer)
     }
     if (layer == CrsRStd)
     {
-        Texture.draw(AddTitle);
+        Texture.draw(RemoveTitle);
         Texture.draw(StdTitle);
         Texture.draw(StdID);
         Texture.draw(StdConfirm);
@@ -519,7 +521,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
         pages.processEvent(event, NumPage, TotalPage, Check);
         if (Check)
         {
-            CourseList.drawTexture(Backend::activeSemester->courses(), NumPage);
+            CourseList.drawTexture(Backend::g_courses, NumPage);
             drawTexture(layer);
         }
         if (CourseList.isPressed(event))
@@ -538,6 +540,11 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                           return a->getID() == CurCourse->getID();
                       }) != Backend::activeSemester->courses().end();
             drawTexture(layer);
+            // for (auto i = (*CurCourse).studentInfos().begin(); i != (*CurCourse).studentInfos().end(); ++i)
+            // {
+            //     std::cerr << (*i).student->getClass()->getID() << '\n';
+            // }
+            return;
         }
         if (CourseConfirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
         {
@@ -563,6 +570,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                           }) != Backend::activeSemester->courses().end();
             }
             drawTexture(layer);
+            return;
         }
     }
     if (layer == CrsF)
@@ -578,6 +586,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                                                              : 1);
             StdPages.setPage(StdNumPage, StdTotalPage);
             drawTexture(layer);
+            return;
         }
         Texture.draw(viewScoreboard);
         if (viewScoreboard.isPressed(event))
@@ -590,6 +599,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                                                              : 1);
             ScbPages.setPage(ScbNumPage, ScbTotalPage);
             drawTexture(layer);
+            return;
         }
         if (New)
         {
@@ -603,10 +613,11 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                 resetFail();
                 UpdateCourseScreen.FirstDraw((*CurCourse));
                 drawTexture(layer);
+                return;
             }
             if (Delete.isPressed(event))
             {
-                if (!fail)
+                if (fail == Clear)
                     fail = warning;
                 else if (fail == warning)
                 {
@@ -616,6 +627,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                     layer = Crs;
                 }
                 drawTexture(layer);
+                return;
             }
             if (AddStudent.isPressed(event))
             {
@@ -624,6 +636,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                 resetFail();
                 StdID.erase();
                 drawTexture(layer);
+                return;
             }
             if (RemoveStudent.isPressed(event))
             {
@@ -632,6 +645,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                 resetFail();
                 StdID.erase();
                 drawTexture(layer);
+                return;
             }
         }
     }
@@ -654,6 +668,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                                                                            { return a.getID() == StdID.getText(); }))))
                 fail = AddExnF;
             drawTexture(layer);
+            return;
         }
     }
     if (layer == CrsRStd)
@@ -670,6 +685,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                                                                               { return a.getID() == StdID.getText(); }))))
                 fail = RmvNotFound;
             drawTexture(layer);
+            return;
         }
     }
     if (layer == CrsVStd)
@@ -706,6 +722,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
             for (int i = 0; i < numMark; i++)
                 Mark[i].drawTexture();
             drawTexture(layer);
+            return;
         }
         Texture.draw(UpdateScb);
         Texture.draw(ScbPages);

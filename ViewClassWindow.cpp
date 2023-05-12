@@ -85,14 +85,16 @@ void ViewClassWindow::create()
     StudentList.setPosition(100, 100);
 
     StdPages.create();
-    StdPages.setPosition(StudentList.getPosition().x + StudentList.getWidth() - 90,
+    StdPages.setPosition(StudentList.getPosition().x + StudentList.getWidth() / 2 - 90,
                          StudentList.getPosition().y + StudentList.getHeight() + 30);
 
-    Function.create(MAX_ROW, 2, 100, 25, 0, 0, RegularFont, 16);
+    Function.create(MAX_ROW, 2, 150, 35, 0, 0, RegularFont, 16);
     Function.setColString(0, "Update");
     Function.setColString(1, "Scoreboard");
     Function.setPosition(StudentList.getPosition().x + StudentList.getWidth() + 20,
-                         StudentList.getPosition().y + 35);
+                         StudentList.getPosition().y + 110);
+    Function.setTextColor(sf::Color::Black);
+    Function.setFillColor(sf::Color::Cyan);
 
     // Update student's info
 
@@ -113,7 +115,7 @@ void ViewClassWindow::create()
     GPA.setTextColor(sf::Color::Black);
 
     ScbPages.create();
-    ScbPages.setPosition(Scoreboard.getPosition().x + Scoreboard.getWidth() - 90,
+    ScbPages.setPosition(Scoreboard.getPosition().x + Scoreboard.getWidth() / 2 - 90,
                          Scoreboard.getPosition().y + Scoreboard.getHeight() + 30);
 
     // Pre-draw
@@ -209,7 +211,26 @@ void ViewClassWindow::processEvent(sf::Event event, Layer &layer)
                 {
                     return a.getID() == ClassList.getText();
                 });
+            // std::cerr << (CurClass  == Backend::g_classes.end()) << std::endl;
+            // std::cerr << CurClass->getID() << std::endl;
+            // for (const Backend::Student *student : CurClass->students())
+            // {
+            //     std::cerr << student << std::endl;
+            // }
+            // std::cerr << "\nG_STUDENTS" << std::endl;
+            // for (const Backend::Student &student : Backend::g_students)
+            // {
+            //     std::cerr << &student << std::endl;
+            // }
             StudentList.setTitle(ClassList.getText());
+            // for (const Backend::Student *student : (*CurClass).students())
+            // {
+            //     std::cerr << student->getID() << ' '
+            //               << student->getClass()->getID() << ' '
+            //               << student->getName() << ' '
+            //               << Backend::Student::genderToString(student->getGender()) << ' '
+            //               << Backend::Student::dateToString(student->getDateOfBirth()) << std::endl;
+            // }
             StudentList.drawTexture((*CurClass).students(), 1);
             StdNumPage = 1;
             StdTotalPage = ((*CurClass).students().size() ? (*CurClass).students().size() / MAX_ROW + (bool)((*CurClass).students().size() % MAX_ROW) : 1);
@@ -217,6 +238,7 @@ void ViewClassWindow::processEvent(sf::Event event, Layer &layer)
             StdPages.setPage(StdNumPage, StdTotalPage);
             layer = ClsStd;
             drawTexture(layer);
+            return;
         }
         Texture.draw(ClsPages);
         bool Check = 0;
@@ -249,6 +271,7 @@ void ViewClassWindow::processEvent(sf::Event event, Layer &layer)
                 layer = ClsStd;
             }
             drawTexture(layer);
+            return;
         }
     }
     if (layer == ClsStd)
@@ -256,12 +279,14 @@ void ViewClassWindow::processEvent(sf::Event event, Layer &layer)
         Texture.draw(Function);
         if (Function.isPressed(event))
         {
-            CurStd = *((*CurClass).students().begin() + (StdNumPage - 1) * MAX_ROW + Function.getRow());
+            // std::cerr << Function.getRow() << std::endl;
+            CurStd = *(CurClass->students().begin() + (StdNumPage - 1) * MAX_ROW + Function.getRow());
             if (Function.getText() == "Update")
             {
                 Update.FirstDraw(CurStd);
                 layer = ClsUpd;
                 drawTexture(layer);
+                return;
             }
             if (Function.getText() == "Scoreboard")
             {
@@ -285,6 +310,7 @@ void ViewClassWindow::processEvent(sf::Event event, Layer &layer)
                 GPA.drawTexture();
                 layer = ClsScb;
                 drawTexture(layer);
+                return;
             }
         }
         Texture.draw(StdPages);

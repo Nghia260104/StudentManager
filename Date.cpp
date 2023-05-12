@@ -31,3 +31,22 @@ bool Date::isValidDate()
 	delete[] Tmp;
 	return check;
 }
+
+bool Date::operator<(const Date &x)
+{
+	return (year < x.year ||
+			(year == x.year && month < x.month) ||
+			(year == x.year && month == x.month && day < x.day));
+}
+
+bool Date::operator>(const Date &x)
+{
+	return (year > x.year ||
+			(year == x.year && month > x.month) ||
+			(year == x.year && month == x.month && day > x.day));
+}
+
+bool Date::operator==(const Date &x)
+{
+	return (year == x.year && month == x.month && day == x.day);
+}

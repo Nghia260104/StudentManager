@@ -232,7 +232,7 @@ void UpdateCourseWindow::create()
 
     Success.setFont(RegularFont);
     Success.setCharacterSize(20);
-    Success.setFillColor(sf::Color(168, 30, 20, 255));
+    Success.setFillColor(sf::Color(144, 212, 58, 255));
     Success.setString("Update course successfully!");
     Success.setPosition(400, 750);
 
@@ -403,7 +403,8 @@ void UpdateCourseWindow::processEvent(sf::Event event)
                           return a.getID() == Cell[2].getText();
                       }) == Backend::g_classes.end()))
             fail = ClassNotFound;
-        else if (!(Backend::g_courses.find_if(
+        else if (Cell[0].getText() + "_" + Cell[2].getText() != CurCourse->getID() &&
+                 !(Backend::g_courses.find_if(
                        [&](const Backend::Course &a) -> bool
                        {
                            return a.getID() == Cell[0].getText() + "_" + Cell[2].getText();

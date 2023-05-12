@@ -1,6 +1,8 @@
 #include <PersonalScoreboard.hpp>
 #include <FrontendGlobal.hpp>
 #include <string>
+#include <sstream>
+#include <iomanip>
 
 // Constructor
 
@@ -91,23 +93,39 @@ void PersonalScoreboard::drawTexture(const List<Backend::Student::CourseInfo> &l
 {
     int steps = min(list.size() - (page - 1) * MAX_ROW, MAX_ROW);
     numRow = steps + 1;
-    auto start = list.begin() + (page - 1) * MAX_ROW;
+    auto Tmp = list.begin() + (page - 1) * MAX_ROW;
     Texture.draw(Background);
+    std::stringstream s;
     for (int i = 0; i < steps; ++i)
     {
-        auto Tmp = start + i;
         Cell[0].setText((*Tmp).course->getID());
         Cell[1].setText((*Tmp).course->getCourseName()); //(*Tmp)->getCourseName()
-        Cell[2].setText(std::to_string((*Tmp).studentInfo->midtermMark));
-        Cell[3].setText(std::to_string((*Tmp).studentInfo->finalMark)); //(*Tmp)->getTeacherName()
-        Cell[4].setText(std::to_string((*Tmp).studentInfo->otherMark)); //(*Tmp)->getNumberOfCredits()
-        Cell[5].setText(std::to_string((*Tmp).studentInfo->totalMark));
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).studentInfo->midtermMark;
+        Cell[2].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).studentInfo->finalMark;
+        Cell[3].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).studentInfo->otherMark;
+        Cell[4].setText(s.str());
+        s.str("");
+        s << std::fixed << std::setprecision(2) << (*Tmp).studentInfo->totalMark;
+        Cell[5].setText(s.str());
+        // Cell[2].setText(std::to_string((*Tmp).studentInfo->midtermMark));
+        // Cell[3].setText(std::to_string((*Tmp).studentInfo->finalMark)); //(*Tmp)->getTeacherName()
+        // Cell[4].setText(std::to_string((*Tmp).studentInfo->otherMark)); //(*Tmp)->getNumberOfCredits()
+        // Cell[5].setText(std::to_string((*Tmp).studentInfo->totalMark));
         for (int j = 0; j < numCell; j++)
         {
             Cell[j].setPosition(pos[j] + Offset_x, Offset_y + (i + 1) * height);
+            if (j > 1)
+                Cell[j].setCenter();
             Cell[j].drawTexture();
             Texture.draw(Cell[j]);
         }
+
+        ++Tmp;
     }
     Texture.display();
 }

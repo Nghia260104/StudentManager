@@ -10,7 +10,7 @@ bool Account::loadAccounts()
 {
 	std::ifstream fi;
 	fi.open(ACCOUNTS_PATH);
-	
+
 	if (!fi.is_open())
 	{
 		return 0;
@@ -21,7 +21,7 @@ bool Account::loadAccounts()
 	{
 		std::stringstream streamLine;
 		streamLine.str(line);
-		
+
 		std::string type, username, password;
 		std::getline(streamLine, type, ',');
 		std::getline(streamLine, username, ',');
@@ -32,7 +32,7 @@ bool Account::loadAccounts()
 		case Type::Admin:
 			g_admin.setUsername(username);
 			g_admin.setPassword(password);
-			g_accounts.push_back(static_cast<Account*>(&g_admin));
+			g_accounts.push_back(static_cast<Account *>(&g_admin));
 			break;
 		case Type::StaffMember:
 			StaffMember::createStaffMember(username);
@@ -51,13 +51,13 @@ void Account::saveAccounts()
 {
 	std::ofstream fo;
 	fo.open(ACCOUNTS_PATH);
-	
+
 	if (!fo.is_open())
 	{
 		return;
 	}
 
-	for (const Account *account: g_accounts)
+	for (const Account *account : g_accounts)
 	{
 		fo << typeToString(account->getType()) << ',';
 		fo << account->getUsername() << ',';
@@ -100,11 +100,11 @@ std::string Account::typeToString(Type type)
 Account::Type Account::stringToType(const std::string &type)
 {
 	std::string typeUpcase;
-	for (auto c: type)
+	for (auto c : type)
 	{
 		typeUpcase += std::toupper(c);
 	}
-	
+
 	if (typeUpcase == "ADMIN")
 	{
 		return Type::Admin;
@@ -128,7 +128,7 @@ std::string Account::genderToString(Account::Gender gender)
 Account::Gender Account::stringToGender(const std::string &gender)
 {
 	std::string genderUpcase;
-	for (auto c: gender)
+	for (auto c : gender)
 	{
 		genderUpcase += std::toupper(c);
 	}
@@ -145,9 +145,11 @@ std::string Account::dateToString(const Date &date)
 
 Date Account::stringToDate(const std::string &date)
 {
-	int day = (date[0]-'0')*10 + (date[1]-'0');
-	int month = (date[3]-'0')*10 + (date[4]-'0');
-	int year = (date[6]-'0')*1000 + (date[7]-'0')*100 + (date[8]-'0')*10 + (date[9]-'0');
+	std::stringstream stream(date);
+	std::string yearString, monthString, dayString;
+	int day = (std::getline(stream, dayString, '/') ? std::stoi(dayString) : 0);
+	int month = (std::getline(stream, monthString, '/') ? std::stoi(monthString) : 0);
+	int year = (std::getline(stream, yearString, '/') ? std::stoi(yearString) : 0);
 	return Date(year, month, day);
 }
 
@@ -160,12 +162,12 @@ Account::Type Account::getType() const
 	return type_;
 }
 
-const std::string& Account::getFirstName() const
+const std::string &Account::getFirstName() const
 {
 	return firstName_;
 }
 
-const std::string& Account::getLastName() const
+const std::string &Account::getLastName() const
 {
 	return lastName_;
 }
@@ -175,7 +177,7 @@ std::string Account::getName() const
 	return firstName_ + " " + lastName_;
 }
 
-const std::string& Account::getSocialID() const
+const std::string &Account::getSocialID() const
 {
 	return socialID_;
 }
@@ -185,7 +187,7 @@ Account::Gender Account::getGender() const
 	return gender_;
 }
 
-const Date& Account::getDateOfBirth() const
+const Date &Account::getDateOfBirth() const
 {
 	return dateOfBirth_;
 }
@@ -243,7 +245,7 @@ bool Account::changePassword(const std::string &oldPassword,
 	return 1;
 }
 
-const std::string& Account::getUsername() const
+const std::string &Account::getUsername() const
 {
 	return username_;
 }
@@ -253,7 +255,7 @@ void Account::setUsername(const std::string &nUsername)
 	username_ = nUsername;
 }
 
-const std::string& Account::getPassword() const
+const std::string &Account::getPassword() const
 {
 	return password_;
 }

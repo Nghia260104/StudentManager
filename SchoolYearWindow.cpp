@@ -45,14 +45,14 @@ void SchoolYearWindow::create()
 
     // Remove
 
-    Remove.create(200, 325, 250, 75, BoldFont, 36, "Remove");
+    Remove.create(200, 325, 250, 75, BoldFont, 36, "Delete");
     Remove.setFillColor(sf::Color(25, 89, 34, 255));
     Remove.setTextColor(sf::Color::White);
     Remove.setCoverColor(sf::Color(20, 85, 30, 200));
 
     //// Remove Title
 
-    Delete.setString("Remove School Year");
+    Delete.setString("Delete School Year");
     Delete.setFillColor(sf::Color::Black);
     Delete.setFont(LightFont);
     Delete.setCharacterSize(40);
@@ -108,7 +108,7 @@ void SchoolYearWindow::create()
 
     ASuccess.setFont(RegularFont);
     ASuccess.setCharacterSize(20);
-    ASuccess.setFillColor(sf::Color(168, 30, 20, 255));
+    ASuccess.setFillColor(sf::Color(144, 212, 58, 255));
     ASuccess.setString("Create school year successfully!");
     ASuccess.setPosition(235, 315);
 
@@ -116,8 +116,8 @@ void SchoolYearWindow::create()
 
     DSuccess.setFont(RegularFont);
     DSuccess.setCharacterSize(20);
-    DSuccess.setFillColor(sf::Color(168, 30, 20, 255));
-    DSuccess.setString("Remove school year successfully!");
+    DSuccess.setFillColor(sf::Color(144, 212, 58, 255));
+    DSuccess.setString("Delete school year successfully!");
     DSuccess.setPosition(235, 315);
 
     // Confirm button
@@ -155,12 +155,17 @@ void SchoolYearWindow::drawTexture(const Layer &layer)
 {
     Texture.draw(Background);
     if (layer == ScY)
+    {
         Texture.draw(Title);
+        Texture.draw(Create);
+        Texture.draw(Remove);
+    }
     if (layer == AScY)
     {
         Texture.draw(Add);
         Texture.draw(FirstYear);
         Texture.draw(Start);
+        Texture.draw(Confirm);
         if (check == fail)
             Texture.draw(Fail);
         if (check == existed)
@@ -173,6 +178,7 @@ void SchoolYearWindow::drawTexture(const Layer &layer)
         Texture.draw(Delete);
         Texture.draw(FirstYear);
         Texture.draw(Start);
+        Texture.draw(Confirm);
         if (check == fail)
             Texture.draw(Fail);
         if (check == notFound)
@@ -203,12 +209,14 @@ void SchoolYearWindow::processEvent(sf::Event event, Layer &layer)
             layer = AScY;
             clearLine();
             drawTexture(layer);
+            return;
         }
         if (Remove.isPressed(event))
         {
             layer = DScY;
             clearLine();
             drawTexture(layer);
+            return;
         }
     }
     if (layer == AScY)

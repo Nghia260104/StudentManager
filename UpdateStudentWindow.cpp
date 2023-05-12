@@ -208,6 +208,7 @@ void UpdateStudentWindow::Prepare()
 
 void UpdateStudentWindow::FirstDraw(Backend::Student *student)
 {
+    // std::cerr << student << std::endl;
     Texture.draw(Background);
     Texture.draw(Title);
     Male.drawTexture();
@@ -281,9 +282,9 @@ void UpdateStudentWindow::processEvent(sf::Event event)
         bool check = 1;
         for (int i = 0; i < numCell; i++)
             check &= (bool)(Cell[i].getText().getSize());
-        Date Tmp(std::stoi(std::string(Cell[6].getText())),
-                 std::stoi(std::string(Cell[5].getText())),
-                 std::stoi(std::string(Cell[4].getText())));
+        Date Tmp(std::stoi(Cell[7].getText().getSize() ? std::string(Cell[7].getText()) : "0"),
+                 std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
+                 std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"));
         if (!check)
             fail = empty;
         else if (!Tmp.isValidDate())
@@ -297,6 +298,10 @@ void UpdateStudentWindow::processEvent(sf::Event event)
             fail = existed;
         if (!fail)
         {
+            // std::cerr << &*CurStd << "\n\n";
+            // std::cerr << "G_STUDENTS\n";
+            // for (const Backend::Student &student : Backend::g_students)
+            //     std::cerr << &student << std::endl;
             CurStd->setID(Cell[0].getText());
             CurStd->setSocialID(Cell[1].getText());
             CurStd->setFirstName(Cell[2].getText());

@@ -35,7 +35,7 @@ namespace Backend
 		List<CourseInfo>& courseInfos();
 		const List<CourseInfo>& courseInfos() const;
 		
-		void setID(const std::string &nID);
+		bool setID(const std::string &nID);
 
 	private:
 		static void readCSV(std::stringstream &streamLine, std::string &word);

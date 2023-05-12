@@ -46,14 +46,14 @@ private:
     Button Class;
     Button Student;
     Button addCourse;
-    Button viewProfile;
+    // Button viewProfile;
     Button viewClass;
     Button viewCourse;
     Button changePassword;
     Button LogOut;
     sf::RectangleShape Background, RightSide;
     sf::Text AccountName;
-    Profile profile;
+    // Profile profile;
     PasswordWindow Password;
     SchoolYearWindow SchoolYearScreen;
     SemesterWindow SemesterScreen;

@@ -14,7 +14,7 @@ void StaffWindow::create()
 
     Texture.create(window.getSize().x, window.getSize().y);
     Texture.setSmooth(true);
-    Background.setSize(sf::Vector2f(window.getSize()));
+    Background.setSize(sf::Vector2f(LeftWindowWidth, window.getSize().y));
     Background.setFillColor(BackgroundColor);
 
     // Back Button
@@ -49,7 +49,7 @@ void StaffWindow::create()
 
     // Add Course
 
-    addCourse.create(500, 350, 300, 75, BoldFont, 30, "Add course");
+    addCourse.create(150, 350, 300, 75, BoldFont, 30, "Create course");
     addCourse.setFillColor(sf::Color(9, 66, 55, 255));
     addCourse.setTextColor(sf::Color::White);
     addCourse.setCoverColor(sf::Color(30, 100, 70, 200));
@@ -94,18 +94,18 @@ void StaffWindow::create()
     AccountName.setString("Staff member"); // Backend::activeUser->getName();
     AccountName.setFont(RegularFont);
 
-    //// View Profile
+    // //// View Profile
 
-    {
-        // Button
-        viewProfile.create(LeftWindowWidth + 72, 150, 250, 50, RegularFont, 24, "View Profile");
-        viewProfile.setFillColor(sf::Color(248, 117, 26, 255));
-        viewProfile.setCoverColor(sf::Color(240, 110, 20, 200));
-        viewProfile.setTextColor(sf::Color(9, 66, 55, 255));
+    // {
+    //     // Button
+    //     viewProfile.create(LeftWindowWidth + 72, 150, 250, 50, RegularFont, 24, "View Profile");
+    //     viewProfile.setFillColor(sf::Color(248, 117, 26, 255));
+    //     viewProfile.setCoverColor(sf::Color(240, 110, 20, 200));
+    //     viewProfile.setTextColor(sf::Color(9, 66, 55, 255));
 
-        // Window
-        profile.create();
-    }
+    //     // Window
+    //     profile.create();
+    // }
 
     //// Change Password
 
@@ -178,12 +178,14 @@ void StaffWindow::FirstDraw()
     Class.drawTexture();
     Texture.draw(Class);
     Semester.drawTexture();
+    Student.drawTexture();
+    addCourse.drawTexture();
     Texture.draw(RightSide);
     Texture.draw(AccountName);
     changePassword.drawTexture();
     Texture.draw(changePassword);
-    viewProfile.drawTexture();
-    Texture.draw(viewProfile);
+    // viewProfile.drawTexture();
+    // Texture.draw(viewProfile);
     LogOut.drawTexture();
     Texture.draw(LogOut);
     viewClass.drawTexture();
@@ -196,9 +198,13 @@ void StaffWindow::FirstDraw()
 void StaffWindow::drawTexture()
 {
     Texture.draw(Background);
-    Texture.draw(RightSide);
+    Texture.draw(changePassword);
+    Texture.draw(LogOut);
+    Texture.draw(viewClass);
+    Texture.draw(viewCourse);
+    // Texture.draw(RightSide);
     // AccountName.setString(Backend::activeUser->getName());
-    Texture.draw(AccountName);
+    // Texture.draw(AccountName);
 
     if (layer == Home)
     {
@@ -208,27 +214,53 @@ void StaffWindow::drawTexture()
         if (Backend::activeSemester)
             Texture.draw(addCourse);
         Texture.draw(Class);
-        if (!Backend::g_classes.empty())
+        if (Backend::g_classes.size())
             Texture.draw(Student);
     }
     if (layer == ScY || layer == AScY || layer == DScY)
+    {
+        SchoolYearScreen.drawTexture(layer);
         Texture.draw(SchoolYearScreen);
+    }
     if (layer == Cls || layer == ACls || layer == DCls)
+    {
+        ClassScreen.drawTexture(layer);
         Texture.draw(ClassScreen);
+    }
     if (layer == Smt || layer == ASmt || layer == DSmt)
+    {
+        SemesterScreen.drawTexture(layer);
         Texture.draw(SemesterScreen);
+    }
     if (layer == Std || layer == LStd || layer == RStd || layer == AStdM)
+    {
+        SetStudentScreen.drawTexture(layer);
         Texture.draw(SetStudentScreen);
+    }
     if (layer == ACrs)
+    {
+        AddCourseScreen.drawTexture();
         Texture.draw(AddCourseScreen);
+    }
     if (layer == Crs || layer == CrsF || layer == UpdCrs ||
         layer == CrsAStd || layer == CrsRStd || layer == CrsVStd ||
         layer == CrsScb || layer == CrsUpdScb)
+    {
+        ViewCourseScreen.drawTexture(layer);
         Texture.draw(ViewCourseScreen);
+    }
     if (layer == VCls || layer == ClsStd || layer == ClsUpd || layer == ClsScb)
+    {
+        ViewClassScreen.drawTexture(layer);
         Texture.draw(ViewClassScreen);
+    }
     if (layer == Pass)
+    {
+        Password.drawTexture();
         Texture.draw(Password);
+    }
+    if (layer != Home)
+        Texture.draw(Back);
     Texture.display();
 }
 
@@ -242,6 +274,12 @@ void StaffWindow::draw(sf::RenderTarget &target, sf::RenderStates state) const
 
 void StaffWindow::processEvent(sf::Event event)
 {
+    if (layer != Home)
+        Texture.draw(Back);
+    Texture.draw(changePassword);
+    Texture.draw(LogOut);
+    Texture.draw(viewClass);
+    Texture.draw(viewCourse);
     if (LogOut.isPressed(event))
     {
         layer = Home;
@@ -249,6 +287,7 @@ void StaffWindow::processEvent(sf::Event event)
         Backend::activeUser->logOut();
         Hide();
         LogInWindow.show();
+        return;
     }
     if (changePassword.isPressed(event))
     {
@@ -256,24 +295,28 @@ void StaffWindow::processEvent(sf::Event event)
         Password.clearLine();
         Password.drawTexture();
         drawTexture();
+        return;
     }
-    if (viewProfile.isPressed(event))
-    {
-        layer = Prf;
-        profile.drawTexture();
-        drawTexture();
-    }
+    // if (viewProfile.isPressed(event))
+    // {
+    //     layer = Prf;
+    //     profile.drawTexture();
+    //     drawTexture();
+    //     return;
+    // }
     if (viewCourse.isPressed(event))
     {
         layer = Crs;
         ViewCourseScreen.FirstDraw();
         drawTexture();
+        return;
     }
     if (viewClass.isPressed(event))
     {
         layer = VCls;
         ViewClassScreen.FirstDraw(Backend::g_classes);
         drawTexture();
+        return;
     }
     if (layer == Home)
     {
@@ -288,6 +331,7 @@ void StaffWindow::processEvent(sf::Event event)
                 SemesterScreen.clearLine();
                 SemesterScreen.drawTexture(layer);
                 drawTexture();
+                return;
             }
         }
         if (!Backend::g_classes.empty())
@@ -299,6 +343,7 @@ void StaffWindow::processEvent(sf::Event event)
                 SetStudentScreen.clearLine();
                 SetStudentScreen.FirstDraw();
                 drawTexture();
+                return;
             }
         }
         if (Backend::activeSemester)
@@ -310,6 +355,7 @@ void StaffWindow::processEvent(sf::Event event)
                 AddCourseScreen.clearLine();
                 AddCourseScreen.FirstDraw();
                 drawTexture();
+                return;
             }
         }
         if (SchoolYear.isPressed(event))
@@ -318,6 +364,7 @@ void StaffWindow::processEvent(sf::Event event)
             SchoolYearScreen.clearLine();
             SchoolYearScreen.drawTexture(layer);
             drawTexture();
+            return;
         }
         if (Class.isPressed(event))
         {
@@ -325,6 +372,7 @@ void StaffWindow::processEvent(sf::Event event)
             ClassScreen.clearLine();
             ClassScreen.drawTexture(layer);
             drawTexture();
+            return;
         }
     }
     if (layer == ScY || layer == AScY || layer == DScY)
@@ -369,8 +417,8 @@ void StaffWindow::processEvent(sf::Event event)
         ViewClassScreen.processEvent(event, layer);
         Texture.draw(ViewClassScreen);
     }
-    if (layer == Prf)
-        Texture.draw(profile);
+    // if (layer == Prf)
+    //     Texture.draw(profile);
 
     if (layer != Home)
     {
@@ -426,14 +474,9 @@ void StaffWindow::processEvent(sf::Event event)
             }
 
             drawTexture();
+            return;
         }
     }
-
-    Texture.draw(viewProfile);
-    Texture.draw(changePassword);
-    Texture.draw(LogOut);
-    Texture.draw(viewClass);
-    Texture.draw(viewCourse);
 }
 
 bool StaffWindow::mouseOn(const sf::Vector2i &MousePos)
@@ -456,7 +499,7 @@ bool StaffWindow::mouseOn(const sf::Vector2i &MousePos)
 void StaffWindow::Show()
 {
     hidden = 0;
-    AccountName.setString(Backend::activeUser->getName());
+    AccountName.setString(Backend::activeUser->getSocialID());
     drawTexture();
 }
 

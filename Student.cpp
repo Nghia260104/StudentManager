@@ -91,8 +91,20 @@ const List<Student::CourseInfo>& Student::courseInfos() const
 	return courseInfos_;
 }
 
-void Student::setID(const std::string &nID)
+bool Student::setID(const std::string &nID)
 {
+	if (g_students.find_if(
+			[&](const Student &student) -> bool
+			{
+				return student.getID() == nID;
+			})
+		!= g_students.end())
+	{
+		return 0;
+	}
+
 	id_ = nID;
 	username_ = id_;
+
+	return 1;
 }

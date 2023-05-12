@@ -106,7 +106,7 @@ void ClassWindow::create()
 
     ASuccess.setFont(RegularFont);
     ASuccess.setCharacterSize(20);
-    ASuccess.setFillColor(sf::Color(168, 30, 20, 255));
+    ASuccess.setFillColor(sf::Color(144, 212, 58, 255));
     ASuccess.setString("Create class successfully!");
     ASuccess.setPosition(250, 315);
 
@@ -114,7 +114,7 @@ void ClassWindow::create()
 
     DSuccess.setFont(RegularFont);
     DSuccess.setCharacterSize(20);
-    DSuccess.setFillColor(sf::Color(168, 30, 20, 255));
+    DSuccess.setFillColor(sf::Color(144, 212, 58, 255));
     DSuccess.setString("Remove class successfully!");
     DSuccess.setPosition(250, 315);
 
@@ -153,12 +153,17 @@ void ClassWindow::drawTexture(Layer &layer)
 {
     Texture.draw(Background);
     if (layer == Cls)
+    {
         Texture.draw(Title);
+        Texture.draw(Create);
+        Texture.draw(Remove);
+    }
     if (layer == ACls)
     {
         Texture.draw(Add);
         Texture.draw(Name);
         Texture.draw(ClassName);
+        Texture.draw(Confirm);
         if (fail == emptyname)
             Texture.draw(Empty);
         if (fail == existed)
@@ -171,6 +176,7 @@ void ClassWindow::drawTexture(Layer &layer)
         Texture.draw(Delete);
         Texture.draw(Name);
         Texture.draw(ClassName);
+        Texture.draw(Confirm);
         if (fail == notFound)
             Texture.draw(Fail);
         if (!fail)
@@ -199,12 +205,14 @@ void ClassWindow::processEvent(sf::Event event, Layer &layer)
             layer = ACls;
             clearLine();
             drawTexture(layer);
+            return;
         }
         if (Remove.isPressed(event))
         {
             layer = DCls;
             clearLine();
             drawTexture(layer);
+            return;
         }
     }
     if (layer == ACls)

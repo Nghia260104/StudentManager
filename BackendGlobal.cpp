@@ -36,6 +36,9 @@ bool Backend::loadData()
 		{
 			return s1.getStartYear() < s2.getStartYear();
 		});
+	if (!g_schoolYears.empty())
+		setActiveSchoolYear(&g_schoolYears.back());
+	
 	g_semesters.sort(
 		[](const Semester &s1, const Semester &s2) -> bool
 		{
@@ -44,7 +47,23 @@ bool Backend::loadData()
 				id1 = s1.getID(), id2 = s2.getID();
 			return startYear1 < startYear2 || (startYear1 == startYear2 && id1 < id2);
 		});
+	if (!g_semesters.empty())
+		setActiveSemester(&g_semesters.back());
 	
+	g_classes.sort(
+		[](const Class &c1, const Class &c2) -> bool
+		{
+			return c1.getID() < c2.getID();
+		});
+	for (Class &currClass: g_classes)
+	{
+		currClass.students().sort(
+			[](const Student *s1, const Student *s2) -> bool
+			{
+				return std::stoi(s1->getID()) < std::stoi(s2->getID());
+			});
+	}
+
 	return isLoadable;
 }
 
