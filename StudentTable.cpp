@@ -106,9 +106,9 @@ void StudentTable::drawTexture(const List<Backend::Student *> &list, int page)
         Cell[1].setText((*Tmp)->getClass()->getID());
         Cell[2].setText((*Tmp)->getName());
         Cell[3].setText(((*Tmp)->getGender() == Backend::Student::Gender::Male ? "Male" : "Female"));
-        Date DOB = (*Tmp)->getDateOfBirth();
+		Backend::Date DOB = (*Tmp)->getDateOfBirth();
         Cell[3].setCenter();
-        Cell[4].setText(Backend::Student::dateToString(DOB));
+        Cell[4].setText(Backend::Date::dateToString(DOB));
         Cell[5].setText((*Tmp)->getSocialID());
         for (int j = 0; j < numCell; j++)
         {
@@ -135,9 +135,9 @@ void StudentTable::drawTexture(const List<Backend::Course::StudentInfo> &list, i
         Cell[2].setText((*Tmp).student->getName());
         Cell[3].setText(Backend::Student::genderToString((*Tmp).student->getGender()));
         Cell[3].setCenter();
-        Date DOB = (*Tmp).student->getDateOfBirth();
+		Backend::Date DOB = (*Tmp).student->getDateOfBirth();
         // Cell[4].setText(std::to_string(DOB.day) + "/" + std::to_string(DOB.month) + "/" + std::to_string(DOB.year));
-        Cell[4].setText(Backend::Student::dateToString(DOB));
+        Cell[4].setText(Backend::Date::dateToString(DOB));
         Cell[5].setText((*Tmp).student->getSocialID());
         for (int j = 0; j < numCell; j++)
         {

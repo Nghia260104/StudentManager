@@ -33,9 +33,6 @@ namespace Backend
 		
 		static std::string genderToString(Gender gender);
 		static Gender stringToGender(const std::string &gender);
-		
-		static std::string dateToString(const Date &date);
-		static Date stringToDate(const std::string &date);
 
 		Account(Type nType = Type::Admin);
 

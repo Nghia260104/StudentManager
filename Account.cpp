@@ -135,24 +135,6 @@ Account::Gender Account::stringToGender(const std::string &gender)
 	return genderUpcase == "MALE" ? Gender::Male : Gender::Female;
 }
 
-std::string Account::dateToString(const Date &date)
-{
-	std::string year = std::to_string(date.year);
-	std::string month = (date.month < 10 ? "0" : "") + std::to_string(date.month);
-	std::string day = (date.day < 10 ? "0" : "") + std::to_string(date.day);
-	return day + "/" + month + "/" + year;
-}
-
-Date Account::stringToDate(const std::string &date)
-{
-	std::stringstream stream(date);
-	std::string yearString, monthString, dayString;
-	int day = (std::getline(stream, dayString, '/') ? std::stoi(dayString) : 0);
-	int month = (std::getline(stream, monthString, '/') ? std::stoi(monthString) : 0);
-	int year = (std::getline(stream, yearString, '/') ? std::stoi(yearString) : 0);
-	return Date(year, month, day);
-}
-
 Account::Account(Account::Type nType)
 	: type_(nType)
 {}
@@ -224,7 +206,7 @@ void Account::setGender(Gender nGender)
 
 void Account::setDateOfBirth(const std::string &nDateOfBirth)
 {
-	setDateOfBirth(stringToDate(nDateOfBirth));
+	setDateOfBirth(Date::stringToDate(nDateOfBirth));
 }
 
 void Account::setDateOfBirth(const Date &nDateOfBirth)

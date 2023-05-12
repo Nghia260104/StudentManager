@@ -594,7 +594,7 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
             bool check = 1;
             for (int i = 0; i < numCell; i++)
                 check &= (bool)(Cell[i].getText().getSize());
-            Date Tmp(std::stoi(Cell[7].getText().getSize() ? std::string(Cell[7].getText()) : "0"),
+			Backend::Date Tmp(std::stoi(Cell[7].getText().getSize() ? std::string(Cell[7].getText()) : "0"),
                      std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
                      std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"));
             if (!check)

@@ -104,17 +104,15 @@ void Class::saveOneClass(Class *currClass)
 	std::ofstream fo(path);
 
 	int no = 0;
-	for (auto iStudent = currClass->students().begin();
-		 iStudent != currClass->students().end();
-		 ++iStudent)
+	for (const Student *student: currClass->students())
 	{
 		fo << ++no << ',';
-		fo << (*iStudent)->getID() << ',';
-		fo << (*iStudent)->getFirstName() << ',';
-		fo << (*iStudent)->getLastName() << ',';
-		fo << Account::genderToString((*iStudent)->getGender()) << ',';
-		fo << Account::dateToString((*iStudent)->getDateOfBirth()) << ',';
-		fo << (*iStudent)->getSocialID() << '\n';
+		fo << student->getID() << ',';
+		fo << student->getFirstName() << ',';
+		fo << student->getLastName() << ',';
+		fo << Account::genderToString(student->getGender()) << ',';
+		fo << Date::dateToString(student->getDateOfBirth()) << ',';
+		fo << student->getSocialID() << '\n';
 	}
 }
 

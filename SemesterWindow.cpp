@@ -432,10 +432,10 @@ void SemesterWindow::processEvent(sf::Event event, Layer &layer)
             bool Check = 1;
             for (int i = 0; i < numCell; i++)
                 Check &= (bool)Cell[i].getText().getSize();
-            Date TmpStart(std::stoi(Cell[3].getText().getSize() ? std::string(Cell[3].getText()) : "0"),
+			Backend::Date TmpStart(std::stoi(Cell[3].getText().getSize() ? std::string(Cell[3].getText()) : "0"),
                           std::stoi(Cell[2].getText().getSize() ? std::string(Cell[2].getText()) : "0"),
                           std::stoi(Cell[1].getText().getSize() ? std::string(Cell[1].getText()) : "0"));
-            Date TmpEnd(std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
+			Backend::Date TmpEnd(std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
                         std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"),
                         std::stoi(Cell[4].getText().getSize() ? std::string(Cell[4].getText()) : "0"));
             if (!Check)
