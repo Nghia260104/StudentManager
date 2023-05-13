@@ -12,6 +12,7 @@ namespace Backend
 		static Date stringToDate(const std::string &date);
 
 		Date(int nYear = 0, int nMonth = 0, int nDay = 0);
+		
 		bool isValidDate();
 		bool operator<(const Date &x);
 		bool operator>(const Date &x);
