@@ -1,4 +1,4 @@
-release/junk/LoadFonts.o: LoadFonts.cpp headers/StudentManager.hpp \
+release/junk/LoadFonts.o: LoadFonts.cpp headers/LoadFonts.hpp \
  SFML/include/SFML/Graphics.hpp SFML/include/SFML/Window.hpp \
  SFML/include/SFML/System.hpp SFML/include/SFML/Config.hpp \
  SFML/include/SFML/System/Clock.hpp SFML/include/SFML/System/Export.hpp \
@@ -57,7 +57,20 @@ release/junk/LoadFonts.o: LoadFonts.cpp headers/StudentManager.hpp \
  SFML/include/SFML/Graphics/Glsl.hpp SFML/include/SFML/Graphics/Glsl.inl \
  SFML/include/SFML/Graphics/Sprite.hpp \
  SFML/include/SFML/Graphics/Text.hpp \
- SFML/include/SFML/Graphics/VertexBuffer.hpp headers/LoadFonts.hpp \
- headers/TextBox.hpp headers/Button.hpp headers/LogIn.hpp \
- headers/List.hpp headers/Node.hpp Node.tpp headers/Iterator.hpp \
- Iterator.tpp List.tpp
+ SFML/include/SFML/Graphics/VertexBuffer.hpp headers/FrontendGlobal.hpp \
+ headers/LogIn.hpp headers/TextBox.hpp headers/Button.hpp \
+ headers/StudentWindow.hpp headers/BackendGlobal.hpp headers/List.hpp \
+ headers/Node.hpp Node.tpp headers/Iterator.hpp Iterator.tpp List.tpp \
+ headers/SchoolYear.hpp headers/Semester.hpp headers/Course.hpp \
+ headers/Class.hpp headers/Student.hpp headers/Account.hpp \
+ headers/Date.hpp headers/StaffMember.hpp headers/Admin.hpp \
+ headers/CoursesTable.hpp headers/Password.hpp headers/Layer.hpp \
+ headers/Page.hpp headers/Profile.hpp headers/PersonalScoreboard.hpp \
+ headers/AdminWindow.hpp headers/AddStaffMember.hpp \
+ headers/DeleteStaffMember.hpp headers/StaffWindow.hpp \
+ headers/SchoolYearWindow.hpp headers/ClassWindow.hpp \
+ headers/SemesterWindow.hpp headers/SetStudentWindow.hpp \
+ headers/ButtonTable.hpp headers/AddCourseWindow.hpp \
+ headers/ViewCourseWindow.hpp headers/StudentTable.hpp \
+ headers/CourseScoreboard.hpp headers/UpdateCourseWindow.hpp \
+ headers/ViewClassWindow.hpp headers/UpdateStudentWindow.hpp
