@@ -28,14 +28,14 @@ Date::Date(int nYear, int nMonth, int nDay)
 
 bool Date::isValidDate()
 {
-	if (year <= 0 || month <= 0 || month > 12)
+	if (year <= 0 || month <= 0 || month > 12 || day <= 0)
 	{
 		return 0;
 	}
 
 	bool isLeapYear = (year%100 == 0 ? year%400 == 0 : year%4 == 0);
 	const int *numDaysOfMonths = new int[]{31, (isLeapYear ? 29 : 28), 31, 30, 31, 30, 31, 31, 30, 31, 30, 31};
-	bool result =  (day == numDaysOfMonths[month-1]);
+	bool result =  (day <= numDaysOfMonths[month-1]);
 	delete[] numDaysOfMonths;
 	return result;
 }
