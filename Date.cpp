@@ -40,21 +40,19 @@ bool Date::isValidDate()
 	return result;
 }
 
-bool Date::operator<(const Date &x)
+bool Date::operator<(const Date &x) const
 {
 	return (year < x.year ||
 			(year == x.year && month < x.month) ||
 			(year == x.year && month == x.month && day < x.day));
 }
 
-bool Date::operator>(const Date &x)
+bool Date::operator>(const Date &x) const
 {
-	return (year > x.year ||
-			(year == x.year && month > x.month) ||
-			(year == x.year && month == x.month && day > x.day));
+	return x < *this;
 }
 
-bool Date::operator==(const Date &x)
+bool Date::operator==(const Date &x) const
 {
-	return (year == x.year && month == x.month && day == x.day);
+	return !(*this < x || x < *this);
 }

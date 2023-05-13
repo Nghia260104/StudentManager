@@ -30,7 +30,7 @@ int main()
     }
 
     // Load Fonts
-    LoadFonts(RegularFont, BoldFont, MediumFont, LightFont, HeavyFont);
+    loadFont();
 
     // Test
 

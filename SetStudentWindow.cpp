@@ -490,7 +490,8 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
         if (FromFile.isPressed(event))
         {
             fail = 0;
-
+            if (!Backend::Class::loadClasses())
+                fail = AddFileFail;
             drawTexture(layer);
         }
         if (Add.isPressed(event))

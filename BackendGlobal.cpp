@@ -22,11 +22,11 @@ List<Class> Backend::g_classes;
 List<Student> Backend::g_students;
 List<StaffMember> Backend::g_staffMembers;
 Admin Backend::g_admin;
-List<Account*> Backend::g_accounts;
+List<Account *> Backend::g_accounts;
 
 bool Backend::loadData()
 {
-    bool isLoadable = 
+	bool isLoadable =
 		Account::loadAccounts() &&
 		Class::loadClasses() &&
 		SchoolYear::loadSchoolYears();
@@ -37,7 +37,7 @@ bool Backend::loadData()
 			return s1.getStartYear() < s2.getStartYear();
 		});
 	setActiveSchoolYear(g_schoolYears.empty() ? nullptr : &g_schoolYears.back());
-	
+
 	g_semesters.sort(
 		[](const Semester &s1, const Semester &s2) -> bool
 		{
@@ -47,13 +47,13 @@ bool Backend::loadData()
 			return startYear1 < startYear2 || (startYear1 == startYear2 && id1 < id2);
 		});
 	setActiveSemester(g_semesters.empty() ? nullptr : &g_semesters.back());
-	
+
 	g_classes.sort(
 		[](const Class &c1, const Class &c2) -> bool
 		{
 			return c1.getID() < c2.getID();
 		});
-	for (Class &currClass: g_classes)
+	for (Class &currClass : g_classes)
 	{
 		currClass.students().sort(
 			[](const Student *s1, const Student *s2) -> bool
@@ -86,32 +86,29 @@ void Backend::setActiveSchoolYear(SchoolYear *schoolYear)
 		setActiveSemester(nullptr);
 		return;
 	}
-	
-	setActiveSemester(schoolYear->semesters().empty() ?
-					  nullptr : schoolYear->semesters().back());
 }
 
 void Backend::setActiveSemester(Semester *semester)
 {
 	activeSemester = semester;
-	
+
 	if (!semester)
 	{
 		return;
 	}
-	
+
 	setActiveSchoolYear(semester->schoolYear());
 }
 
 void Backend::setActiveCourse(Course *course)
 {
 	activeCourse = course;
-	
+
 	if (!course)
 	{
 		return;
 	}
-	
+
 	setActiveSemester(course->semester());
 }
 

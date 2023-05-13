@@ -6,7 +6,8 @@
 
 sf::RenderWindow window;
 sf::Clock Clock;
-sf::Font RegularFont, BoldFont, MediumFont, LightFont, HeavyFont;
+sf::Font RegularFont, BoldFont, MediumFont, LightFont, HeavyFont, Helvetica, RecRobot, RecOpen, Alga, JB, Arial, ArialBold, Times;
+sf::Font TimesBold;
 sf::Color BackgroundColor;
 sf::Cursor cursor;
 LogIn LogInWindow;
