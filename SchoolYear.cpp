@@ -62,7 +62,7 @@ bool SchoolYear::createSchoolYear(int startYear)
 	}
 
 	g_schoolYears.push_back(SchoolYear(startYear));
-	setActiveSchoolYear(&g_schoolYears.back());
+	setActiveSchoolYear(g_schoolYears.empty() ? nullptr : &g_schoolYears.back());
 	
 	return 1;
 }

@@ -97,7 +97,7 @@ bool Semester::deleteSemester(int id, int schoolStartYear)
 	}
 	
 	g_semesters.erase(currSemester);
-	setActiveSemester(nullptr);
+	setActiveSemester(g_semesters.empty() ? nullptr : &g_semesters.back());
 	
 	return 1;
 }

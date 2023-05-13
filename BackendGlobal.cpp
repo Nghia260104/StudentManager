@@ -80,6 +80,13 @@ void Backend::setActiveUser(Account *account)
 void Backend::setActiveSchoolYear(SchoolYear *schoolYear)
 {
 	activeSchoolYear = schoolYear;
+
+	if (!schoolYear)
+	{
+		setActiveSemester(nullptr);
+		return;
+	}
+	
 	setActiveSemester(schoolYear->semesters().empty() ?
 					  nullptr : schoolYear->semesters().back());
 }
