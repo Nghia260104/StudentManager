@@ -62,6 +62,8 @@ bool SchoolYear::createSchoolYear(int startYear)
 	}
 
 	g_schoolYears.push_back(SchoolYear(startYear));
+	setActiveSchoolYear(&g_schoolYears.back());
+	
 	return 1;
 }
 
@@ -77,7 +79,6 @@ bool SchoolYear::deleteSchoolYear(int startYear)
 	{
 		return 0;
 	}
-	
 
 	while (!currSchoolYear->semesters().empty())
 	{
@@ -85,6 +86,7 @@ bool SchoolYear::deleteSchoolYear(int startYear)
 	}
 
 	g_schoolYears.erase(currSchoolYear);
+	setActiveSchoolYear(nullptr);
 
 	return 1;
 }

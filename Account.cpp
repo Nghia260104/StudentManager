@@ -32,7 +32,7 @@ bool Account::loadAccounts()
 		case Type::Admin:
 			g_admin.setUsername(username);
 			g_admin.setPassword(password);
-			g_accounts.push_back(static_cast<Account *>(&g_admin));
+			g_accounts.push_back(static_cast<Account*>(&g_admin));
 			break;
 		case Type::StaffMember:
 			StaffMember::createStaffMember(username);

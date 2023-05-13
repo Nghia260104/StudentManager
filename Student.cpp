@@ -43,8 +43,13 @@ bool Student::deleteStudent(const std::string &studentID)
 		course->removeStudent(&*currStudent);
 	}
 
+	g_accounts.remove_if(
+		[&](Account* const &account) -> bool
+		{
+			return account == &*currStudent;
+		});
 	g_students.erase(currStudent);
-	
+
 	return 1;
 }
 

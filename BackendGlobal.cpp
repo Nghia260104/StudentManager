@@ -36,8 +36,7 @@ bool Backend::loadData()
 		{
 			return s1.getStartYear() < s2.getStartYear();
 		});
-	if (!g_schoolYears.empty())
-		setActiveSchoolYear(&g_schoolYears.back());
+	setActiveSchoolYear(g_schoolYears.empty() ? nullptr : &g_schoolYears.back());
 	
 	g_semesters.sort(
 		[](const Semester &s1, const Semester &s2) -> bool
@@ -47,8 +46,7 @@ bool Backend::loadData()
 				id1 = s1.getID(), id2 = s2.getID();
 			return startYear1 < startYear2 || (startYear1 == startYear2 && id1 < id2);
 		});
-	if (!g_semesters.empty())
-		setActiveSemester(&g_semesters.back());
+	setActiveSemester(g_semesters.empty() ? nullptr : &g_semesters.back());
 	
 	g_classes.sort(
 		[](const Class &c1, const Class &c2) -> bool
@@ -82,17 +80,31 @@ void Backend::setActiveUser(Account *account)
 void Backend::setActiveSchoolYear(SchoolYear *schoolYear)
 {
 	activeSchoolYear = schoolYear;
+	setActiveSemester(schoolYear->semesters().empty() ?
+					  nullptr : schoolYear->semesters().back());
 }
 
 void Backend::setActiveSemester(Semester *semester)
 {
 	activeSemester = semester;
+	
+	if (!semester)
+	{
+		return;
+	}
+	
 	setActiveSchoolYear(semester->schoolYear());
 }
 
 void Backend::setActiveCourse(Course *course)
 {
 	activeCourse = course;
+	
+	if (!course)
+	{
+		return;
+	}
+	
 	setActiveSemester(course->semester());
 }
 

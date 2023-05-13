@@ -9,42 +9,6 @@
 
 using namespace Backend;
 
-bool StaffMember::loadStaffMembers()
-{
-	std::ifstream fi;
-	fi.open(ACCOUNTS_PATH + "/staff members.csv");
-
-	if (!fi.is_open())
-	{
-		return 0;
-	}
-
-	std::string line;
-	std::stringstream streamLine;
-	while (std::getline(fi, line))
-	{
-		streamLine.str(line);
-		
-		std::string no, firstName, lastName, gender, dateOfBirth, socialID;
-		readCSV(streamLine, no);
-		readCSV(streamLine, firstName);
-		readCSV(streamLine, lastName);
-		readCSV(streamLine, gender);
-		readCSV(streamLine, dateOfBirth);
-		readCSV(streamLine, socialID);
-		
-		g_staffMembers.push_back(StaffMember(socialID));
-		StaffMember &currStaffMember = g_staffMembers.back();
-		g_accounts.push_back(&currStaffMember);
-		currStaffMember.setFirstName(firstName);
-		currStaffMember.setLastName(lastName);
-		currStaffMember.setGender(gender);
-		currStaffMember.setDateOfBirth(dateOfBirth);
-	}
-
-	return 1;
-}
-
 void StaffMember::readCSV(std::stringstream &streamLine, std::string &word)
 {
 	std::string tmp;
@@ -68,16 +32,31 @@ bool StaffMember::createStaffMember(const std::string &socialID)
 	
 	g_staffMembers.push_back(StaffMember(socialID));
 	g_accounts.push_back(static_cast<Account*>(&g_staffMembers.back()));
+	
 	return 1;
 }
 
 bool StaffMember::deleteStaffMember(const std::string &socialID)
 {
-	return g_staffMembers.remove_if(
+	auto currStaffMember = g_staffMembers.find_if(
 		[&](const StaffMember &staffMember) -> bool
 		{
 			return staffMember.getSocialID() == socialID;
 		});
+
+	if (currStaffMember == g_staffMembers.end())
+	{
+		return 0;
+	}
+
+	g_accounts.remove_if(
+		[&](Account* const &account) -> bool
+		{
+			return account == &*currStaffMember;
+		});
+	g_staffMembers.erase(currStaffMember);
+
+	return 1;
 }
 
 StaffMember::StaffMember()
