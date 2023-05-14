@@ -282,8 +282,8 @@ void UpdateStudentWindow::processEvent(sf::Event event)
         for (int i = 0; i < numCell; i++)
             check &= (bool)(Cell[i].getText().getSize());
 		Backend::Date Tmp(std::stoi(Cell[7].getText().getSize() ? std::string(Cell[7].getText()) : "0"),
-                 std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
-                 std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"));
+						  std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
+						  std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"));
         if (!check)
             fail = empty;
         else if (!Tmp.isValidDate())
