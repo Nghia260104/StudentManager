@@ -26,4 +26,9 @@ void loadFont()
     ArialBold.loadFromFile("../resources/Font/TTF file/ArialNova-Bold.ttf");
     Times.loadFromFile("../resources/Font/TTF file/times.ttf");
     TimesBold.loadFromFile("../resources/Font/TTF file/timesbd.ttf");
+    Tahoma.loadFromFile("../resources/Font/TTF file/tahoma.ttf");
+    Consola.loadFromFile("../resources/Font/TTF file/consola.ttf");
+    Luvenia.loadFromFile("../resources/Font/TTF file/Luvenia.otf");
+    Montelgo.loadFromFile("../resources/Font/TTF file/Montelgo.otf");
+    Over.loadFromFile("../resources/Font/TTF file/Overbrushing.otf");
 }

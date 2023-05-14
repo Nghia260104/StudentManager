@@ -30,9 +30,9 @@ void LogIn::create()
 
     Title.setString("Log in");
     Title.setFillColor(sf::Color(25, 89, 34, 255));
-    Title.setFont(LightFont);
+    Title.setFont(Tahoma);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
+    // Title.setStyle(sf::Text::Bold);
     Title.setOrigin(Title.getLocalBounds().width / 2, Title.getLocalBounds().height / 2);
     Title.setPosition(Bound.getPosition().x, Bound.getPosition().y - 170);
 

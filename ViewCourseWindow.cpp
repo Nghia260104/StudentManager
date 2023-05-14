@@ -75,7 +75,7 @@ void ViewCourseWindow::create()
     // Pages
 
     pages.create();
-    pages.setPosition(550 + CourseList.getPosition().x, CourseList.getPosition().y + CourseList.getHeight() + 30);
+    pages.setPosition(CourseList.getPosition().x + CourseList.getWidth() / 2 - 90, CourseList.getPosition().y + CourseList.getHeight() + 30);
 
     // Function window
     {
@@ -159,13 +159,21 @@ void ViewCourseWindow::create()
         AddEmptyFail.setString("Failed: Student ID can not be empty!");
         AddEmptyFail.setPosition(200, 265);
 
-        // Fail : Not found student or have been already added
+        // Fail : Student has been already added
 
         AddFail.setFont(RegularFont);
         AddFail.setCharacterSize(20);
         AddFail.setFillColor(sf::Color(168, 30, 20, 255));
-        AddFail.setString("Failed: Student has been already added or does not existed!");
+        AddFail.setString("Failed: Student has been already added!");
         AddFail.setPosition(200, 265);
+
+        // Fail : Student does not exist
+
+        AddNotFound.setFont(RegularFont);
+        AddNotFound.setCharacterSize(20);
+        AddNotFound.setFillColor(sf::Color(168, 30, 20, 255));
+        AddNotFound.setString("Failed: Student does not exist!");
+        AddNotFound.setPosition(200, 265);
 
         // Success
 
@@ -451,8 +459,10 @@ void ViewCourseWindow::drawTexture(const Layer &layer)
         Texture.draw(StdTitle);
         Texture.draw(StdID);
         Texture.draw(StdConfirm);
-        if (fail == AddExnF)
+        if (fail == AddExist)
             Texture.draw(AddFail);
+        if (fail == StdnotFound)
+            Texture.draw(AddNotFound);
         if (fail == Addempty)
             Texture.draw(AddEmptyFail);
         if (!fail)
@@ -664,9 +674,16 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
             fail = 0;
             if (!StdID.getText().getSize())
                 fail = Addempty;
-            else if (!CurCourse->addStudent(&*(Backend::g_students.find_if([&](const Backend::Student &a) -> bool
-                                                                           { return a.getID() == StdID.getText(); }))))
-                fail = AddExnF;
+            else
+            {
+                List<Backend::Student>::iterator Std = Backend::g_students.find_if(
+                    [&](const Backend::Student &a) -> bool
+                    { return a.getID() == StdID.getText(); });
+                if (Std == Backend::g_students.end())
+                    fail = StdnotFound;
+                else if (!CurCourse->addStudent(&*Std))
+                    fail = AddExist;
+            }
             drawTexture(layer);
             return;
         }

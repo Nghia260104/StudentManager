@@ -22,9 +22,9 @@ void SemesterWindow::create()
 
     Title.setString("Semester");
     Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
+    Title.setFont(Over);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
+    // Title.setStyle(sf::Text::Bold);
     Title.setPosition(100, 100);
 
     // Create
@@ -38,9 +38,9 @@ void SemesterWindow::create()
 
     Add.setString("Create semester");
     Add.setFillColor(sf::Color::Black);
-    Add.setFont(LightFont);
+    Add.setFont(Over);
     Add.setCharacterSize(40);
-    Add.setStyle(sf::Text::Bold);
+    // Add.setStyle(sf::Text::Bold);
     Add.setPosition(100, 100);
 
     // Remove
@@ -54,9 +54,9 @@ void SemesterWindow::create()
 
     Delete.setString("Delete semester");
     Delete.setFillColor(sf::Color::Black);
-    Delete.setFont(LightFont);
+    Delete.setFont(Over);
     Delete.setCharacterSize(40);
-    Delete.setStyle(sf::Text::Bold);
+    // Delete.setStyle(sf::Text::Bold);
     Delete.setPosition(100, 100);
 
     // Add semester
@@ -432,12 +432,12 @@ void SemesterWindow::processEvent(sf::Event event, Layer &layer)
             bool Check = 1;
             for (int i = 0; i < numCell; i++)
                 Check &= (bool)Cell[i].getText().getSize();
-			Backend::Date TmpStart(std::stoi(Cell[3].getText().getSize() ? std::string(Cell[3].getText()) : "0"),
-								   std::stoi(Cell[2].getText().getSize() ? std::string(Cell[2].getText()) : "0"),
-								   std::stoi(Cell[1].getText().getSize() ? std::string(Cell[1].getText()) : "0"));
-			Backend::Date TmpEnd(std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
-								 std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"),
-								 std::stoi(Cell[4].getText().getSize() ? std::string(Cell[4].getText()) : "0"));
+            Backend::Date TmpStart(std::stoi(Cell[3].getText().getSize() ? std::string(Cell[3].getText()) : "0"),
+                                   std::stoi(Cell[2].getText().getSize() ? std::string(Cell[2].getText()) : "0"),
+                                   std::stoi(Cell[1].getText().getSize() ? std::string(Cell[1].getText()) : "0"));
+            Backend::Date TmpEnd(std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
+                                 std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"),
+                                 std::stoi(Cell[4].getText().getSize() ? std::string(Cell[4].getText()) : "0"));
             if (!Check)
                 fail = empty;
             else if (!TmpStart.isValidDate() || !TmpEnd.isValidDate() ||

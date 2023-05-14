@@ -123,6 +123,11 @@ void ButtonTable::draw(sf::RenderTarget &target, sf::RenderStates state) const
 
 // Misc //////////////////////////////////////////////////////////////////////////////////
 
+int ButtonTable::getWidth() const
+{
+    return MAX_COL * (width + Offset_x) - Offset_x;
+}
+
 int ButtonTable::getHeight() const
 {
     return (MAX_ROW * (height + Offset_y) - Offset_y);

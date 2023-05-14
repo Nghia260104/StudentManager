@@ -26,8 +26,8 @@ void Profile::create()
 
     Title.setString("Profile");
     Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
-    Title.setStyle(sf::Text::Bold);
+    Title.setFont(Over);
+    // Title.setStyle(sf::Text::Bold);
     Title.setCharacterSize(40);
     Title.setPosition(75, 75);
 

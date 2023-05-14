@@ -427,6 +427,7 @@ bool Course::addStudent(Student *student)
 		return 0;
 	}
 
+	std::cerr << student << '\n';
 	studentInfos().push_back(StudentInfo(student));
 	student->courseInfos().push_back(Student::CourseInfo(this,
 														 &studentInfos().back()));

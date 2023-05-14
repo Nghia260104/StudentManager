@@ -23,6 +23,7 @@ public:
 
     // Misc
 
+    int getWidth() const;
     int getHeight() const;
     sf::Vector2f getPosition() const;
     void setPosition(float a, float b);

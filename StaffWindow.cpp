@@ -423,7 +423,7 @@ void StaffWindow::processEvent(sf::Event event)
     if (layer != Home)
     {
         Texture.draw(Back);
-        if (Back.isPressed(event))
+        if (Back.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
         {
             if (layer == ScY || layer == Cls || layer == Smt || layer == Std ||
                 layer == ACrs || layer == Crs || layer == Pass || layer == VCls || layer == Prf)
@@ -436,13 +436,13 @@ void StaffWindow::processEvent(sf::Event event)
                 layer = Cls;
             if (layer == ASmt || layer == DSmt)
                 layer = Smt;
+            if (layer == LStd)
+                layer = Std;
             if (layer == AStdM || layer == RStd)
             {
                 layer = LStd;
                 SetStudentScreen.clearLine();
             }
-            if (layer == LStd)
-                layer = Std;
             if (layer == CrsF)
             {
                 ViewCourseScreen.clearLine();

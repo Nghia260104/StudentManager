@@ -8,7 +8,7 @@
 extern sf::RenderWindow window;
 extern sf::Clock Clock;
 extern sf::Font RegularFont, BoldFont, MediumFont, LightFont, HeavyFont, Helvetica, RecRobot, RecOpen, Alga, JB, Arial, ArialBold, Times;
-extern sf::Font TimesBold;
+extern sf::Font TimesBold, Tahoma, Consola, Luvenia, Montelgo, Over;
 extern sf::Color BackgroundColor;
 extern sf::Cursor cursor;
 extern LogIn LogInWindow;

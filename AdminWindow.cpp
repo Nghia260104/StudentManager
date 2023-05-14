@@ -170,7 +170,7 @@ void AdminWindow::processEvent(sf::Event event)
         Password.clearLine();
         drawTexture();
     }
-    if (layer.lvl && Back.isPressed(event))
+    if (layer.lvl && (Back.isPressed(event) || event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
     {
         layer.lvl--;
         drawTexture();

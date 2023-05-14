@@ -22,9 +22,9 @@ void ClassWindow::create()
 
     Title.setString("Class");
     Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
+    Title.setFont(Over);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
+    // Title.setStyle(sf::Text::Bold);
     Title.setPosition(100, 100);
 
     // Create
@@ -38,9 +38,9 @@ void ClassWindow::create()
 
     Add.setString("Create class");
     Add.setFillColor(sf::Color::Black);
-    Add.setFont(LightFont);
+    Add.setFont(Over);
     Add.setCharacterSize(40);
-    Add.setStyle(sf::Text::Bold);
+    // Add.setStyle(sf::Text::Bold);
     Add.setPosition(100, 100);
 
     // Remove
@@ -54,9 +54,9 @@ void ClassWindow::create()
 
     Delete.setString("Remove class");
     Delete.setFillColor(sf::Color::Black);
-    Delete.setFont(LightFont);
+    Delete.setFont(Over);
     Delete.setCharacterSize(40);
-    Delete.setStyle(sf::Text::Bold);
+    // Delete.setStyle(sf::Text::Bold);
     Delete.setPosition(100, 100);
 
     // Class Name

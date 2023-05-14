@@ -262,9 +262,9 @@ void AddCourseWindow::create()
 
     Title.setString("Create course");
     Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
+    Title.setFont(Over);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
+    // Title.setStyle(sf::Text::Bold);
     Title.setPosition(100, 100);
 
     // Subtitle

@@ -187,6 +187,12 @@ void Page::setPage(const int &page, const int &totalpage)
 {
     if (page < totalpage)
         Right = 1;
+    else
+        Right = 0;
+    if (page == 1)
+        Left = 0;
+    else
+        Left = 1;
     NumPage = std::to_string(page);
     TotalPage = std::to_string(totalpage);
     PageCount.setText(NumPage + " of " + TotalPage);

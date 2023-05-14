@@ -20,10 +20,10 @@ void SetStudentWindow::create()
 
     Title.setString("Student");
     Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
+    Title.setFont(Over);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
-    Title.setPosition(100, 100);
+    // Title.setStyle(sf::Text::Bold);
+    Title.setPosition(70, 70);
 
     // Add
 
@@ -34,7 +34,7 @@ void SetStudentWindow::create()
 
     // Load from file
 
-    FromFile.create(150, 250, 300, 75, RegularFont, 30, "Load from file");
+    FromFile.create(150, 250, 300, 75, BoldFont, 30, "Load from file");
     FromFile.setFillColor(sf::Color(60, 60, 60, 255));
     FromFile.setTextColor(sf::Color::White);
     FromFile.setCoverColor(sf::Color(55, 55, 55, 200));
@@ -73,18 +73,18 @@ void SetStudentWindow::create()
 
     AddTitle.setString("Add student");
     AddTitle.setFillColor(sf::Color::Black);
-    AddTitle.setFont(LightFont);
+    AddTitle.setFont(Over);
     AddTitle.setCharacterSize(40);
-    AddTitle.setStyle(sf::Text::Bold);
+    // AddTitle.setStyle(sf::Text::Bold);
     AddTitle.setPosition(100, 100);
 
     // Remove title
 
     RemoveTitle.setString("Remove student");
     RemoveTitle.setFillColor(sf::Color::Black);
-    RemoveTitle.setFont(LightFont);
+    RemoveTitle.setFont(Over);
     RemoveTitle.setCharacterSize(40);
-    RemoveTitle.setStyle(sf::Text::Bold);
+    // RemoveTitle.setStyle(sf::Text::Bold);
     RemoveTitle.setPosition(100, 100);
 
     // Class name
@@ -129,7 +129,7 @@ void SetStudentWindow::create()
 
     // Button class
 
-    ClassList.create(5, 5, 180, 50, 30, 30, RegularFont, 18);
+    ClassList.create(6, 5, 180, 50, 30, 30, RegularFont, 18);
     ClassList.setPosition(200, 300);
     ClassList.setFillColor(sf::Color(25, 89, 34, 255));
     ClassList.setTextColor(sf::Color::White);
@@ -138,15 +138,15 @@ void SetStudentWindow::create()
     // Pages
 
     pages.create();
-    pages.setPosition(550 + ClassList.getPosition().x, ClassList.getPosition().y + ClassList.getHeight() + 30);
+    pages.setPosition(ClassList.getWidth() / 2 + ClassList.getPosition().x - 90, ClassList.getPosition().y + ClassList.getHeight() + 30);
 
     // Function window
 
     Class.setString("");
     Class.setFillColor(sf::Color::Black);
-    Class.setFont(LightFont);
+    Class.setFont(Helvetica);
     Class.setCharacterSize(40);
-    Class.setStyle(sf::Text::Bold);
+    // Class.setStyle(sf::Text::Bold);
     Class.setPosition(100, 100);
 
     // Infomation cells
@@ -599,20 +599,11 @@ void SetStudentWindow::processEvent(sf::Event event, Layer &layer)
                      std::stoi(Cell[6].getText().getSize() ? std::string(Cell[6].getText()) : "0"),
                      std::stoi(Cell[5].getText().getSize() ? std::string(Cell[5].getText()) : "0"));
             if (!check)
-            {
                 fail = empty;
-                std::cerr << 1;
-            }
             else if (!Tmp.isValidDate())
-            {
                 fail = date;
-                std::cerr << 2;
-            }
             else if (!Backend::Student::createStudent(Cell[0].getText()))
-            {
                 fail = existed;
-                std::cerr << 3;
-            }
             else
             {
                 Backend::Student &Std = Backend::g_students.back();

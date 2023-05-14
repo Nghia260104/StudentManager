@@ -196,7 +196,7 @@ void StudentWindow::processEvent(sf::Event event)
         profile.drawTexture();
         drawTexture();
     }
-    if (layer.lvl && Back.isPressed(event))
+    if (layer.lvl && (Back.isPressed(event) || event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Escape))
     {
         // if (layer.lvl == Function && layer.type == Pass)
         //     Password.clearLine();

@@ -70,8 +70,8 @@ private:
     // Add student
 
     sf::Text AddTitle;
-    sf::Text AddFail, AddEmptyFail, AddSuccess;
-    const int AddExnF = 5, Addempty = 6;
+    sf::Text AddFail, AddNotFound, AddEmptyFail, AddSuccess;
+    const int AddExist = 5, Addempty = 6, StdnotFound = 10;
 
     // Remove student
 

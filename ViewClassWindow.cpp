@@ -77,7 +77,7 @@ void ViewClassWindow::create()
     // Pages
 
     ClsPages.create();
-    ClsPages.setPosition(550 + ClassList.getPosition().x, ClassList.getPosition().y + ClassList.getHeight() + 30);
+    ClsPages.setPosition(ClassList.getPosition().x + ClassList.getWidth() / 2 - 90, ClassList.getPosition().y + ClassList.getHeight() + 30);
 
     // List of students
 

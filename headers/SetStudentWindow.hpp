@@ -63,7 +63,7 @@ private:
               AddFileFail = 3,
               empty = 4, date = 5, existed = 6,
               Clear = INT_MAX,
-              MAX_CELL = 25;
+              MAX_CELL = 30;
     const Layer Std = Layer(1, 50),
                 LStd = Layer(2, 50),
                 AStdM = Layer(3, 50),
