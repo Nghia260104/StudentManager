@@ -211,26 +211,7 @@ void ViewClassWindow::processEvent(sf::Event event, Layer &layer)
                 {
                     return a.getID() == ClassList.getText();
                 });
-            // std::cerr << (CurClass  == Backend::g_classes.end()) << std::endl;
-            // std::cerr << CurClass->getID() << std::endl;
-            // for (const Backend::Student *student : CurClass->students())
-            // {
-            //     std::cerr << student << std::endl;
-            // }
-            // std::cerr << "\nG_STUDENTS" << std::endl;
-            // for (const Backend::Student &student : Backend::g_students)
-            // {
-            //     std::cerr << &student << std::endl;
-            // }
             StudentList.setTitle(ClassList.getText());
-            // for (const Backend::Student *student : (*CurClass).students())
-            // {
-            //     std::cerr << student->getID() << ' '
-            //               << student->getClass()->getID() << ' '
-            //               << student->getName() << ' '
-            //               << Backend::Student::genderToString(student->getGender()) << ' '
-            //               << Backend::Student::dateToString(student->getDateOfBirth()) << std::endl;
-            // }
             StudentList.drawTexture((*CurClass).students(), 1);
             StdNumPage = 1;
             StdTotalPage = ((*CurClass).students().size() ? (*CurClass).students().size() / MAX_ROW + (bool)((*CurClass).students().size() % MAX_ROW) : 1);
@@ -279,7 +260,6 @@ void ViewClassWindow::processEvent(sf::Event event, Layer &layer)
         Texture.draw(Function);
         if (Function.isPressed(event))
         {
-            // std::cerr << Function.getRow() << std::endl;
             CurStd = *(CurClass->students().begin() + (StdNumPage - 1) * MAX_ROW + Function.getRow());
             if (Function.getText() == "Update")
             {

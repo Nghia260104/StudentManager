@@ -221,8 +221,6 @@ void StudentWindow::processEvent(sf::Event event)
             layer.type = Crs;
             NumPage = 1;
             TotalPage = ((courseInfos->size()) ? (courseInfos->size() / MAX_ROW + (bool)(courseInfos->size() % MAX_ROW)) : 1);
-            // std::cerr << courseInfoList.size() << " " << MAX_ROW << '\n'
-            //           << TotalPage;
             Courses.drawTexture(*courseInfos, 1);
             pages.setPage(NumPage, TotalPage);
             pages.setPosition(607 + Courses.getPosition().x, Courses.getPosition().y + Courses.getHeight() + 20);

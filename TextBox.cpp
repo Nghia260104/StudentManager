@@ -222,10 +222,6 @@ void TextBox::processEvent(sf::Event event)
                 {
                     Type = keyPressed;
                     updateText();
-                    // if (!password)
-                    //     std::cerr << (std::string)Text.getString() << '\n';
-                    // else
-                    //     std::cerr << (std::string)Pass << '\n';
                     drawTexture();
                 }
             }
@@ -236,10 +232,6 @@ void TextBox::processEvent(sf::Event event)
                 Type = TextEntered;
                 Key = event.text.unicode;
                 updateText();
-                // if (!password)
-                //     std::cerr << (std::string)Text.getString() << '\n';
-                // else
-                //     std::cerr << (std::string)Pass << '\n';
                 drawTexture();
             }
             break;

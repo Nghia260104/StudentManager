@@ -1,6 +1,7 @@
 #include <ViewCourseWindow.hpp>
 #include <FrontendGlobal.hpp>
 #include <BackendGlobal.hpp>
+#include <iomanip>
 
 ViewCourseWindow::ViewCourseWindow()
 {
@@ -270,6 +271,7 @@ void ViewCourseWindow::create()
     UpdateScb.create(15, 1, 100, 35, 0, 0, RegularFont, 16);
     UpdateScb.setPosition(100 + CourseScoreboardTable.getWidth(), 210);
     UpdateScb.setColString(0, "Update");
+    UpdateScb.setFillColor(sf::Color::Cyan);
 
     // Update Scoreboard
     {
@@ -305,7 +307,7 @@ void ViewCourseWindow::create()
             MarkTitle[0].setPosition(250, 300);
 
             Mark[0].create(0, 0, 80, 50, 18, sf::Vector2f(8, 25));
-            Mark[0].setPosition(330, 290);
+            Mark[0].setPosition(400, 290);
             Mark[0].setFloatNumber();
         }
 
@@ -315,7 +317,7 @@ void ViewCourseWindow::create()
             MarkTitle[1].setPosition(250, 365);
 
             Mark[1].create(0, 0, 80, 50, 18, sf::Vector2f(8, 25));
-            Mark[1].setPosition(330, 355);
+            Mark[1].setPosition(400, 355);
             Mark[1].setFloatNumber();
         }
 
@@ -325,7 +327,7 @@ void ViewCourseWindow::create()
             MarkTitle[2].setPosition(250, 430);
 
             Mark[2].create(0, 0, 80, 50, 18, sf::Vector2f(8, 25));
-            Mark[2].setPosition(330, 420);
+            Mark[2].setPosition(400, 420);
             Mark[2].setFloatNumber();
         }
 
@@ -335,8 +337,22 @@ void ViewCourseWindow::create()
             MarkTitle[3].setPosition(250, 495);
 
             Mark[3].create(0, 0, 80, 50, 18, sf::Vector2f(8, 25));
-            Mark[3].setPosition(330, 485);
+            Mark[3].setPosition(400, 485);
             Mark[3].setFloatNumber();
+        }
+
+        // Setup for all cells
+
+        for (int i = 0; i < numMark; i++)
+        {
+            Mark[i].setLimit(4);
+            Mark[i].setCaret();
+            Mark[i].setTyping();
+            Mark[i].setOpacity();
+            Mark[i].setFont(RegularFont);
+            Mark[i].setFillColor(BackgroundColor);
+            Mark[i].setTextColor();
+            Mark[i].setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
         }
 
         // Fail : Mark invalid
@@ -398,6 +414,7 @@ void ViewCourseWindow::Predraw()
 
     for (int i = 0; i < numMark; i++)
         Mark[i].drawTexture();
+    MarkConfirm.drawTexture();
 }
 
 void ViewCourseWindow::FirstDraw()
@@ -550,10 +567,6 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                           return a->getID() == CurCourse->getID();
                       }) != Backend::activeSemester->courses().end();
             drawTexture(layer);
-            // for (auto i = (*CurCourse).studentInfos().begin(); i != (*CurCourse).studentInfos().end(); ++i)
-            // {
-            //     std::cerr << (*i).student->getClass()->getID() << '\n';
-            // }
             return;
         }
         if (CourseConfirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
@@ -608,6 +621,7 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
                                                                    (bool)(CurCourse->studentInfos().size() % MAX_STD)
                                                              : 1);
             ScbPages.setPage(ScbNumPage, ScbTotalPage);
+            UpdateScb.drawTexture(CurCourse->studentInfos().size(), 1);
             drawTexture(layer);
             return;
         }
@@ -732,12 +746,24 @@ void ViewCourseWindow::processEvent(sf::Event event, Layer &layer)
             auto Std = CurCourse->studentInfos().begin() + (ScbNumPage - 1) * MAX_STD + UpdateScb.getRow();
             CurStd.setString((*Std).student->getID());
             resetFail();
-            Mark[0].setText(std::to_string((*Std).midtermMark));
-            Mark[1].setText(std::to_string((*Std).finalMark));
-            Mark[2].setText(std::to_string((*Std).otherMark));
-            Mark[3].setText(std::to_string((*Std).totalMark));
+            std::stringstream s;
+            s << (*Std).midtermMark;
+            Mark[0].setText(s.str());
+            s.str("");
+            s << (*Std).finalMark;
+            Mark[1].setText(s.str());
+            s.str("");
+            s << (*Std).otherMark;
+            Mark[2].setText(s.str());
+            s.str("");
+            s << (*Std).totalMark;
+            Mark[3].setText(s.str());
+
             for (int i = 0; i < numMark; i++)
+            {
                 Mark[i].drawTexture();
+                std::cerr << (std::string)Mark[i].getText() << " ";
+            }
             drawTexture(layer);
             return;
         }

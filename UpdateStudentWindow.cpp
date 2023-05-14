@@ -208,7 +208,6 @@ void UpdateStudentWindow::Prepare()
 
 void UpdateStudentWindow::FirstDraw(Backend::Student *student)
 {
-    // std::cerr << student << std::endl;
     Texture.draw(Background);
     Texture.draw(Title);
     Male.drawTexture();
@@ -298,10 +297,6 @@ void UpdateStudentWindow::processEvent(sf::Event event)
             fail = existed;
         if (!fail)
         {
-            // std::cerr << &*CurStd << "\n\n";
-            // std::cerr << "G_STUDENTS\n";
-            // for (const Backend::Student &student : Backend::g_students)
-            //     std::cerr << &student << std::endl;
             CurStd->setID(Cell[0].getText());
             CurStd->setSocialID(Cell[1].getText());
             CurStd->setFirstName(Cell[2].getText());
