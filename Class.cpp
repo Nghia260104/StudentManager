@@ -133,6 +133,12 @@ void Class::saveOneClass(Class *currClass)
 	std::filesystem::path path(CLASSES_PATH + "/" + currClass->getID() + ".csv");
 	std::ofstream fo(path);
 
+	for (Course* const& course: currClass->courses())
+	{
+		fo << course->getID() << ',';
+	}
+	fo << '\n';
+
 	int no = 0;
 	for (const Student *student: currClass->students())
 	{
@@ -150,7 +156,12 @@ void Class::clearClasses()
 {
 	while (!g_classes.empty())
 	{
-		Class::deleteClass(g_classes.front().getID());
+		Class &currClass = g_classes.front();
+		while (!currClass.students().empty())
+		{
+			currClass.removeStudent(currClass.students().front());
+		}
+		g_classes.pop_front();
 	}
 }
 
