@@ -171,8 +171,8 @@ sf::Vector2i Button::getMousePosition() const
 
 bool Button::mouseOn(const sf::Vector2i &MousePos) const
 {
-    if (g_x <= MousePos.x && MousePos.x <= g_x + RecSize.x &&
-        g_y <= MousePos.y && MousePos.y <= g_y + RecSize.y)
+    if (g_x < MousePos.x && MousePos.x < g_x + RecSize.x &&
+        g_y < MousePos.y && MousePos.y < g_y + RecSize.y)
         return true;
     return false;
 }

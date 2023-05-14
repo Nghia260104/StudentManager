@@ -18,7 +18,7 @@ void DeleteStaffMember::create()
     // Title
 
     Title.setString("Delete Staff member");
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setFont(Over);
     Title.setCharacterSize(40);
     // Title.setStyle(sf::Text::Bold);
@@ -41,7 +41,7 @@ void DeleteStaffMember::create()
     Username.setFont(RegularFont);
     Username.setFillColor(BackgroundColor);
     Username.setTextColor();
-    Username.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    Username.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
 
     // Fail
 
@@ -62,9 +62,10 @@ void DeleteStaffMember::create()
     // Confirm Button
 
     Confirm.create(425, 335, 150, 50, BoldFont, 24, "Confirm");
-    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
-    Confirm.setTextColor(sf::Color::White);
-    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
+    Confirm.setFillColor(ButtonColor);
+    Confirm.setTextColor(BackgroundColor);
+    Confirm.setCoverColor(ButtonCoverColor);
+    Confirm.setOutline(ButtonColor);
 
     // First Draw
 

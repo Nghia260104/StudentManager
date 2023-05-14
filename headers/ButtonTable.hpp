@@ -34,6 +34,7 @@ public:
     void setFillColor(sf::Color color);
     void setTextColor(sf::Color color);
     void setCoverColor(sf::Color color);
+    void setOutlineColor(sf::Color color);
 
     // Destructor
 
@@ -49,6 +50,6 @@ private:
     sf::RenderTexture Texture;
     sf::RectangleShape Background;
     sf::String Choice, *Col = nullptr;
-    sf::Color Fill, Text, Cover;
+    sf::Color Fill, Text, Cover, Outline;
     int min(int x, int y);
 };

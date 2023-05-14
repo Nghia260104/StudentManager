@@ -34,6 +34,9 @@ private:
     TextBox Password;
     sf::RectangleShape Bound, Background;
     sf::Text Title, Title1, Title2, Fail;
+    sf::Image SchoolLogo;
+    sf::Texture Logo;
+    sf::Sprite LogoSprite;
     Button Confirm;
     bool hidden, fail;
 };

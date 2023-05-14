@@ -19,7 +19,7 @@ void SetStudentWindow::create()
     // Title
 
     Title.setString("Student");
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setFont(Over);
     Title.setCharacterSize(40);
     // Title.setStyle(sf::Text::Bold);
@@ -28,19 +28,21 @@ void SetStudentWindow::create()
     // Add
 
     Add.create(150, 150, 300, 75, BoldFont, 30, "Add");
-    Add.setFillColor(sf::Color(9, 66, 55, 255));
-    Add.setTextColor(sf::Color::White);
-    Add.setCoverColor(sf::Color(30, 100, 70, 200));
+    Add.setFillColor(ButtonColor);
+    Add.setTextColor(BackgroundColor);
+    Add.setCoverColor(ButtonCoverColor);
+    Add.setOutline(ButtonColor);
 
     // Load from file
 
     FromFile.create(150, 250, 300, 75, BoldFont, 30, "Load from file");
-    FromFile.setFillColor(sf::Color(60, 60, 60, 255));
-    FromFile.setTextColor(sf::Color::White);
-    FromFile.setCoverColor(sf::Color(55, 55, 55, 200));
+    FromFile.setFillColor(ButtonColor);
+    FromFile.setTextColor(BackgroundColor);
+    FromFile.setCoverColor(ButtonCoverColor);
+    FromFile.setOutline(ButtonColor);
 
     Tutorial.setString("(Press this button to load info from all <Classname>.csv)");
-    Tutorial.setFillColor(sf::Color(16, 63, 145, 255));
+    Tutorial.setFillColor(TextColor);
     Tutorial.setFont(LightFont);
     Tutorial.setCharacterSize(20);
     Tutorial.setStyle(sf::Text::Bold);
@@ -49,9 +51,10 @@ void SetStudentWindow::create()
     // Remove
 
     Remove.create(500, 150, 300, 75, BoldFont, 30, "Remove");
-    Remove.setFillColor(sf::Color(9, 66, 55, 255));
-    Remove.setTextColor(sf::Color::White);
-    Remove.setCoverColor(sf::Color(30, 100, 70, 200));
+    Remove.setFillColor(ButtonColor);
+    Remove.setTextColor(BackgroundColor);
+    Remove.setCoverColor(ButtonCoverColor);
+    Remove.setOutline(ButtonColor);
 
     // Fail : Add File fail
 
@@ -72,7 +75,7 @@ void SetStudentWindow::create()
     // Add title
 
     AddTitle.setString("Add student");
-    AddTitle.setFillColor(sf::Color::Black);
+    AddTitle.setFillColor(TextColor);
     AddTitle.setFont(Over);
     AddTitle.setCharacterSize(40);
     // AddTitle.setStyle(sf::Text::Bold);
@@ -81,7 +84,7 @@ void SetStudentWindow::create()
     // Remove title
 
     RemoveTitle.setString("Remove student");
-    RemoveTitle.setFillColor(sf::Color::Black);
+    RemoveTitle.setFillColor(TextColor);
     RemoveTitle.setFont(Over);
     RemoveTitle.setCharacterSize(40);
     // RemoveTitle.setStyle(sf::Text::Bold);
@@ -90,7 +93,7 @@ void SetStudentWindow::create()
     // Class name
 
     InputClass.setString("Class name: ");
-    InputClass.setFillColor(sf::Color::Black);
+    InputClass.setFillColor(TextColor);
     InputClass.setFont(RegularFont);
     InputClass.setCharacterSize(18);
     // InputClass.setStyle(sf::Text::Bold);
@@ -103,13 +106,14 @@ void SetStudentWindow::create()
     ClassName.setFont(RegularFont);
     ClassName.setFillColor(BackgroundColor);
     ClassName.setTextColor();
-    ClassName.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    ClassName.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     ClassName.setPosition(400, 195);
 
     ClassConfirm.create(700, 195, 150, 50, RegularFont, 18, "Confirm");
-    ClassConfirm.setFillColor(sf::Color(60, 60, 60, 255));
-    ClassConfirm.setTextColor(sf::Color::White);
-    ClassConfirm.setCoverColor(sf::Color(55, 55, 55, 200));
+    ClassConfirm.setFillColor(ButtonColor);
+    ClassConfirm.setTextColor(BackgroundColor);
+    ClassConfirm.setCoverColor(ButtonCoverColor);
+    ClassConfirm.setOutline(ButtonColor);
 
     // Fail : Empty class
 
@@ -131,9 +135,10 @@ void SetStudentWindow::create()
 
     ClassList.create(6, 5, 180, 50, 30, 30, RegularFont, 18);
     ClassList.setPosition(200, 300);
-    ClassList.setFillColor(sf::Color(25, 89, 34, 255));
-    ClassList.setTextColor(sf::Color::White);
-    ClassList.setCoverColor(sf::Color(50, 120, 60, 255));
+    ClassList.setFillColor(ButtonColor);
+    ClassList.setTextColor(BackgroundColor);
+    ClassList.setCoverColor(ButtonCoverColor);
+    ClassList.setOutlineColor(ButtonColor);
 
     // Pages
 
@@ -143,7 +148,7 @@ void SetStudentWindow::create()
     // Function window
 
     Class.setString("");
-    Class.setFillColor(sf::Color::Black);
+    Class.setFillColor(TextColor);
     Class.setFont(Helvetica);
     Class.setCharacterSize(40);
     // Class.setStyle(sf::Text::Bold);
@@ -208,16 +213,18 @@ void SetStudentWindow::create()
             // Male
             {
                 Male.create(450, 398, 70, 30, RegularFont, 16, "Male");
-                Male.setFillColor(sf::Color(25, 89, 34, 255));
-                Male.setTextColor(sf::Color::White);
-                Male.setCoverColor(sf::Color(20, 85, 30, 200));
+                Male.setFillColor(ButtonColor);
+                Male.setTextColor(BackgroundColor);
+                Male.setCoverColor(ButtonCoverColor);
+                Male.setOutline(ButtonColor);
             }
             // Female
             {
                 Female.create(550, 398, 70, 30, RegularFont, 16, "Female");
-                Female.setFillColor(sf::Color(25, 89, 34, 255));
-                Female.setTextColor(sf::Color::White);
-                Female.setCoverColor(sf::Color(20, 85, 30, 200));
+                Female.setFillColor(ButtonColor);
+                Female.setTextColor(BackgroundColor);
+                Female.setCoverColor(ButtonCoverColor);
+                Female.setOutline(ButtonColor);
             }
         }
         // Date of Birth
@@ -274,7 +281,7 @@ void SetStudentWindow::create()
         Cell[i].setFont(RegularFont);
         Cell[i].setFillColor(BackgroundColor);
         Cell[i].setTextColor();
-        Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+        Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     }
 
     // Add
@@ -314,9 +321,10 @@ void SetStudentWindow::create()
         // Confirm Button
 
         StudentConfirm.create(650, 850, 150, 50, BoldFont, 24, "Confirm");
-        StudentConfirm.setFillColor(sf::Color(25, 89, 34, 255));
-        StudentConfirm.setTextColor(sf::Color::White);
-        StudentConfirm.setCoverColor(sf::Color(20, 85, 30, 200));
+        StudentConfirm.setFillColor(ButtonColor);
+        StudentConfirm.setTextColor(BackgroundColor);
+        StudentConfirm.setCoverColor(ButtonCoverColor);
+        StudentConfirm.setOutline(ButtonColor);
     }
 
     // Remove
@@ -348,9 +356,10 @@ void SetStudentWindow::create()
         // Confirm Button
 
         RemoveConfirm.create(375, 340, 150, 50, BoldFont, 24, "Confirm");
-        RemoveConfirm.setFillColor(sf::Color(25, 89, 34, 255));
-        RemoveConfirm.setTextColor(sf::Color::White);
-        RemoveConfirm.setCoverColor(sf::Color(20, 85, 30, 200));
+        RemoveConfirm.setFillColor(ButtonColor);
+        RemoveConfirm.setTextColor(BackgroundColor);
+        RemoveConfirm.setCoverColor(ButtonCoverColor);
+        RemoveConfirm.setOutline(ButtonColor);
     }
 
     // Pre-draw

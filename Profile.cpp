@@ -25,7 +25,7 @@ void Profile::create()
     // Title
 
     Title.setString("Profile");
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setFont(Over);
     // Title.setStyle(sf::Text::Bold);
     Title.setCharacterSize(40);
@@ -45,7 +45,7 @@ void Profile::create()
     {
         Subtitle[i].create(150, 175 + 60 * i, 200, 40, 18, sf::Vector2f(8, 20));
         Subtitle[i].setFillColor(BackgroundColor);
-        Subtitle[i].setTextColor(sf::Color::Black);
+        Subtitle[i].setTextColor(TextColor);
         Subtitle[i].setFont(RegularFont);
         Subtitle[i].drawTexture();
         Subtitle[i].setOutlineColor(sf::Color::Transparent);

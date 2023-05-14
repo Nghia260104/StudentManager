@@ -17,7 +17,13 @@ int main()
 
     LeftWindowWidth = (window.getSize().x * 4) / 5;
     RightWindowWidth = window.getSize().x - LeftWindowWidth;
-    BackgroundColor = sf::Color::White;
+    BackgroundColor = sf::Color(246, 241, 241, 255);
+    RightSideColor = sf::Color(175, 211, 226, 255);
+    RightSideCover = sf::Color(175, 211, 226, 200);
+    ButtonColor = sf::Color(25, 167, 206, 255);
+    ButtonCoverColor = sf::Color(25, 167, 206, 200);
+    TextColor = sf::Color(20, 108, 148, 255);
+    TextCoverColor = sf::Color(20, 108, 148, 200);
 
     icon.loadFromFile("../resources/Logo/Exe's Logo.png");
     window.setIcon(icon.getSize().x, icon.getSize().y, icon.getPixelsPtr());

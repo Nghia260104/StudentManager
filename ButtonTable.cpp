@@ -26,6 +26,7 @@ void ButtonTable::create(unsigned int row, unsigned int col,
     Fill = sf::Color::White;
     Cover = sf::Color(40, 40, 40, 255);
     Text = sf::Color::Black;
+    Outline = sf::Color::Black;
 
     // Background
 
@@ -207,6 +208,15 @@ void ButtonTable::setCoverColor(sf::Color color)
             Table[i].setCoverColor(color);
     else
         Cover = color;
+}
+
+void ButtonTable::setOutlineColor(sf::Color color)
+{
+    if (Table)
+        for (int i = 0; i < MAX_CELL; i++)
+            Table[i].setOutline(color);
+    else
+        Outline = color;
 }
 
 int ButtonTable::min(int x, int y)

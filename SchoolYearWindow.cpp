@@ -21,7 +21,7 @@ void SchoolYearWindow::create()
     // Title
 
     Title.setString("School year");
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setFont(Over);
     Title.setCharacterSize(40);
     // Title.setStyle(sf::Text::Bold);
@@ -30,14 +30,15 @@ void SchoolYearWindow::create()
     // Create
 
     Create.create(200, 200, 250, 75, BoldFont, 36, "Create");
-    Create.setFillColor(sf::Color(25, 89, 34, 255));
-    Create.setTextColor(sf::Color::White);
-    Create.setCoverColor(sf::Color(20, 85, 30, 200));
+    Create.setFillColor(ButtonColor);
+    Create.setTextColor(BackgroundColor);
+    Create.setCoverColor(ButtonCoverColor);
+    Create.setOutline(ButtonColor);
 
     //// Add Title
 
     Add.setString("Create school year");
-    Add.setFillColor(sf::Color::Black);
+    Add.setFillColor(TextColor);
     Add.setFont(Over);
     Add.setCharacterSize(40);
     // Add.setStyle(sf::Text::Bold);
@@ -46,14 +47,15 @@ void SchoolYearWindow::create()
     // Remove
 
     Remove.create(200, 325, 250, 75, BoldFont, 36, "Delete");
-    Remove.setFillColor(sf::Color(25, 89, 34, 255));
-    Remove.setTextColor(sf::Color::White);
-    Remove.setCoverColor(sf::Color(20, 85, 30, 200));
+    Remove.setFillColor(ButtonColor);
+    Remove.setTextColor(BackgroundColor);
+    Remove.setCoverColor(ButtonCoverColor);
+    Remove.setOutline(ButtonColor);
 
     //// Remove Title
 
     Delete.setString("Delete School Year");
-    Delete.setFillColor(sf::Color::Black);
+    Delete.setFillColor(TextColor);
     Delete.setFont(Over);
     Delete.setCharacterSize(40);
     // Delete.setStyle(sf::Text::Bold);
@@ -75,7 +77,7 @@ void SchoolYearWindow::create()
     Start.setFont(RegularFont);
     Start.setFillColor(BackgroundColor);
     Start.setTextColor();
-    Start.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    Start.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     Start.setPosition(350, 235);
     Start.setNumber();
     Start.setLimit(4);
@@ -123,9 +125,10 @@ void SchoolYearWindow::create()
     // Confirm button
 
     Confirm.create(325, 375, 150, 50, BoldFont, 24, "Confirm");
-    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
-    Confirm.setTextColor(sf::Color::White);
-    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
+    Confirm.setFillColor(ButtonColor);
+    Confirm.setTextColor(BackgroundColor);
+    Confirm.setCoverColor(ButtonCoverColor);
+    Confirm.setOutline(ButtonColor);
 
     // First Draw
 

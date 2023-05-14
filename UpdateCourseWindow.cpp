@@ -18,10 +18,10 @@ void UpdateCourseWindow::create()
     // Title
 
     Title.setString("Update course info");
-    Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
+    Title.setFillColor(TextColor);
+    Title.setFont(Over);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
+    // Title.setStyle(sf::Text::Bold);
     Title.setPosition(100, 100);
 
     // Subtitle
@@ -48,6 +48,7 @@ void UpdateCourseWindow::create()
 
             Semester.create(410, 185, 50, 50, RegularFont, 18, "");
             Semester.setTextColor(sf::Color::Black);
+            Semester.setFillColor(BackgroundColor);
         }
 
         // School year
@@ -60,6 +61,7 @@ void UpdateCourseWindow::create()
 
             SchoolYear.create(700, 185, 150, 50, RegularFont, 18, "");
             SchoolYear.setTextColor(sf::Color::Black);
+            SchoolYear.setFillColor(BackgroundColor);
         }
 
         // Course ID
@@ -143,9 +145,10 @@ void UpdateCourseWindow::create()
                 for (int i = 0; i < numDoW; i++)
                 {
                     DoW[i].create(550 + 90 * i, 638, 60, 30, RegularFont, 16, Tmp[i]);
-                    DoW[i].setFillColor(sf::Color(25, 89, 34, 255));
-                    DoW[i].setTextColor(sf::Color::White);
-                    DoW[i].setCoverColor(sf::Color(20, 85, 30, 200));
+                    DoW[i].setFillColor(ButtonColor);
+                    DoW[i].setTextColor(BackgroundColor);
+                    DoW[i].setCoverColor(ButtonCoverColor);
+                    DoW[i].setOutline(ButtonColor);
                 }
                 delete[] Tmp;
             }
@@ -170,10 +173,10 @@ void UpdateCourseWindow::create()
                 Session = new Button[numSes];
                 for (int i = 0; i < numSes; i++)
                 {
-                    Session[i].create(550 + 60 * i, 698, 30, 30, RegularFont, 16, Tmp[i]);
-                    Session[i].setFillColor(sf::Color(25, 89, 34, 255));
-                    Session[i].setTextColor(sf::Color::White);
-                    Session[i].setCoverColor(sf::Color(20, 85, 30, 200));
+                    Session[i].setFillColor(ButtonColor);
+                    Session[i].setTextColor(BackgroundColor);
+                    Session[i].setCoverColor(ButtonCoverColor);
+                    Session[i].setOutline(ButtonColor);
                 }
                 delete[] Tmp;
             }
@@ -193,7 +196,7 @@ void UpdateCourseWindow::create()
         Cell[i].setFont(RegularFont);
         Cell[i].setFillColor(BackgroundColor);
         Cell[i].setTextColor();
-        Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+        Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     }
 
     // Fail : Empty cell
@@ -239,9 +242,10 @@ void UpdateCourseWindow::create()
     // Confirm Button
 
     Confirm.create(700, 790, 150, 50, BoldFont, 24, "Confirm");
-    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
-    Confirm.setTextColor(sf::Color::White);
-    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
+    Confirm.setFillColor(ButtonColor);
+    Confirm.setTextColor(BackgroundColor);
+    Confirm.setCoverColor(ButtonCoverColor);
+    Confirm.setOutline(ButtonColor);
 
     // Pre-draw
 

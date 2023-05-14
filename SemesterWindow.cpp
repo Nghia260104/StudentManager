@@ -21,7 +21,7 @@ void SemesterWindow::create()
     // Title
 
     Title.setString("Semester");
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setFont(Over);
     Title.setCharacterSize(40);
     // Title.setStyle(sf::Text::Bold);
@@ -30,14 +30,15 @@ void SemesterWindow::create()
     // Create
 
     AddSemester.create(200, 200, 250, 75, BoldFont, 36, "Create");
-    AddSemester.setFillColor(sf::Color(25, 89, 34, 255));
-    AddSemester.setTextColor(sf::Color::White);
-    AddSemester.setCoverColor(sf::Color(20, 85, 30, 200));
+    AddSemester.setFillColor(ButtonColor);
+    AddSemester.setTextColor(BackgroundColor);
+    AddSemester.setCoverColor(ButtonCoverColor);
+    AddSemester.setOutline(ButtonColor);
 
     //// Add Title
 
     Add.setString("Create semester");
-    Add.setFillColor(sf::Color::Black);
+    Add.setFillColor(TextColor);
     Add.setFont(Over);
     Add.setCharacterSize(40);
     // Add.setStyle(sf::Text::Bold);
@@ -46,14 +47,15 @@ void SemesterWindow::create()
     // Remove
 
     DeleteSemester.create(200, 325, 250, 75, BoldFont, 36, "Remove");
-    DeleteSemester.setFillColor(sf::Color(25, 89, 34, 255));
-    DeleteSemester.setTextColor(sf::Color::White);
-    DeleteSemester.setCoverColor(sf::Color(20, 85, 30, 200));
+    DeleteSemester.setFillColor(ButtonColor);
+    DeleteSemester.setTextColor(BackgroundColor);
+    DeleteSemester.setCoverColor(ButtonCoverColor);
+    DeleteSemester.setOutline(ButtonColor);
 
     //// Remove Title
 
     Delete.setString("Delete semester");
-    Delete.setFillColor(sf::Color::Black);
+    Delete.setFillColor(TextColor);
     Delete.setFont(Over);
     Delete.setCharacterSize(40);
     // Delete.setStyle(sf::Text::Bold);
@@ -86,23 +88,26 @@ void SemesterWindow::create()
                 // S1
                 {
                     s1.create(480, 198, 30, 30, RegularFont, 16, "1");
-                    s1.setFillColor(sf::Color(25, 89, 34, 255));
-                    s1.setTextColor(sf::Color::White);
-                    s1.setCoverColor(sf::Color(20, 85, 30, 200));
+                    s1.setFillColor(ButtonColor);
+                    s1.setTextColor(BackgroundColor);
+                    s1.setCoverColor(ButtonCoverColor);
+                    s1.setOutline(ButtonColor);
                 }
                 // S2
                 {
                     s2.create(530, 198, 30, 30, RegularFont, 16, "2");
-                    s2.setFillColor(sf::Color(25, 89, 34, 255));
-                    s2.setTextColor(sf::Color::White);
-                    s2.setCoverColor(sf::Color(20, 85, 30, 200));
+                    s2.setFillColor(ButtonColor);
+                    s2.setTextColor(BackgroundColor);
+                    s2.setCoverColor(ButtonCoverColor);
+                    s3.setOutline(ButtonColor);
                 }
                 // S3
                 {
                     s3.create(580, 198, 30, 30, RegularFont, 16, "3");
-                    s3.setFillColor(sf::Color(25, 89, 34, 255));
-                    s3.setTextColor(sf::Color::White);
-                    s3.setCoverColor(sf::Color(20, 85, 30, 200));
+                    s3.setFillColor(ButtonColor);
+                    s3.setTextColor(BackgroundColor);
+                    s3.setCoverColor(ButtonCoverColor);
+                    s3.setOutline(ButtonColor);
                 }
             }
 
@@ -116,6 +121,7 @@ void SemesterWindow::create()
 
                 SchoolYear.create(450, 298, 100, 30, RegularFont, 18, "");
                 SchoolYear.setTextColor(sf::Color::Black);
+                SchoolYear.setFillColor(BackgroundColor);
             }
 
             // Start Date
@@ -212,7 +218,7 @@ void SemesterWindow::create()
             Cell[i].setFont(RegularFont);
             Cell[i].setFillColor(BackgroundColor);
             Cell[i].setTextColor();
-            Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+            Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
         }
 
         // Fail type 1 : Empty cell
@@ -250,9 +256,10 @@ void SemesterWindow::create()
         // Confirm Button
 
         AddConfirm.create(580, 650, 150, 50, BoldFont, 24, "Confirm");
-        AddConfirm.setFillColor(sf::Color(25, 89, 34, 255));
-        AddConfirm.setTextColor(sf::Color::White);
-        AddConfirm.setCoverColor(sf::Color(20, 85, 30, 200));
+        AddConfirm.setFillColor(ButtonColor);
+        AddConfirm.setTextColor(BackgroundColor);
+        AddConfirm.setCoverColor(ButtonCoverColor);
+        AddConfirm.setOutline(ButtonColor);
     }
 
     // Fail : Semester not found
@@ -274,9 +281,10 @@ void SemesterWindow::create()
     // Delete confirm button
 
     DeleteConfirm.create(425, 410, 150, 50, BoldFont, 24, "Confirm");
-    DeleteConfirm.setFillColor(sf::Color(25, 89, 34, 255));
-    DeleteConfirm.setTextColor(sf::Color::White);
-    DeleteConfirm.setCoverColor(sf::Color(20, 85, 30, 200));
+    DeleteConfirm.setFillColor(ButtonColor);
+    DeleteConfirm.setTextColor(BackgroundColor);
+    DeleteConfirm.setCoverColor(ButtonCoverColor);
+    DeleteConfirm.setOutline(ButtonColor);
 
     // First Draw
 

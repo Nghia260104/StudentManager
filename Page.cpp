@@ -40,18 +40,18 @@ void Page::create()
     // Left Arrow
 
     LeftArrow.create(0, 0, 30, 30, RegularFont, 18, "<");
-    LeftArrow.setFillColor(sf::Color(60, 60, 60, 255));
-    LeftArrow.setTextColor(sf::Color::White);
-    LeftArrow.setCoverColor(sf::Color(55, 55, 55, 200));
+    LeftArrow.setFillColor(ButtonColor);
+    LeftArrow.setTextColor(BackgroundColor);
+    LeftArrow.setCoverColor(ButtonCoverColor);
     LeftArrow.setTextPos(12);
     LeftArrow.drawTexture();
 
     // Right Arrow
 
     RightArrow.create(150, 0, 30, 30, RegularFont, 18, ">");
-    RightArrow.setFillColor(sf::Color(60, 60, 60, 255));
-    RightArrow.setTextColor(sf::Color::White);
-    RightArrow.setCoverColor(sf::Color(55, 55, 55, 200));
+    RightArrow.setFillColor(ButtonColor);
+    RightArrow.setTextColor(BackgroundColor);
+    RightArrow.setCoverColor(ButtonCoverColor);
     RightArrow.setTextPos(12);
     RightArrow.drawTexture();
 

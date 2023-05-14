@@ -1,5 +1,6 @@
 #include <TextBox.hpp>
 #include <string>
+#include <FrontendGlobal.hpp>
 
 extern sf::RenderWindow window;
 
@@ -114,7 +115,7 @@ void TextBox::setOutlineColor(sf::Color c1, sf::Color c2)
 {
     color1 = c1;
     color2 = c2;
-    Rec.setFillColor(sf::Color::White);
+    Rec.setFillColor(BackgroundColor);
     Rec.setOutlineColor(color1);
     Rec.setOutlineThickness(-1.0f);
 }

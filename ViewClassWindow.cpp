@@ -20,10 +20,10 @@ void ViewClassWindow::create()
     // Title
 
     Title.setString("Classes");
-    Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
+    Title.setFillColor(TextColor);
+    Title.setFont(Over);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
+    // Title.setStyle(sf::Text::Bold);
     Title.setPosition(100, 100);
 
     // Class name
@@ -42,13 +42,14 @@ void ViewClassWindow::create()
     ClassName.setFont(RegularFont);
     ClassName.setFillColor(BackgroundColor);
     ClassName.setTextColor();
-    ClassName.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    ClassName.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     ClassName.setPosition(400, 195);
 
-    ClassConfirm.create(750, 195, 150, 50, RegularFont, 18, "Confirm");
-    ClassConfirm.setFillColor(sf::Color(60, 60, 60, 255));
-    ClassConfirm.setTextColor(sf::Color::White);
-    ClassConfirm.setCoverColor(sf::Color(55, 55, 55, 200));
+    ClassConfirm.create(750, 195, 150, 50, BoldFont, 18, "Confirm");
+    ClassConfirm.setFillColor(ButtonColor);
+    ClassConfirm.setTextColor(BackgroundColor);
+    ClassConfirm.setCoverColor(ButtonCoverColor);
+    ClassConfirm.setOutline(ButtonColor);
 
     // Fail : Empty course
 
@@ -70,9 +71,10 @@ void ViewClassWindow::create()
 
     ClassList.create(6, 5, 180, 50, 30, 30, RegularFont, 18);
     ClassList.setPosition(200, 300);
-    ClassList.setFillColor(sf::Color(25, 89, 34, 255));
-    ClassList.setTextColor(sf::Color::White);
-    ClassList.setCoverColor(sf::Color(50, 120, 60, 255));
+    ClassList.setFillColor(ButtonColor);
+    ClassList.setTextColor(BackgroundColor);
+    ClassList.setCoverColor(ButtonCoverColor);
+    ClassList.setOutlineColor(ButtonColor);
 
     // Pages
 
@@ -93,8 +95,9 @@ void ViewClassWindow::create()
     Function.setColString(1, "Scoreboard");
     Function.setPosition(StudentList.getPosition().x + StudentList.getWidth() + 20,
                          StudentList.getPosition().y + 110);
-    Function.setTextColor(sf::Color::Black);
-    Function.setFillColor(sf::Color::Cyan);
+    Function.setTextColor(BackgroundColor);
+    Function.setFillColor(ButtonColor);
+    Function.setCoverColor(ButtonCoverColor);
 
     // Update student's info
 

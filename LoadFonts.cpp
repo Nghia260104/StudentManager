@@ -31,4 +31,6 @@ void loadFont()
     Luvenia.loadFromFile("../resources/Font/TTF file/Luvenia.otf");
     Montelgo.loadFromFile("../resources/Font/TTF file/Montelgo.otf");
     Over.loadFromFile("../resources/Font/TTF file/Overbrushing.otf");
+    IA.loadFromFile("../resources/Font/TTF file/IA_Regular.ttf");
+    Calibri.loadFromFile("../resources/Font/TTF file/calibrib.ttf");
 }

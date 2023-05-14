@@ -26,7 +26,7 @@ void PersonalScoreboard::create(sf::Font &font)
 
     Title.setString("Scoreboard");
     Title.setFont(RegularFont);
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setPosition(0, 0);
     Title.setCharacterSize(30);
 
@@ -45,7 +45,7 @@ void PersonalScoreboard::create(sf::Font &font)
         pos[i] = pos[i - 1] + width[i - 1];
     for (int i = 0; i < numCell; i++)
     {
-        // Cell[i].setFillColor(BackgroundColor);
+        Cell[i].setOutlineColor();
         Cell[i].setFontSize(16);
         Cell[i].createTexture(width[i], height);
         Cell[i].setSize(width[i], height);

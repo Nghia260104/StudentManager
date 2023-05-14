@@ -8,249 +8,6 @@ AddCourseWindow::AddCourseWindow()
 
 void AddCourseWindow::create()
 {
-    // // Background
-
-    // Texture.create(LeftWindowWidth, window.getSize().y);
-    // Texture.setSmooth(true);
-    // Background.setSize(sf::Vector2f(Texture.getSize()));
-    // Background.setFillColor(BackgroundColor);
-
-    // // Title
-
-    // Title.setString("Add course");
-    // Title.setFillColor(sf::Color::Black);
-    // Title.setFont(LightFont);
-    // Title.setCharacterSize(40);
-    // Title.setStyle(sf::Text::Bold);
-    // Title.setPosition(100, 100);
-
-    // // Subtitle
-
-    // Subtitle = new sf::Text[numCell];
-    // Cell = new TextBox[numCell];
-
-    // for (int i = 0; i < numCell; i++)
-    // {
-    //     Subtitle[i].setFillColor(sf::Color::Black);
-    //     Subtitle[i].setFont(RegularFont);
-    //     Subtitle[i].setCharacterSize(20);
-    // }
-
-    // // Cells
-    // {
-    //     // Semester
-    //     {
-    //         Smt.setFillColor(sf::Color::Black);
-    //         Smt.setFont(RegularFont);
-    //         Smt.setCharacterSize(20);
-    //         Smt.setString("Semester:");
-    //         Smt.setPosition(300, 200);
-
-    //         Semester.create(400, 195, 30, 30, RegularFont, 18, "");
-    //         Semester.setTextColor(sf::Color::Black);
-    //     }
-
-    //     // School year
-    //     {
-    //         ScY.setFillColor(sf::Color::Black);
-    //         ScY.setFont(RegularFont);
-    //         ScY.setCharacterSize(20);
-    //         ScY.setString("School year:");
-    //         ScY.setPosition(550, 200);
-
-    //         SchoolYear.create(660, 195, 150, 50, RegularFont, 18, "");
-    //         SchoolYear.setTextColor(sf::Color::Black);
-    //     }
-
-    //     // Course ID
-    //     {
-    //         Subtitle[0].setString("Course ID:");
-    //         Subtitle[0].setPosition(300, 270);
-
-    //         Cell[0].create(0, 0, 350, 50, 18, sf::Vector2f(8, 25));
-    //         Cell[0].setPosition(300, 305);
-    //     }
-
-    //     // Course Name
-    //     {
-    //         Subtitle[1].setString("Course name:");
-    //         Subtitle[1].setPosition(300, 400);
-
-    //         Cell[1].create(0, 0, 800, 50, 18, sf::Vector2f(8, 25));
-    //         Cell[1].setPosition(300, 435);
-    //     }
-
-    //     // Class Name
-    //     {
-    //         Subtitle[2].setString("Class name:");
-    //         Subtitle[2].setPosition(300, 500);
-
-    //         Cell[2].create(0, 0, 250, 50, 18, sf::Vector2f(8, 25));
-    //         Cell[2].setPosition(300, 535);
-    //     }
-
-    //     // Teacher Name
-    //     {
-    //         Subtitle[3].setString("Teacher name:");
-    //         Subtitle[3].setPosition(650, 500);
-
-    //         Cell[3].create(0, 0, 750, 50, 18, sf::Vector2f(8, 25));
-    //         Cell[3].setPosition(650, 535);
-    //     }
-
-    //     // Number of Credits
-    //     {
-    //         Subtitle[4].setString("No. Credits:");
-    //         Subtitle[4].setPosition(300, 600);
-
-    //         Cell[4].create(0, 0, 50, 50, 18, sf::Vector2f(8, 25));
-    //         Cell[4].setPosition(400, 590);
-    //         Cell[4].setNumber();
-    //         Cell[4].setLimit(2);
-    //     }
-
-    //     // Number of Students
-    //     {
-    //         Subtitle[5].setString("No. Students:");
-    //         Subtitle[5].setPosition(550, 600);
-
-    //         Cell[5].create(0, 0, 50, 50, 18, sf::Vector2f(8, 25));
-    //         Cell[5].setPosition(670, 590);
-    //         Cell[5].setNumber();
-    //         Cell[5].setLimit(2);
-    //         Cell[5].setText("50");
-    //     }
-
-    //     // Day of Week
-    //     {
-    //         Subtitle[6].setString("Day of week:");
-    //         Subtitle[6].setPosition(300, 700);
-
-    //         Cell[6].create(0, 0, 60, 30, 18, sf::Vector2f(8, 25));
-    //         Cell[6].setPosition(450, 698);
-
-    //         // Button
-    //         {
-    //             sf::String *Tmp;
-    //             Tmp = new sf::String[numDoW];
-    //             Tmp[0] = "MON";
-    //             Tmp[1] = "TUE";
-    //             Tmp[2] = "WED";
-    //             Tmp[3] = "THU";
-    //             Tmp[4] = "FRI";
-    //             Tmp[5] = "SAT";
-    //             DoW = new Button[numDoW];
-    //             for (int i = 0; i < numDoW; i++)
-    //             {
-    //                 DoW[i].create(550 + 90 * i, 698, 60, 30, RegularFont, 16, Tmp[i]);
-    //                 DoW[i].setFillColor(sf::Color(25, 89, 34, 255));
-    //                 DoW[i].setTextColor(sf::Color::White);
-    //                 DoW[i].setCoverColor(sf::Color(20, 85, 30, 200));
-    //             }
-    //             delete[] Tmp;
-    //         }
-    //     }
-
-    //     // Session
-    //     {
-    //         Subtitle[7].setString("Day of week:");
-    //         Subtitle[7].setPosition(300, 770);
-
-    //         Cell[7].create(0, 0, 30, 30, 18, sf::Vector2f(8, 25));
-    //         Cell[7].setPosition(450, 768);
-
-    //         // Button
-    //         {
-    //             sf::String *Tmp;
-    //             Tmp = new sf::String[numSes];
-    //             Tmp[0] = "S1";
-    //             Tmp[1] = "S2";
-    //             Tmp[2] = "S3";
-    //             Tmp[3] = "S4";
-    //             Session = new Button[numSes];
-    //             for (int i = 0; i < numSes; i++)
-    //             {
-    //                 Session[i].create(550 + 60 * i, 768, 30, 30, RegularFont, 16, Tmp[i]);
-    //                 Session[i].setFillColor(sf::Color(25, 89, 34, 255));
-    //                 Session[i].setTextColor(sf::Color::White);
-    //                 Session[i].setCoverColor(sf::Color(20, 85, 30, 200));
-    //             }
-    //             delete[] Tmp;
-    //         }
-    //     }
-    // }
-
-    // // Setup for all cells
-
-    // for (int i = 0; i < numCell; i++)
-    // {
-    //     if (i < 6)
-    //     {
-    //         Cell[i].setCaret();
-    //         Cell[i].setTyping();
-    //         Cell[i].setOpacity();
-    //     }
-    //     Cell[i].setFont(RegularFont);
-    //     Cell[i].setFillColor(BackgroundColor);
-    //     Cell[i].setTextColor();
-    //     Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
-    // }
-
-    // // Fail : Empty cell
-
-    // EmptyFail.setFont(RegularFont);
-    // EmptyFail.setCharacterSize(20);
-    // EmptyFail.setFillColor(sf::Color(168, 30, 20, 255));
-    // EmptyFail.setString("Failed: Cells can not be empty!");
-    // EmptyFail.setPosition(400, 800);
-
-    // // Fail : Class not found
-
-    // ClassFail.setFont(RegularFont);
-    // ClassFail.setCharacterSize(20);
-    // ClassFail.setFillColor(sf::Color(144, 212, 58, 255));
-    // ClassFail.setString("Class not found. Class created!");
-    // ClassFail.setPosition(400, 800);
-
-    // // Fail : Course existed
-
-    // ExistFail.setFont(RegularFont);
-    // ExistFail.setCharacterSize(20);
-    // ExistFail.setFillColor(sf::Color(168, 30, 20, 255));
-    // ExistFail.setString("Failed: Course existed!");
-    // ExistFail.setPosition(400, 800);
-
-    // // Fail : Number can not be zero
-
-    // ZeroFail.setFont(RegularFont);
-    // ZeroFail.setCharacterSize(20);
-    // ZeroFail.setFillColor(sf::Color(168, 30, 20, 255));
-    // ZeroFail.setString("Failed: Number of students and credits can not be zero!");
-    // ZeroFail.setPosition(400, 800);
-
-    // // Success
-
-    // Success.setFont(RegularFont);
-    // Success.setCharacterSize(20);
-    // Success.setFillColor(sf::Color(144, 212, 58, 255));
-    // Success.setString("Add course successfully!");
-    // Success.setPosition(400, 800);
-
-    // // Confirm Button
-
-    // Confirm.create(700, 850, 150, 50, BoldFont, 24, "Confirm");
-    // Confirm.setFillColor(sf::Color(25, 89, 34, 255));
-    // Confirm.setTextColor(sf::Color::White);
-    // Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
-
-    // // Pre-draw
-
-    // Prepare();
-
-    // // Setup
-
-    // fail = Clear;
-
     // Background
 
     Texture.create(LeftWindowWidth, window.getSize().y);
@@ -261,7 +18,7 @@ void AddCourseWindow::create()
     // Title
 
     Title.setString("Create course");
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setFont(Over);
     Title.setCharacterSize(40);
     // Title.setStyle(sf::Text::Bold);
@@ -291,6 +48,7 @@ void AddCourseWindow::create()
 
             Semester.create(410, 185, 50, 50, RegularFont, 18, "");
             Semester.setTextColor(sf::Color::Black);
+            Semester.setFillColor(BackgroundColor);
         }
 
         // School year
@@ -303,6 +61,7 @@ void AddCourseWindow::create()
 
             SchoolYear.create(700, 185, 150, 50, RegularFont, 18, "");
             SchoolYear.setTextColor(sf::Color::Black);
+            SchoolYear.setFillColor(BackgroundColor);
         }
 
         // Course ID
@@ -386,9 +145,10 @@ void AddCourseWindow::create()
                 for (int i = 0; i < numDoW; i++)
                 {
                     DoW[i].create(550 + 90 * i, 638, 60, 30, RegularFont, 16, Tmp[i]);
-                    DoW[i].setFillColor(sf::Color(25, 89, 34, 255));
-                    DoW[i].setTextColor(sf::Color::White);
-                    DoW[i].setCoverColor(sf::Color(20, 85, 30, 200));
+                    DoW[i].setFillColor(ButtonColor);
+                    DoW[i].setTextColor(BackgroundColor);
+                    DoW[i].setCoverColor(ButtonCoverColor);
+                    DoW[i].setOutline(ButtonColor);
                 }
                 delete[] Tmp;
             }
@@ -414,9 +174,10 @@ void AddCourseWindow::create()
                 for (int i = 0; i < numSes; i++)
                 {
                     Session[i].create(550 + 60 * i, 698, 30, 30, RegularFont, 16, Tmp[i]);
-                    Session[i].setFillColor(sf::Color(25, 89, 34, 255));
-                    Session[i].setTextColor(sf::Color::White);
-                    Session[i].setCoverColor(sf::Color(20, 85, 30, 200));
+                    Session[i].setFillColor(ButtonColor);
+                    Session[i].setTextColor(BackgroundColor);
+                    Session[i].setCoverColor(ButtonCoverColor);
+                    Session[i].setOutline(ButtonColor);
                 }
                 delete[] Tmp;
             }
@@ -436,7 +197,7 @@ void AddCourseWindow::create()
         Cell[i].setFont(RegularFont);
         Cell[i].setFillColor(BackgroundColor);
         Cell[i].setTextColor();
-        Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+        Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     }
 
     // Fail : Empty cell
@@ -482,9 +243,10 @@ void AddCourseWindow::create()
     // Confirm Button
 
     Confirm.create(700, 790, 150, 50, BoldFont, 24, "Confirm");
-    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
-    Confirm.setTextColor(sf::Color::White);
-    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
+    Confirm.setFillColor(ButtonColor);
+    Confirm.setTextColor(BackgroundColor);
+    Confirm.setCoverColor(ButtonCoverColor);
+    Confirm.setOutline(ButtonColor);
 
     // Pre-draw
 

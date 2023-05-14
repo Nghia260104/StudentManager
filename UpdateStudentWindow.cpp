@@ -18,10 +18,10 @@ void UpdateStudentWindow::create()
     // Title
 
     Title.setString("Update student's info");
-    Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
+    Title.setFillColor(TextColor);
+    Title.setFont(Over);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
+    // Title.setStyle(sf::Text::Bold);
     Title.setPosition(100, 100);
 
     // Infomation cells
@@ -83,16 +83,18 @@ void UpdateStudentWindow::create()
             // Male
             {
                 Male.create(450, 398, 70, 30, RegularFont, 16, "Male");
-                Male.setFillColor(sf::Color(25, 89, 34, 255));
-                Male.setTextColor(sf::Color::White);
-                Male.setCoverColor(sf::Color(20, 85, 30, 200));
+                Male.setFillColor(ButtonColor);
+                Male.setTextColor(BackgroundColor);
+                Male.setCoverColor(ButtonCoverColor);
+                Male.setOutline(ButtonColor);
             }
             // Female
             {
                 Female.create(550, 398, 70, 30, RegularFont, 16, "Female");
-                Female.setFillColor(sf::Color(25, 89, 34, 255));
-                Female.setTextColor(sf::Color::White);
-                Female.setCoverColor(sf::Color(20, 85, 30, 200));
+                Female.setFillColor(ButtonColor);
+                Female.setTextColor(BackgroundColor);
+                Female.setCoverColor(ButtonCoverColor);
+                Female.setOutline(ButtonColor);
             }
         }
         // Date of Birth
@@ -149,7 +151,7 @@ void UpdateStudentWindow::create()
         Cell[i].setFont(RegularFont);
         Cell[i].setFillColor(BackgroundColor);
         Cell[i].setTextColor();
-        Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+        Cell[i].setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     }
 
     // Fail : Empty cell
@@ -187,9 +189,10 @@ void UpdateStudentWindow::create()
     // Confirm Button
 
     Confirm.create(650, 850, 150, 50, BoldFont, 24, "Confirm");
-    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
-    Confirm.setTextColor(sf::Color::White);
-    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
+    Confirm.setFillColor(ButtonColor);
+    Confirm.setTextColor(BackgroundColor);
+    Confirm.setCoverColor(ButtonCoverColor);
+    Confirm.setOutline(ButtonColor);
 
     // // Pre-draw
 

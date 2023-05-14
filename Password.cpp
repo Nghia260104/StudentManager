@@ -20,7 +20,7 @@ void PasswordWindow::create()
     // Title
 
     Title.setString("Change Password");
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setFont(Over);
     Title.setCharacterSize(40);
     // Title.setStyle(sf::Text::Bold);
@@ -29,7 +29,7 @@ void PasswordWindow::create()
     // Current Password
 
     Subtitle1.setString("Current Password:");
-    Subtitle1.setFillColor(sf::Color::Black);
+    Subtitle1.setFillColor(TextColor);
     Subtitle1.setFont(RegularFont);
     Subtitle1.setCharacterSize(20);
     Subtitle1.setPosition(200, 200);
@@ -41,13 +41,13 @@ void PasswordWindow::create()
     Current.setFont(RegularFont);
     Current.setFillColor(BackgroundColor);
     Current.setTextColor();
-    Current.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    Current.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     Current.setPosition(200, 235);
 
     // New Password
 
     Subtitle2.setString("New Password:");
-    Subtitle2.setFillColor(sf::Color::Black);
+    Subtitle2.setFillColor(TextColor);
     Subtitle2.setFont(RegularFont);
     Subtitle2.setCharacterSize(20);
     Subtitle2.setPosition(200, 305);
@@ -59,13 +59,13 @@ void PasswordWindow::create()
     NewPassword.setFont(RegularFont);
     NewPassword.setFillColor(BackgroundColor);
     NewPassword.setTextColor();
-    NewPassword.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    NewPassword.setOutlineColor(sf::Color(25, 89, 34, 255), TextColor);
     NewPassword.setPosition(200, 340);
 
     // Confirm Password
 
     Subtitle3.setString("Confirm Password:");
-    Subtitle3.setFillColor(sf::Color::Black);
+    Subtitle3.setFillColor(TextColor);
     Subtitle3.setFont(RegularFont);
     Subtitle3.setCharacterSize(20);
     Subtitle3.setPosition(200, 410);
@@ -77,7 +77,7 @@ void PasswordWindow::create()
     confirmPassword.setFont(RegularFont);
     confirmPassword.setFillColor(BackgroundColor);
     confirmPassword.setTextColor();
-    confirmPassword.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    confirmPassword.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     confirmPassword.setPosition(200, 445);
 
     // Fail type 1: wrong Password
@@ -107,9 +107,9 @@ void PasswordWindow::create()
     // Confirm Button
 
     Confirm.create(480, 540, 150, 50, BoldFont, 24, "Confirm");
-    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
-    Confirm.setTextColor(sf::Color::White);
-    Confirm.setCoverColor(sf::Color(20, 85, 30, 200));
+    Confirm.setFillColor(ButtonColor);
+    Confirm.setTextColor(BackgroundColor);
+    Confirm.setCoverColor(ButtonCoverColor);
 
     // First Draw
 

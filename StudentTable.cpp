@@ -25,7 +25,7 @@ void StudentTable::create(sf::Font &font)
 
     Title.setString("List of Students");
     Title.setFont(RegularFont);
-    Title.setFillColor(sf::Color::Black);
+    Title.setFillColor(TextColor);
     Title.setPosition(0, 0);
     Title.setCharacterSize(30);
 

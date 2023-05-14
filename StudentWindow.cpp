@@ -19,61 +19,65 @@ void StudentWindow::create()
 
     // Back Button
 
-    Back.create(0, 0, 60, 40, RegularFont, 25, "<-");
-    Back.setFillColor(sf::Color(60, 60, 60, 255));
-    Back.setTextColor(sf::Color::White);
-    Back.setCoverColor(sf::Color(55, 55, 55, 200));
+    Back.create(0, 0, 60, 40, BoldFont, 30, "<");
+    Back.setFillColor(ButtonColor);
+    Back.setTextColor(BackgroundColor);
+    Back.setCoverColor(ButtonCoverColor);
+    Back.setOutline(ButtonColor);
     Back.setTextPos(16);
 
     // Home // sf::Color(9, 66, 55, 255)
     //// View Course Button
 
     viewCourse.create(150, 150, 300, 75, BoldFont, 30, "View Courses");
-    viewCourse.setFillColor(sf::Color(9, 66, 55, 255));
-    viewCourse.setTextColor(sf::Color::White);
-    viewCourse.setCoverColor(sf::Color(30, 100, 70, 200));
+    viewCourse.setFillColor(ButtonColor);
+    viewCourse.setTextColor(BackgroundColor);
+    viewCourse.setCoverColor(ButtonCoverColor);
 
     //// View Scoreboard Button
 
     viewScoreboard.create(150, 250, 300, 75, BoldFont, 30, "View Scoreboard");
-    viewScoreboard.setFillColor(sf::Color(9, 66, 55, 255));
-    viewScoreboard.setTextColor(sf::Color::White);
-    viewScoreboard.setCoverColor(sf::Color(30, 100, 70, 200));
+    viewScoreboard.setFillColor(ButtonColor);
+    viewScoreboard.setTextColor(BackgroundColor);
+    viewScoreboard.setCoverColor(ButtonCoverColor);
 
     // Account Window
     //// Rectangle
 
     RightSide.setSize(sf::Vector2f(RightWindowWidth, window.getSize().y));
-    RightSide.setFillColor(sf::Color(9, 66, 55, 255));
+    RightSide.setFillColor(RightSideColor);
     RightSide.setPosition(LeftWindowWidth, 0);
 
     //// Name
 
     AccountName.setPosition(LeftWindowWidth + 25, 50);
-    AccountName.setFillColor(sf::Color(248, 117, 26, 255));
+    AccountName.setFillColor(TextColor);
     AccountName.setString("Temp"); // Backend::activeUser->getName();
-    AccountName.setFont(RegularFont);
+    AccountName.setFont(Calibri);
 
     //// View Profile Button
 
-    viewProfile.create(LeftWindowWidth + 72, 150, 250, 50, RegularFont, 24, "View Profile");
-    viewProfile.setFillColor(sf::Color(248, 117, 26, 255));
-    viewProfile.setCoverColor(sf::Color(240, 110, 20, 200));
-    viewProfile.setTextColor(sf::Color(9, 66, 55, 255));
+    viewProfile.create(LeftWindowWidth + 72, 150, 250, 50, MediumFont, 24, "View Profile");
+    viewProfile.setFillColor(TextColor);
+    viewProfile.setCoverColor(TextCoverColor);
+    viewProfile.setTextColor(BackgroundColor);
+    viewProfile.setOutline(TextColor);
 
     //// Change Password Button
 
-    changePassword.create(LeftWindowWidth + 72, 225, 250, 50, RegularFont, 24, "Change Password");
-    changePassword.setFillColor(sf::Color(248, 117, 26, 255));
-    changePassword.setCoverColor(sf::Color(240, 110, 20, 200));
-    changePassword.setTextColor(sf::Color(9, 66, 55, 255));
+    changePassword.create(LeftWindowWidth + 72, 225, 250, 50, MediumFont, 24, "Change Password");
+    changePassword.setFillColor(TextColor);
+    changePassword.setCoverColor(TextCoverColor);
+    changePassword.setTextColor(BackgroundColor);
+    changePassword.setOutline(TextColor);
 
     //// Log out Button
 
     LogOut.create(LeftWindowWidth + 72, 300, 250, 50, MediumFont, 24, "Log out");
-    LogOut.setFillColor(sf::Color(248, 117, 26, 255));
-    LogOut.setCoverColor(sf::Color(240, 110, 20, 200));
-    LogOut.setTextColor(sf::Color(9, 66, 55, 255));
+    LogOut.setFillColor(TextColor);
+    LogOut.setCoverColor(TextCoverColor);
+    LogOut.setTextColor(BackgroundColor);
+    LogOut.setOutline(TextColor);
 
     // View Course Window
 

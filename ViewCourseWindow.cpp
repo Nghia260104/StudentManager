@@ -19,10 +19,10 @@ void ViewCourseWindow::create()
     // Title
 
     Title.setString("Courses");
-    Title.setFillColor(sf::Color::Black);
-    Title.setFont(LightFont);
+    Title.setFillColor(TextColor);
+    Title.setFont(Over);
     Title.setCharacterSize(40);
-    Title.setStyle(sf::Text::Bold);
+    // Title.setStyle(sf::Text::Bold);
     Title.setPosition(100, 100);
 
     // Course name
@@ -41,13 +41,14 @@ void ViewCourseWindow::create()
     CourseName.setFont(RegularFont);
     CourseName.setFillColor(BackgroundColor);
     CourseName.setTextColor();
-    CourseName.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    CourseName.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     CourseName.setPosition(400, 195);
 
-    CourseConfirm.create(750, 195, 150, 50, RegularFont, 18, "Confirm");
-    CourseConfirm.setFillColor(sf::Color(60, 60, 60, 255));
-    CourseConfirm.setTextColor(sf::Color::White);
-    CourseConfirm.setCoverColor(sf::Color(55, 55, 55, 200));
+    CourseConfirm.create(750, 195, 150, 50, BoldFont, 18, "Confirm");
+    CourseConfirm.setFillColor(ButtonColor);
+    CourseConfirm.setTextColor(BackgroundColor);
+    CourseConfirm.setCoverColor(ButtonCoverColor);
+    CourseConfirm.setOutline(ButtonColor);
 
     // Fail : Empty course
 
@@ -69,9 +70,10 @@ void ViewCourseWindow::create()
 
     CourseList.create(6, 5, 180, 50, 30, 30, RegularFont, 18);
     CourseList.setPosition(200, 300);
-    CourseList.setFillColor(sf::Color(25, 89, 34, 255));
-    CourseList.setTextColor(sf::Color::White);
-    CourseList.setCoverColor(sf::Color(50, 120, 60, 255));
+    CourseList.setFillColor(ButtonColor);
+    CourseList.setTextColor(BackgroundColor);
+    CourseList.setCoverColor(ButtonCoverColor);
+    CourseList.setOutlineColor(ButtonColor);
 
     // Pages
 
@@ -81,21 +83,23 @@ void ViewCourseWindow::create()
     // Function window
     {
         Course.setString("");
-        Course.setFillColor(sf::Color::Black);
-        Course.setFont(LightFont);
+        Course.setFillColor(TextColor);
+        Course.setFont(Over);
         Course.setCharacterSize(40);
-        Course.setStyle(sf::Text::Bold);
+        // Course.setStyle(sf::Text::Bold);
         Course.setPosition(70, 70);
 
         Update.create(150, 150, 300, 75, BoldFont, 30, "Update info");
-        Update.setFillColor(sf::Color(9, 66, 55, 255));
-        Update.setTextColor(sf::Color::White);
-        Update.setCoverColor(sf::Color(30, 100, 70, 200));
+        Update.setFillColor(ButtonColor);
+        Update.setTextColor(BackgroundColor);
+        Update.setCoverColor(ButtonCoverColor);
+        Update.setOutline(ButtonColor);
 
         Delete.create(1100, 850, 300, 75, BoldFont, 30, "Delete course");
-        Delete.setFillColor(sf::Color(9, 66, 55, 255));
-        Delete.setTextColor(sf::Color::White);
-        Delete.setCoverColor(sf::Color(30, 100, 70, 200));
+        Delete.setFillColor(ButtonColor);
+        Delete.setTextColor(BackgroundColor);
+        Delete.setCoverColor(ButtonCoverColor);
+        Delete.setOutline(ButtonColor);
 
         // Delete
         {
@@ -117,24 +121,28 @@ void ViewCourseWindow::create()
         }
 
         AddStudent.create(500, 150, 300, 75, BoldFont, 30, "Add student");
-        AddStudent.setFillColor(sf::Color(9, 66, 55, 255));
-        AddStudent.setTextColor(sf::Color::White);
-        AddStudent.setCoverColor(sf::Color(30, 100, 70, 200));
+        AddStudent.setFillColor(ButtonColor);
+        AddStudent.setTextColor(BackgroundColor);
+        AddStudent.setCoverColor(ButtonCoverColor);
+        AddStudent.setOutline(ButtonColor);
 
         RemoveStudent.create(500, 250, 300, 75, BoldFont, 30, "Remove student");
-        RemoveStudent.setFillColor(sf::Color(9, 66, 55, 255));
-        RemoveStudent.setTextColor(sf::Color::White);
-        RemoveStudent.setCoverColor(sf::Color(30, 100, 70, 200));
+        RemoveStudent.setFillColor(ButtonColor);
+        RemoveStudent.setTextColor(BackgroundColor);
+        RemoveStudent.setCoverColor(ButtonCoverColor);
+        RemoveStudent.setOutline(ButtonColor);
 
         viewStudent.create(500, 350, 300, 75, BoldFont, 30, "List of students");
-        viewStudent.setFillColor(sf::Color(9, 66, 55, 255));
-        viewStudent.setTextColor(sf::Color::White);
-        viewStudent.setCoverColor(sf::Color(30, 100, 70, 200));
+        viewStudent.setFillColor(ButtonColor);
+        viewStudent.setTextColor(BackgroundColor);
+        viewStudent.setCoverColor(ButtonCoverColor);
+        viewStudent.setOutline(ButtonColor);
 
         viewScoreboard.create(850, 150, 300, 75, BoldFont, 30, "Scoreboard");
-        viewScoreboard.setFillColor(sf::Color(9, 66, 55, 255));
-        viewScoreboard.setTextColor(sf::Color::White);
-        viewScoreboard.setCoverColor(sf::Color(30, 100, 70, 200));
+        viewScoreboard.setFillColor(ButtonColor);
+        viewScoreboard.setTextColor(BackgroundColor);
+        viewScoreboard.setCoverColor(ButtonCoverColor);
+        viewScoreboard.setOutline(ButtonColor);
     }
 
     // Update course infomation
@@ -146,10 +154,10 @@ void ViewCourseWindow::create()
         // Title
 
         AddTitle.setString("Add a student");
-        AddTitle.setFillColor(sf::Color::Black);
-        AddTitle.setFont(LightFont);
+        AddTitle.setFillColor(TextColor);
+        AddTitle.setFont(Over);
         AddTitle.setCharacterSize(40);
-        AddTitle.setStyle(sf::Text::Bold);
+        // AddTitle.setStyle(sf::Text::Bold);
         AddTitle.setPosition(100, 100);
 
         // Fail : Empty cell
@@ -190,10 +198,10 @@ void ViewCourseWindow::create()
         // Title
 
         RemoveTitle.setString("Remove a student");
-        RemoveTitle.setFillColor(sf::Color::Black);
-        RemoveTitle.setFont(LightFont);
+        RemoveTitle.setFillColor(TextColor);
+        RemoveTitle.setFont(Over);
         RemoveTitle.setCharacterSize(40);
-        RemoveTitle.setStyle(sf::Text::Bold);
+        // RemoveTitle.setStyle(sf::Text::Bold);
         RemoveTitle.setPosition(100, 100);
 
         // Fail : Empty cell
@@ -238,16 +246,17 @@ void ViewCourseWindow::create()
         StdID.setFont(RegularFont);
         StdID.setFillColor(BackgroundColor);
         StdID.setTextColor();
-        StdID.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+        StdID.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
         StdID.setPosition(375, 188);
         StdID.setNumber();
 
         // Confirm
 
         StdConfirm.create(275, 300, 150, 50, RegularFont, 18, "Confirm");
-        StdConfirm.setFillColor(sf::Color(9, 66, 55, 255));
-        StdConfirm.setTextColor(sf::Color::White);
-        StdConfirm.setCoverColor(sf::Color(30, 100, 70, 200));
+        StdConfirm.setFillColor(ButtonColor);
+        StdConfirm.setTextColor(BackgroundColor);
+        StdConfirm.setCoverColor(ButtonCoverColor);
+        StdConfirm.setOutline(ButtonColor);
     }
 
     // List of students
@@ -271,24 +280,25 @@ void ViewCourseWindow::create()
     UpdateScb.create(15, 1, 100, 35, 0, 0, RegularFont, 16);
     UpdateScb.setPosition(100 + CourseScoreboardTable.getWidth(), 210);
     UpdateScb.setColString(0, "Update");
-    UpdateScb.setFillColor(sf::Color::Cyan);
+    UpdateScb.setFillColor(ButtonColor);
+    UpdateScb.setCoverColor(ButtonCoverColor);
 
     // Update Scoreboard
     {
         // Title
 
         UpdateScbTitle.setString("Update student's result");
-        UpdateScbTitle.setFillColor(sf::Color::Black);
-        UpdateScbTitle.setFont(LightFont);
+        UpdateScbTitle.setFillColor(TextColor);
+        UpdateScbTitle.setFont(Over);
         UpdateScbTitle.setCharacterSize(40);
-        UpdateScbTitle.setStyle(sf::Text::Bold);
+        // UpdateScbTitle.setStyle(sf::Text::Bold);
         UpdateScbTitle.setPosition(100, 100);
 
         CurStd.setString("");
-        CurStd.setFillColor(sf::Color::Black);
-        CurStd.setFont(LightFont);
+        CurStd.setFillColor(TextColor);
+        CurStd.setFont(Over);
         CurStd.setCharacterSize(28);
-        CurStd.setStyle(sf::Text::Bold);
+        // CurStd.setStyle(sf::Text::Bold);
         CurStd.setPosition(180, 180);
 
         MarkTitle = new sf::Text[numMark];
@@ -352,7 +362,7 @@ void ViewCourseWindow::create()
             Mark[i].setFont(RegularFont);
             Mark[i].setFillColor(BackgroundColor);
             Mark[i].setTextColor();
-            Mark[i].setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+            Mark[i].setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
         }
 
         // Fail : Mark invalid
@@ -374,9 +384,10 @@ void ViewCourseWindow::create()
         // Confirm
 
         MarkConfirm.create(320, 580, 150, 50, RegularFont, 18, "Confirm");
-        MarkConfirm.setFillColor(sf::Color(9, 66, 55, 255));
-        MarkConfirm.setTextColor(sf::Color::White);
-        MarkConfirm.setCoverColor(sf::Color(30, 100, 70, 200));
+        MarkConfirm.setFillColor(ButtonColor);
+        MarkConfirm.setTextColor(BackgroundColor);
+        MarkConfirm.setCoverColor(ButtonCoverColor);
+        MarkConfirm.setOutline(ButtonColor);
     }
 
     // Pre-draw

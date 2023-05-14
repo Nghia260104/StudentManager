@@ -16,12 +16,17 @@ void LogIn::create()
     Texture.setSmooth(true);
     Background.setSize(sf::Vector2f(window.getSize()));
     Background.setFillColor(BackgroundColor);
+    SchoolLogo.loadFromFile("../resources/Logo/Transparent HCMUS Logo Resized.png");
+    Logo.loadFromImage(SchoolLogo);
+    LogoSprite.setTexture(Logo);
+    LogoSprite.setOrigin(Logo.getSize().x / 2, 0);
+    LogoSprite.setPosition(window.getSize().x / 2, 30);
 
     // Bound
 
     Bound.setSize(sf::Vector2f(800, 400));
     Bound.setOrigin(400, 200);
-    Bound.setFillColor(BackgroundColor);
+    Bound.setFillColor(RightSideColor);
     Bound.setOutlineColor(sf::Color(25, 89, 34, 255));
     Bound.setOutlineThickness(1);
     Bound.setPosition(window.getSize().x / 2, window.getSize().y / 2);
@@ -29,20 +34,21 @@ void LogIn::create()
     // Title
 
     Title.setString("Log in");
-    Title.setFillColor(sf::Color(25, 89, 34, 255));
+    // Title.setFillColor(sf::Color(25, 89, 34, 255));
+    Title.setFillColor(TextColor);
     Title.setFont(Tahoma);
     Title.setCharacterSize(40);
     // Title.setStyle(sf::Text::Bold);
     Title.setOrigin(Title.getLocalBounds().width / 2, Title.getLocalBounds().height / 2);
     Title.setPosition(Bound.getPosition().x, Bound.getPosition().y - 170);
 
-    Title1.setString("Username: ");
+    Title1.setString("Username:");
     Title1.setFillColor(sf::Color::Black);
     Title1.setFont(RegularFont);
     Title1.setCharacterSize(20);
     Title1.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 135);
 
-    Title2.setString("Password: ");
+    Title2.setString("Password:");
     Title2.setFillColor(sf::Color::Black);
     Title2.setFont(RegularFont);
     Title2.setCharacterSize(20);
@@ -57,7 +63,7 @@ void LogIn::create()
     Username.setFont(RegularFont);
     Username.setFillColor(BackgroundColor);
     Username.setTextColor();
-    Username.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    Username.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     Username.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y - 100);
 
     // Password
@@ -70,7 +76,7 @@ void LogIn::create()
     Password.setFont(RegularFont);
     Password.setFillColor(BackgroundColor);
     Password.setTextColor();
-    Password.setOutlineColor(sf::Color(25, 89, 34, 255), sf::Color::Cyan);
+    Password.setOutlineColor(sf::Color(25, 89, 34, 255), ButtonColor);
     Password.setPosition(Bound.getPosition().x - 350, Bound.getPosition().y + 5);
 
     // Log in failed
@@ -83,10 +89,13 @@ void LogIn::create()
 
     // Button
 
-    Confirm.create(Bound.getPosition().x - 50, Bound.getPosition().y + 115, 100, 50, BoldFont, 24, "Log In");
-    Confirm.setFillColor(sf::Color(25, 89, 34, 255));
-    Confirm.setTextColor(sf::Color::White);
-    Confirm.setCoverColor(sf::Color(50, 120, 60, 255));
+    Confirm.create(Bound.getPosition().x - 50, Bound.getPosition().y + 115, 100, 50, BoldFont, 24, "Log in");
+    Confirm.setTextPos(22);
+    // Confirm.setFillColor(sf::Color(25, 89, 34, 255));
+    Confirm.setFillColor(ButtonColor);
+    Confirm.setTextColor(BackgroundColor);
+    // Confirm.setCoverColor(sf::Color(50, 120, 60, 255));
+    Confirm.setCoverColor(ButtonCoverColor);
 
     // First Draw
 
@@ -103,9 +112,9 @@ void LogIn::create()
 void LogIn::processEvent(sf::Event event)
 {
     if (Username.checkEvent(event))
-        drawTexture();
+        Texture.draw(Username);
     if (Password.checkEvent(event))
-        drawTexture();
+        Texture.draw(Password);
     Texture.draw(Confirm);
     if (Confirm.isPressed(event) || (event.type == sf::Event::KeyPressed && event.key.code == sf::Keyboard::Enter))
     {
@@ -178,6 +187,7 @@ void LogIn::show()
 void LogIn::drawTexture()
 {
     Texture.draw(Background);
+    Texture.draw(LogoSprite);
     Texture.draw(Bound);
     Texture.draw(Title);
     Texture.draw(Title1);
@@ -193,6 +203,7 @@ void LogIn::drawTexture()
 void LogIn::FirstDraw()
 {
     Texture.draw(Background);
+    Texture.draw(LogoSprite);
     Texture.draw(Bound);
     Texture.draw(Title);
     Texture.draw(Title1);

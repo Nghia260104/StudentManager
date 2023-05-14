@@ -47,7 +47,7 @@ void CourseScoreboard::create(sf::Font &font)
         pos[i] = pos[i - 1] + width[i - 1];
     for (int i = 0; i < numCell; i++)
     {
-        // Cell[i].setFillColor(BackgroundColor);
+        Cell[i].setFillColor(BackgroundColor);
         Cell[i].setFontSize(15);
         Cell[i].createTexture(width[i], height);
         Cell[i].setSize(width[i], height);

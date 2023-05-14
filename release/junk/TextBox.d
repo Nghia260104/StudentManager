@@ -57,4 +57,20 @@ release/junk/TextBox.o: TextBox.cpp headers/TextBox.hpp \
  SFML/include/SFML/Graphics/Glsl.hpp SFML/include/SFML/Graphics/Glsl.inl \
  SFML/include/SFML/Graphics/Sprite.hpp \
  SFML/include/SFML/Graphics/Text.hpp \
- SFML/include/SFML/Graphics/VertexBuffer.hpp
+ SFML/include/SFML/Graphics/VertexBuffer.hpp headers/FrontendGlobal.hpp \
+ headers/LogIn.hpp headers/Button.hpp headers/StudentWindow.hpp \
+ headers/BackendGlobal.hpp headers/List.hpp headers/Node.hpp Node.tpp \
+ headers/Iterator.hpp Iterator.tpp List.tpp headers/SchoolYear.hpp \
+ headers/Semester.hpp headers/Course.hpp headers/Class.hpp \
+ headers/Student.hpp headers/Account.hpp headers/Date.hpp \
+ headers/StaffMember.hpp headers/Admin.hpp headers/CoursesTable.hpp \
+ headers/Password.hpp headers/Layer.hpp headers/Page.hpp \
+ headers/Profile.hpp headers/PersonalScoreboard.hpp \
+ headers/AdminWindow.hpp headers/AddStaffMember.hpp \
+ headers/DeleteStaffMember.hpp headers/StaffWindow.hpp \
+ headers/SchoolYearWindow.hpp headers/ClassWindow.hpp \
+ headers/SemesterWindow.hpp headers/SetStudentWindow.hpp \
+ headers/ButtonTable.hpp headers/AddCourseWindow.hpp \
+ headers/ViewCourseWindow.hpp headers/StudentTable.hpp \
+ headers/CourseScoreboard.hpp headers/UpdateCourseWindow.hpp \
+ headers/ViewClassWindow.hpp headers/UpdateStudentWindow.hpp

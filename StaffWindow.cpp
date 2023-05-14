@@ -19,18 +19,20 @@ void StaffWindow::create()
 
     // Back Button
 
-    Back.create(0, 0, 60, 40, RegularFont, 25, "<-");
-    Back.setFillColor(sf::Color(60, 60, 60, 255));
-    Back.setTextColor(sf::Color::White);
-    Back.setCoverColor(sf::Color(55, 55, 55, 200));
+    Back.create(0, 0, 60, 40, BoldFont, 30, "<");
+    Back.setFillColor(ButtonColor);
+    Back.setTextColor(BackgroundColor);
+    Back.setCoverColor(ButtonCoverColor);
+    Back.setOutline(ButtonColor);
     Back.setTextPos(16);
 
     // School Year
 
     SchoolYear.create(150, 150, 300, 75, BoldFont, 30, "School year");
-    SchoolYear.setFillColor(sf::Color(9, 66, 55, 255));
-    SchoolYear.setTextColor(sf::Color::White);
-    SchoolYear.setCoverColor(sf::Color(30, 100, 70, 200));
+    SchoolYear.setFillColor(ButtonColor);
+    SchoolYear.setTextColor(BackgroundColor);
+    SchoolYear.setCoverColor(ButtonCoverColor);
+    SchoolYear.setOutline(ButtonColor);
 
     //// School Year window
 
@@ -39,9 +41,10 @@ void StaffWindow::create()
     // Semester
 
     Semester.create(150, 250, 300, 75, BoldFont, 30, "Semester");
-    Semester.setFillColor(sf::Color(9, 66, 55, 255));
-    Semester.setTextColor(sf::Color::White);
-    Semester.setCoverColor(sf::Color(30, 100, 70, 200));
+    Semester.setFillColor(ButtonColor);
+    Semester.setTextColor(BackgroundColor);
+    Semester.setCoverColor(ButtonCoverColor);
+    Semester.setOutline(ButtonColor);
 
     //// Semester window
 
@@ -50,9 +53,10 @@ void StaffWindow::create()
     // Add Course
 
     addCourse.create(150, 350, 300, 75, BoldFont, 30, "Create course");
-    addCourse.setFillColor(sf::Color(9, 66, 55, 255));
-    addCourse.setTextColor(sf::Color::White);
-    addCourse.setCoverColor(sf::Color(30, 100, 70, 200));
+    addCourse.setFillColor(ButtonColor);
+    addCourse.setTextColor(BackgroundColor);
+    addCourse.setCoverColor(ButtonCoverColor);
+    addCourse.setOutline(ButtonColor);
 
     //// Course window
 
@@ -61,9 +65,10 @@ void StaffWindow::create()
     // Class
 
     Class.create(500, 150, 300, 75, BoldFont, 30, "Class");
-    Class.setFillColor(sf::Color(9, 66, 55, 255));
-    Class.setTextColor(sf::Color::White);
-    Class.setCoverColor(sf::Color(30, 100, 70, 200));
+    Class.setFillColor(ButtonColor);
+    Class.setTextColor(BackgroundColor);
+    Class.setCoverColor(ButtonCoverColor);
+    Class.setOutline(ButtonColor);
 
     //// Class window
 
@@ -72,9 +77,10 @@ void StaffWindow::create()
     // Add student
 
     Student.create(500, 250, 300, 75, BoldFont, 30, "Students");
-    Student.setFillColor(sf::Color(9, 66, 55, 255));
-    Student.setTextColor(sf::Color::White);
-    Student.setCoverColor(sf::Color(30, 100, 70, 200));
+    Student.setFillColor(ButtonColor);
+    Student.setTextColor(BackgroundColor);
+    Student.setCoverColor(ButtonCoverColor);
+    Student.setOutline(ButtonColor);
 
     //// Add student window
 
@@ -84,15 +90,15 @@ void StaffWindow::create()
     //// Rectangle
 
     RightSide.setSize(sf::Vector2f(RightWindowWidth, window.getSize().y));
-    RightSide.setFillColor(sf::Color(9, 66, 55, 255));
+    RightSide.setFillColor(RightSideColor);
     RightSide.setPosition(LeftWindowWidth, 0);
 
     //// Name
 
     AccountName.setPosition(LeftWindowWidth + 25, 50);
-    AccountName.setFillColor(sf::Color(248, 117, 26, 255));
+    AccountName.setFillColor(TextColor);
     AccountName.setString("Staff member"); // Backend::activeUser->getName();
-    AccountName.setFont(RegularFont);
+    AccountName.setFont(Calibri);
 
     // //// View Profile
 
@@ -113,9 +119,10 @@ void StaffWindow::create()
         // Button
         {
             changePassword.create(LeftWindowWidth + 72, 225, 250, 50, RegularFont, 24, "Change Password");
-            changePassword.setFillColor(sf::Color(248, 117, 26, 255));
-            changePassword.setCoverColor(sf::Color(240, 110, 20, 200));
-            changePassword.setTextColor(sf::Color(9, 66, 55, 255));
+            changePassword.setFillColor(TextColor);
+            changePassword.setCoverColor(TextCoverColor);
+            changePassword.setTextColor(BackgroundColor);
+            changePassword.setOutline(TextColor);
         }
 
         // Window
@@ -125,18 +132,20 @@ void StaffWindow::create()
     //// Log out Button
 
     LogOut.create(LeftWindowWidth + 72, 300, 250, 50, MediumFont, 24, "Log out");
-    LogOut.setFillColor(sf::Color(248, 117, 26, 255));
-    LogOut.setCoverColor(sf::Color(240, 110, 20, 200));
-    LogOut.setTextColor(sf::Color(9, 66, 55, 255));
+    LogOut.setFillColor(TextColor);
+    LogOut.setCoverColor(TextCoverColor);
+    LogOut.setTextColor(BackgroundColor);
+    LogOut.setOutline(TextColor);
 
     // View class
     {
         // Button
 
         viewClass.create(LeftWindowWidth + 72, 450, 250, 50, MediumFont, 24, "View classes");
-        viewClass.setFillColor(sf::Color(248, 117, 26, 255));
-        viewClass.setCoverColor(sf::Color(240, 110, 20, 200));
-        viewClass.setTextColor(sf::Color(9, 66, 55, 255));
+        viewClass.setFillColor(TextColor);
+        viewClass.setCoverColor(TextCoverColor);
+        viewClass.setTextColor(BackgroundColor);
+        viewClass.setOutline(TextColor);
 
         // View Class window
 
@@ -148,9 +157,10 @@ void StaffWindow::create()
         // Button
         {
             viewCourse.create(LeftWindowWidth + 72, 525, 250, 50, MediumFont, 24, "View courses");
-            viewCourse.setFillColor(sf::Color(248, 117, 26, 255));
-            viewCourse.setCoverColor(sf::Color(240, 110, 20, 200));
-            viewCourse.setTextColor(sf::Color(9, 66, 55, 255));
+            viewCourse.setFillColor(TextColor);
+            viewCourse.setCoverColor(TextCoverColor);
+            viewCourse.setTextColor(BackgroundColor);
+            viewCourse.setOutline(TextColor);
         }
 
         // View Course Window
