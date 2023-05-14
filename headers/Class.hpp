@@ -40,7 +40,10 @@ namespace Backend
 	private:
 		static void loadOneClass(const std::filesystem::path &path);
 		static void saveOneClass(Class *currClass);
-	
+
+		static void loadOneClassCourses(std::ifstream &fi, Class &currClass);
+		static void loadOneClassStudents(std::ifstream &fi, Class &currClass);
+		
 		std::string id_;
 		List<Student*> students_;
 		List<Course*> courses_;

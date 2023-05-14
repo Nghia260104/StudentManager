@@ -21,7 +21,6 @@ bool Class::loadClasses()
 
 	for (auto file : std::filesystem::directory_iterator(path))
 	{
-
 		loadOneClass(file.path());
 	}
 
@@ -41,6 +40,37 @@ void Class::loadOneClass(const std::filesystem::path &path)
 		return;
 	}
 
+	loadOneClassCourses(fi, currClass);
+	loadOneClassStudents(fi, currClass);
+}
+
+void Class::loadOneClassCourses(std::ifstream &fi, Class &currClass)
+{
+	std::string line;
+	std::getline(fi, line);
+	std::stringstream streamLine(line);
+
+	std::string courseID;
+	while (std::getline(streamLine, courseID, ','))
+	{
+		auto currCourse = g_courses.find_if(
+			[&](const Course &course) -> bool
+			{
+				return course.getID() == courseID;
+			});
+		
+		if (currCourse == g_courses.end())
+		{
+			continue;
+		}
+
+		currClass.addCourse(&*currCourse);
+	}
+}
+
+void Class::loadOneClassStudents(std::ifstream &fi, Class &currClass)
+{
+	
 	std::string line;
 	while (std::getline(fi, line))
 	{

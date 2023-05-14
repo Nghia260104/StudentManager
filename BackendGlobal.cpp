@@ -28,8 +28,8 @@ bool Backend::loadData()
 {
 	bool isLoadable =
 		Account::loadAccounts() &&
-		Class::loadClasses() &&
-		SchoolYear::loadSchoolYears();
+		SchoolYear::loadSchoolYears() &&
+		Class::loadClasses();
 
 	g_schoolYears.sort(
 		[](const SchoolYear &s1, const SchoolYear &s2) -> bool
